@@ -18,14 +18,14 @@ x86_64-unknown-netbsd
 
 installed="$(rustup target list --installed)"
 for target in $targets; do
-    if echo "$installed" | rg -q "^${target}$"; then
+    if printf '%s\n' "$installed" | grep -F -q -x "$target"; then
         cargo check --workspace --lib --target "$target"
     else
         echo "platform check skipped (target not installed): ${target}"
     fi
 done
 
-if echo "$installed" | rg -q '^x86_64-unknown-none$'; then
+if printf '%s\n' "$installed" | grep -F -q -x 'x86_64-unknown-none'; then
     for package in aetherheim-bounds aetherheim-core aetherheim-ids aetherheim-proof-core; do
         cargo check -p "$package" --target x86_64-unknown-none
     done

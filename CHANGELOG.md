@@ -4,6 +4,8 @@ All notable changes to Aetherheim are documented here.
 
 ## Unreleased
 
+- Removed an undeclared ripgrep dependency from shell gates so clean GitHub
+  runners use standard `grep` and added a regression policy check.
 - Initialized the minimal-dependency Rust workspace and reviewed dependency
   admission policy.
 - Added the first `no_std` core, bounds, identifier, and proof-contract crates.

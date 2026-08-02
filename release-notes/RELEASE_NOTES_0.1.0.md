@@ -32,6 +32,9 @@ foundation for Aetherheim. It is not a usable CMS release.
 
 ## Security Notes
 
+- GitHub gate portability was corrected after the initial CI run exposed an
+  undeclared ripgrep dependency; shell gates now use standard `grep` and reject
+  reintroduction of `rg` commands.
 - No external Rust crates are needed by the initial foundation; future crates
   require discussion, exact pinning, admission review, and boundary tests.
 - The inspected `openbao` 2.1.2 graph is not yet admissible because it currently
