@@ -301,9 +301,11 @@ Host features may have platform-specific adapter crates, but public semantics
 must remain consistent. Missing platform functionality fails explicitly. No
 conditional compilation may silently weaken security.
 
-Aesynx is a future platform. Current work maintains `no_std` contracts and
-explicit host capabilities so a future adapter is possible, but makes no build
-or runtime support claim before Aesynx stabilises.
+Aesynx does not yet exist as a usable operating system or Rust compilation
+target. Current work maintains freestanding `no_std` contracts and explicit
+host capabilities only to avoid operating-system lock-in. A possible future
+adapter receives no build, runtime, compatibility, or support claim unless
+Aesynx is eventually completed and separately qualified.
 
 ## Security Programme
 

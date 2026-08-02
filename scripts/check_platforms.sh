@@ -30,5 +30,5 @@ if printf '%s\n' "$installed" | grep -F -q -x 'x86_64-unknown-none'; then
         cargo check -p "$package" --target x86_64-unknown-none
     done
 else
-    echo "future Aesynx boundary check skipped (x86_64-unknown-none not installed)"
+    echo "freestanding no_std check skipped (x86_64-unknown-none not installed)"
 fi

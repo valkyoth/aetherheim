@@ -19,7 +19,7 @@ tool_version() {
     sed -n "s/.*cargo install --locked $1 --version \([0-9][^ ]*\).*/\1/p" "$ci_file" | head -n 1
 }
 
-for tool in cargo-deny cargo-audit; do
+for tool in cargo-deny cargo-audit cargo-sbom; do
     declared="$(tool_version "$tool")"
     current="$(cargo info "$tool" | sed -n 's/^version: //p' | head -n 1)"
     test -n "$declared"
@@ -31,4 +31,4 @@ for tool in cargo-deny cargo-audit; do
 done
 
 ruby scripts/check_action_pins.rb "$workflow_dir"
-echo "toolchain and action pins are current-format and Rust/Cargo tools are latest"
+echo "toolchain, action pins, and Rust/Cargo release tools are current"

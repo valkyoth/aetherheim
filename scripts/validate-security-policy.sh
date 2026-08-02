@@ -20,6 +20,7 @@ grep -E -q '^/PENTEST\.md$' .gitignore
 grep -F -q 'panic = "abort"' Cargo.toml
 grep -F -q 'CodeQL default setup' SECURITY.md
 grep -F -q 'CodeQL analysis default setup' docs/github-security-settings.md
+grep -F -q 'cargo install --locked cargo-sbom --version 0.10.0' .github/workflows/ci.yml
 for script in scripts/*.sh; do
     if grep -E -q '(^|[|;&][[:space:]]*)rg[[:space:]]' "$script"; then
         echo "$script: shell gates must use portable standard tools, not rg" >&2

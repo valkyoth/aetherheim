@@ -75,8 +75,9 @@ application.
 
 Linux, Windows, FreeBSD/NetBSD, macOS, Android, and iOS are supported targets
 from the foundation. Core `no_std` contracts are also checked independently so
-the architecture remains suitable for a future Aesynx adapter without making
-Aesynx a present dependency or claim.
+the architecture does not become locked to one operating system. Aesynx does
+not yet exist as a usable operating system or Rust target; it is only a possible
+future adapter and is not a present dependency, build target, or support claim.
 
 ## Build
 
@@ -88,6 +89,9 @@ cargo test --workspace
 scripts/checks.sh
 scripts/acceptance.sh all
 ```
+
+The full repository gate also requires the exact release tools pinned in CI:
+`cargo-deny 0.20.2`, `cargo-audit 0.22.2`, and `cargo-sbom 0.10.0`.
 
 The current CLI exposes only truthful foundation diagnostics:
 

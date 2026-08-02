@@ -14,7 +14,9 @@ foundation for Aetherheim. It is not a usable CMS release.
   the initial graph happens to contain no external crates.
 - `no_std` core, bounds, identifier, and proof-readiness contracts.
 - EUPL-1.2 project licensing and independent theme/plugin licensing guidance.
-- Linux, Windows, BSD, macOS, Android, iOS, and future Aesynx target policy.
+- Linux, Windows, BSD, macOS, Android, and iOS target policy plus freestanding
+  `no_std` checks to avoid OS lock-in; Aesynx is not an existing target or
+  support claim.
 - CI, security policy, dependency denial, release gates, and CodeQL-default
   setup guidance.
 - Detailed implementation and version plans with human-controlled pentest
@@ -35,6 +37,8 @@ foundation for Aetherheim. It is not a usable CMS release.
 - GitHub gate portability was corrected after the initial CI run exposed an
   undeclared ripgrep dependency; shell gates now use standard `grep` and reject
   reintroduction of `rg` commands.
+- GitHub installs and freshness-checks the exact `cargo-sbom 0.10.0` tool used
+  by the mandatory committed-SBOM drift gate.
 - No external Rust crates are needed by the initial foundation; future crates
   require discussion, exact pinning, admission review, and boundary tests.
 - The inspected `openbao` 2.1.2 graph is not yet admissible because it currently

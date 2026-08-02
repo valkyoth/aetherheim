@@ -6,6 +6,9 @@ All notable changes to Aetherheim are documented here.
 
 - Removed an undeclared ripgrep dependency from shell gates so clean GitHub
   runners use standard `grep` and added a regression policy check.
+- Pinned and installed `cargo-sbom 0.10.0` in CI, added it to live tool
+  freshness checks, and clarified that freestanding `no_std` portability is not
+  a present Aesynx operating-system support claim.
 - Initialized the minimal-dependency Rust workspace and reviewed dependency
   admission policy.
 - Added the first `no_std` core, bounds, identifier, and proof-contract crates.
