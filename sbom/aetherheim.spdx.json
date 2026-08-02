@@ -1,0 +1,299 @@
+{
+  "SPDXID": "SPDXRef-DOCUMENT",
+  "creationInfo": {
+    "created": "2026-08-02T15:51:41Z",
+    "creators": [
+      "Tool: cargo-sbom-v0.10.0"
+    ]
+  },
+  "dataLicense": "CC0-1.0",
+  "documentNamespace": "https://spdx.org/spdxdocs/aetherheim-b99ad75c-1003-4e36-b422-1a672942023a",
+  "files": [
+    {
+      "SPDXID": "SPDXRef-File-aetherheim",
+      "checksums": [
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "3c50e0f5857b224d595d27cb26893e98fff156ac"
+        }
+      ],
+      "fileName": "./Cargo.lock",
+      "fileTypes": [
+        "SOURCE",
+        "TEXT"
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-File-aetherheim",
+      "checksums": [
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "3c50e0f5857b224d595d27cb26893e98fff156ac"
+        }
+      ],
+      "fileName": "./Cargo.lock",
+      "fileTypes": [
+        "SOURCE",
+        "TEXT"
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-File-aetherheim_bounds",
+      "checksums": [
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "3c50e0f5857b224d595d27cb26893e98fff156ac"
+        }
+      ],
+      "fileName": "./Cargo.lock",
+      "fileTypes": [
+        "SOURCE",
+        "TEXT"
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-File-aetherheim_config",
+      "checksums": [
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "3c50e0f5857b224d595d27cb26893e98fff156ac"
+        }
+      ],
+      "fileName": "./Cargo.lock",
+      "fileTypes": [
+        "SOURCE",
+        "TEXT"
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-File-aetherheim_core",
+      "checksums": [
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "3c50e0f5857b224d595d27cb26893e98fff156ac"
+        }
+      ],
+      "fileName": "./Cargo.lock",
+      "fileTypes": [
+        "SOURCE",
+        "TEXT"
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-File-aetherheim_ids",
+      "checksums": [
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "3c50e0f5857b224d595d27cb26893e98fff156ac"
+        }
+      ],
+      "fileName": "./Cargo.lock",
+      "fileTypes": [
+        "SOURCE",
+        "TEXT"
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-File-aetherheim_proof_core",
+      "checksums": [
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "3c50e0f5857b224d595d27cb26893e98fff156ac"
+        }
+      ],
+      "fileName": "./Cargo.lock",
+      "fileTypes": [
+        "SOURCE",
+        "TEXT"
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-File-aetherheim_testkit",
+      "checksums": [
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "3c50e0f5857b224d595d27cb26893e98fff156ac"
+        }
+      ],
+      "fileName": "./Cargo.lock",
+      "fileTypes": [
+        "SOURCE",
+        "TEXT"
+      ]
+    }
+  ],
+  "name": "aetherheim",
+  "packages": [
+    {
+      "SPDXID": "SPDXRef-Package-aetherheim-proof-core-0.1.0",
+      "downloadLocation": "NONE",
+      "homepage": "https://github.com/valkyoth/aetherheim",
+      "licenseConcluded": "EUPL-1.2",
+      "licenseDeclared": "EUPL-1.2",
+      "name": "aetherheim-proof-core",
+      "versionInfo": "0.1.0"
+    },
+    {
+      "SPDXID": "SPDXRef-Package-aetherheim-0.1.0",
+      "downloadLocation": "NONE",
+      "homepage": "https://github.com/valkyoth/aetherheim",
+      "licenseConcluded": "EUPL-1.2",
+      "licenseDeclared": "EUPL-1.2",
+      "name": "aetherheim",
+      "versionInfo": "0.1.0"
+    },
+    {
+      "SPDXID": "SPDXRef-Package-aetherheim-testkit-0.1.0",
+      "downloadLocation": "NONE",
+      "homepage": "https://github.com/valkyoth/aetherheim",
+      "licenseConcluded": "EUPL-1.2",
+      "licenseDeclared": "EUPL-1.2",
+      "name": "aetherheim-testkit",
+      "versionInfo": "0.1.0"
+    },
+    {
+      "SPDXID": "SPDXRef-Package-aetherheim-bounds-0.1.0",
+      "downloadLocation": "NONE",
+      "homepage": "https://github.com/valkyoth/aetherheim",
+      "licenseConcluded": "EUPL-1.2",
+      "licenseDeclared": "EUPL-1.2",
+      "name": "aetherheim-bounds",
+      "versionInfo": "0.1.0"
+    },
+    {
+      "SPDXID": "SPDXRef-Package-aetherheim-core-0.1.0",
+      "downloadLocation": "NONE",
+      "homepage": "https://github.com/valkyoth/aetherheim",
+      "licenseConcluded": "EUPL-1.2",
+      "licenseDeclared": "EUPL-1.2",
+      "name": "aetherheim-core",
+      "versionInfo": "0.1.0"
+    },
+    {
+      "SPDXID": "SPDXRef-Package-aetherheim-config-0.1.0",
+      "downloadLocation": "NONE",
+      "homepage": "https://github.com/valkyoth/aetherheim",
+      "licenseConcluded": "EUPL-1.2",
+      "licenseDeclared": "EUPL-1.2",
+      "name": "aetherheim-config",
+      "versionInfo": "0.1.0"
+    },
+    {
+      "SPDXID": "SPDXRef-Package-aetherheim-ids-0.1.0",
+      "downloadLocation": "NONE",
+      "homepage": "https://github.com/valkyoth/aetherheim",
+      "licenseConcluded": "EUPL-1.2",
+      "licenseDeclared": "EUPL-1.2",
+      "name": "aetherheim-ids",
+      "versionInfo": "0.1.0"
+    }
+  ],
+  "relationships": [
+    {
+      "relatedSpdxElement": "SPDXRef-Package-aetherheim-ids-0.1.0",
+      "relationshipType": "GENERATED_FROM",
+      "spdxElementId": "SPDXRef-File-aetherheim_ids"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-Package-aetherheim-0.1.0",
+      "relationshipType": "GENERATED_FROM",
+      "spdxElementId": "SPDXRef-File-aetherheim"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-File-aetherheim",
+      "relationshipType": "DESCRIBES",
+      "spdxElementId": "SPDXRef-DOCUMENT"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-File-aetherheim_config",
+      "relationshipType": "DESCRIBES",
+      "spdxElementId": "SPDXRef-DOCUMENT"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-File-aetherheim_ids",
+      "relationshipType": "DESCRIBES",
+      "spdxElementId": "SPDXRef-DOCUMENT"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-Package-aetherheim-bounds-0.1.0",
+      "relationshipType": "GENERATED_FROM",
+      "spdxElementId": "SPDXRef-File-aetherheim_bounds"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-Package-aetherheim-config-0.1.0",
+      "relationshipType": "DEPENDS_ON",
+      "spdxElementId": "SPDXRef-Package-aetherheim-0.1.0"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-File-aetherheim_proof_core",
+      "relationshipType": "DESCRIBES",
+      "spdxElementId": "SPDXRef-DOCUMENT"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-File-aetherheim_core",
+      "relationshipType": "DESCRIBES",
+      "spdxElementId": "SPDXRef-DOCUMENT"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-Package-aetherheim-ids-0.1.0",
+      "relationshipType": "DEPENDS_ON",
+      "spdxElementId": "SPDXRef-Package-aetherheim-0.1.0"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-File-aetherheim_testkit",
+      "relationshipType": "DESCRIBES",
+      "spdxElementId": "SPDXRef-DOCUMENT"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-Package-aetherheim-proof-core-0.1.0",
+      "relationshipType": "GENERATED_FROM",
+      "spdxElementId": "SPDXRef-File-aetherheim_proof_core"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-Package-aetherheim-ids-0.1.0",
+      "relationshipType": "DEPENDS_ON",
+      "spdxElementId": "SPDXRef-Package-aetherheim-testkit-0.1.0"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-Package-aetherheim-proof-core-0.1.0",
+      "relationshipType": "DEPENDS_ON",
+      "spdxElementId": "SPDXRef-Package-aetherheim-0.1.0"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-Package-aetherheim-config-0.1.0",
+      "relationshipType": "GENERATED_FROM",
+      "spdxElementId": "SPDXRef-File-aetherheim_config"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-Package-aetherheim-core-0.1.0",
+      "relationshipType": "GENERATED_FROM",
+      "spdxElementId": "SPDXRef-File-aetherheim_core"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-Package-aetherheim-core-0.1.0",
+      "relationshipType": "DEPENDS_ON",
+      "spdxElementId": "SPDXRef-Package-aetherheim-config-0.1.0"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-Package-aetherheim-bounds-0.1.0",
+      "relationshipType": "DEPENDS_ON",
+      "spdxElementId": "SPDXRef-Package-aetherheim-0.1.0"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-File-aetherheim_bounds",
+      "relationshipType": "DESCRIBES",
+      "spdxElementId": "SPDXRef-DOCUMENT"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-Package-aetherheim-core-0.1.0",
+      "relationshipType": "DEPENDS_ON",
+      "spdxElementId": "SPDXRef-Package-aetherheim-0.1.0"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-Package-aetherheim-testkit-0.1.0",
+      "relationshipType": "GENERATED_FROM",
+      "spdxElementId": "SPDXRef-File-aetherheim_testkit"
+    }
+  ],
+  "spdxVersion": "SPDX-2.3"
+}

@@ -1,0 +1,33 @@
+name: Bug report
+description: Report a reproducible Aetherheim bug.
+title: "[bug]: "
+labels: [bug]
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: What happened?
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Reproduction
+      description: Provide minimal steps, input, or a test case.
+    validations:
+      required: true
+  - type: textarea
+    id: platform
+    attributes:
+      label: Platform and version
+      description: Include Aetherheim, Rust, OS, architecture, and deployment profile.
+    validations:
+      required: true
+  - type: textarea
+    id: security
+    attributes:
+      label: Security impact
+      description: Do not include exploitable private details; follow SECURITY.md.
+    validations:
+      required: false

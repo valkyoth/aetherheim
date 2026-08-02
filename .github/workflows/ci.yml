@@ -1,0 +1,94 @@
+name: Rust CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  checks:
+    name: Full policy and security checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Install pinned Rust toolchain
+        run: rustup show
+      - name: Install current security tools
+        run: |
+          cargo install --locked cargo-deny --version 0.20.2
+          cargo install --locked cargo-audit --version 0.22.2
+      - name: Run local check gate
+        run: scripts/checks.sh
+      - name: Check dependency and licence policy
+        run: cargo deny check
+      - name: Check RustSec advisories
+        run: cargo audit
+
+  hosts:
+    name: Host tests (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Install pinned Rust toolchain
+        run: rustup show
+      - name: Test workspace
+        run: cargo test --workspace --all-features
+
+  targets:
+    name: Target check (${{ matrix.target }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        target:
+          - aarch64-apple-darwin
+          - aarch64-apple-ios
+          - aarch64-linux-android
+          - aarch64-unknown-linux-gnu
+          - aarch64-unknown-linux-musl
+          - x86_64-apple-darwin
+          - x86_64-linux-android
+          - x86_64-pc-windows-gnu
+          - x86_64-pc-windows-msvc
+          - x86_64-unknown-freebsd
+          - x86_64-unknown-linux-gnu
+          - x86_64-unknown-netbsd
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Install target
+        run: rustup target add ${{ matrix.target }}
+      - name: Check portable libraries
+        run: cargo check --workspace --lib --target ${{ matrix.target }}
+
+  no-std:
+    name: Future Aesynx portability boundary
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Install freestanding target
+        run: rustup target add x86_64-unknown-none
+      - name: Check no_std contract crates
+        run: |
+          cargo check -p aetherheim-bounds --target x86_64-unknown-none
+          cargo check -p aetherheim-core --target x86_64-unknown-none
+          cargo check -p aetherheim-ids --target x86_64-unknown-none
+          cargo check -p aetherheim-proof-core --target x86_64-unknown-none

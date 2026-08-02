@@ -1,0 +1,23 @@
+[package]
+name = "aetherheim"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+homepage.workspace = true
+repository.workspace = true
+readme = "../../README.md"
+publish = false
+
+[dependencies]
+aetherheim-bounds.workspace = true
+aetherheim-config.workspace = true
+aetherheim-core.workspace = true
+aetherheim-ids.workspace = true
+aetherheim-proof-core.workspace = true
+
+[dev-dependencies]
+aetherheim-testkit.workspace = true
+
+[lints]
+workspace = true

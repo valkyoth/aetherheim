@@ -1,0 +1,9 @@
+# Reviewed external Cargo dependency register.
+#
+# Adding an entry requires prior project discussion and the review described in
+# docs/dependency-policy.md. An entry is valid only while an exact matching
+# dependency is present in a Cargo manifest.
+
+version = 1
+
+[crates]

@@ -1,0 +1,47 @@
+[workspace]
+resolver = "3"
+members = [
+    "crates/aetherheim",
+    "crates/aetherheim-bounds",
+    "crates/aetherheim-config",
+    "crates/aetherheim-core",
+    "crates/aetherheim-ids",
+    "crates/aetherheim-proof-core",
+    "crates/aetherheim-testkit",
+]
+default-members = ["crates/aetherheim"]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.97.1"
+license = "EUPL-1.2"
+homepage = "https://github.com/valkyoth/aetherheim"
+repository = "https://github.com/valkyoth/aetherheim"
+
+[workspace.lints.rust]
+missing_docs = "deny"
+unsafe_code = "forbid"
+unsafe_op_in_unsafe_fn = "forbid"
+unused_must_use = "deny"
+
+[workspace.lints.clippy]
+dbg_macro = "deny"
+expect_used = "deny"
+panic = "deny"
+todo = "deny"
+undocumented_unsafe_blocks = "forbid"
+unreachable = "deny"
+unwrap_used = "deny"
+
+[workspace.dependencies]
+aetherheim-bounds = { path = "crates/aetherheim-bounds", version = "=0.1.0" }
+aetherheim-config = { path = "crates/aetherheim-config", version = "=0.1.0" }
+aetherheim-core = { path = "crates/aetherheim-core", version = "=0.1.0" }
+aetherheim-ids = { path = "crates/aetherheim-ids", version = "=0.1.0" }
+aetherheim-proof-core = { path = "crates/aetherheim-proof-core", version = "=0.1.0" }
+aetherheim-testkit = { path = "crates/aetherheim-testkit", version = "=0.1.0" }
+
+[profile.release]
+overflow-checks = true
+panic = "abort"
