@@ -21,6 +21,10 @@ foundation for Aetherheim. It is not a usable CMS release.
   setup guidance.
 - Detailed implementation and version plans with human-controlled pentest
   stops and optional explicitly authorised cumulative batches.
+- A full documentation-to-roadmap audit with an early requirement/scenario
+  registry, a loopback-only SQLite CMS developer preview before secondary
+  databases, and separate admission, implementation, live qualification,
+  domain-state-machine, platform-packaging, and recovery milestones.
 - Optional future Valkey cache, OpenBao bootstrap, multi-node, and Fluxheim
   deployment tracks with separate security and conformance gates.
 - A proportional `sanitization` secret-memory policy and direct/transitive

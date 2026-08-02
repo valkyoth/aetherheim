@@ -52,6 +52,14 @@ they do not define the domain.
 - One versioned `ContentView` projection feeds headless delivery, server
   rendering, native clients, search, and extension proposals from the same
   canonical document and publication root.
+- A loopback-only SQLite developer preview delivers the first usable CMS slice
+  before secondary database work. Its transport and one-time authority are
+  technically excluded from production artifacts; later releases generalize
+  the same canonical application contracts rather than replacing a prototype.
+- Production HTTP and TLS use admitted mature foundations behind focused
+  Aetherheim contracts. HTTP runtime admission, TLS/certificate lifecycle,
+  request governance, direct-serving qualification, APIs, and proxy profiles
+  are separate review stops.
 - Remote cache offload is optional and non-authoritative. Valkey is the first
   named adapter and must remain safely bypassable when its cache class permits.
 - Multi-node mode is optional, active-active at the application layer, and
@@ -73,6 +81,9 @@ they do not define the domain.
 - Compliance packs provide controls and evidence, never legal certification.
 - AI remains optional, disabled by default, scoped, provenance-labelled, and
   unable to bypass normal validation or publication.
+- First-party analytics is privacy-preserving, bounded, consent-aware, and
+  non-authoritative. Optional AI providers receive only named classified
+  operations; their outputs remain reviewable proposals.
 - Skrifheim is not integrated before Aetherheim 1.0. Proof-ready contracts are
   useful independently. Optional Witness Mode is the first post-1.0 step only
   after both projects and their relevant contracts are stable.
@@ -119,6 +130,20 @@ they do not define the domain.
   user-controlled individual or explicitly authorised cumulative pentest
   workflow. Codex never tags or pushes without the user's final instruction.
 
+Milestones introduce one independently reviewable authority boundary or
+reversible behavior. Dependency admission, adapter behavior, live provider
+qualification, unrelated domain state machines, platform packaging, and
+migration/recovery are not combined merely to reduce the version count. The
+established pre-1.0 numbering may extend beyond `v0.99.0`; existing version
+identities are never renumbered after release evidence or compatibility
+fixtures refer to them.
+
+A minimal requirement/control/scenario registry begins before runtime product
+work. Every later milestone adds stable requirements, threats, executable or
+manual scenarios, owning version, implementation links, current evidence, and
+exceptions in the same change. The later compliance catalog extends these IDs
+with standards mappings; it does not reconstruct early traceability.
+
 ## Repository And Crate Strategy
 
 The main implementation remains one repository for atomic changes and review.
@@ -140,6 +165,8 @@ boundaries include:
 
 - `aetherheim-time`
 - `aetherheim-value`
+- `aetherheim-text`
+- `aetherheim-crypto-contracts`
 - `aetherheim-schema`
 - `aetherheim-document`
 - `aetherheim-content-view`
@@ -162,11 +189,14 @@ boundaries include:
 - `aetherheim-content`
 - `aetherheim-workflow`
 - `aetherheim-routing`
+- `aetherheim-taxonomy`
+- `aetherheim-navigation`
 - `aetherheim-localization`
 - `aetherheim-multisite`
 - `aetherheim-identity`
 - `aetherheim-authorization`
 - `aetherheim-session`
+- `aetherheim-notifications`
 - `aetherheim-media`
 - `aetherheim-search`
 - `aetherheim-forms`
@@ -175,6 +205,7 @@ boundaries include:
 - `aetherheim-comments`
 - `aetherheim-automation`
 - `aetherheim-analytics`
+- `aetherheim-ai`
 - `aetherheim-commerce`
 - `aetherheim-compliance`
 - `aetherheim-control-catalog`
@@ -198,6 +229,8 @@ boundaries include:
 - `aetherheim-cluster`
 - `aetherheim-proxy-trust`
 - `aetherheim-jobs`
+- `aetherheim-http`
+- `aetherheim-tls`
 - `aetherheim-render`
 - `aetherheim-theme`
 - `aetherheim-plugin-host`
@@ -208,6 +241,7 @@ boundaries include:
 - `aetherheim-web`
 - `aetherheim-admin`
 - `aetherheim-server`
+- `aetherheim-realtime`
 - `aetherheim-cli`
 
 Adapter crate creation does not imply support. Each support claim requires the
@@ -252,6 +286,10 @@ provider or platform behavior.
 - Time, randomness, Unicode/locale data, money rules, and canonical
   serialization are injected or versioned inputs. Pure core behavior cannot
   consult an ambient clock, random source, locale, or host serializer.
+- Entropy, wall/monotonic/database time, Unicode/URL/IDNA behavior, digests,
+  signatures, AEAD/MAC/KDF operations, and keys use typed versioned providers.
+  Domain-separated roots and known-answer/self-test evidence are established
+  before schemas, sessions, packages, webhooks, or backups depend on them.
 - Policy evaluation returns typed outcomes and obligations. Callers must
   consume redaction, step-up, approval, purpose, evidence, rate, and audit
   obligations before receiving a usable capability; there is no convenient
@@ -331,6 +369,15 @@ provider version, deployment topology, durability/isolation settings,
 collation, timezone, and required extensions. Provider-specific capabilities
 are separately qualified and never presented as portable semantics; SurrealDB
 remains experimental until it passes the complete portable and live matrices.
+
+SQLite, PostgreSQL, MariaDB, MongoDB, SurrealDB, Valkey, S3-compatible storage,
+HTTP/TLS, WebAuthn, password hashing, HTML parsing/sanitization, media probing,
+and Component Model execution use mature exact-pinned implementations where
+needed. Aetherheim owns their narrow contracts, budgets, policy, normalized
+errors, qualification manifests, and failure tests; it does not build database
+engines/wire protocols, TLS, browser-grade parsers, codecs, or runtimes merely
+to avoid dependencies. Admission, semantic implementation, and live support
+qualification are separate releases.
 
 `UnitOfWork::commit` has three externally meaningful outcomes: committed, not
 committed, or ambiguous. An ambiguous result is resolved through the bound
@@ -424,6 +471,13 @@ From the first release, pure crates are checked across representative targets:
 Host features may have platform-specific adapter crates, but public semantics
 must remain consistent. Missing platform functionality fails explicitly. No
 conditional compilation may silently weaken security.
+
+Compile support, native server operation, and mobile embedding are different
+claims. Linux, Windows, macOS, FreeBSD, and NetBSD production operation require
+native packaged install/serve/upgrade/restore/uninstall matrices. Android and
+iOS require separately qualified library/host APIs, Kotlin/Swift schema
+compatibility, lifecycle/resource tests, and explicit missing-feature reports;
+they do not imply that clustered server roles run on mobile devices.
 
 Aesynx does not yet exist as a usable operating system or Rust compilation
 target. Current work maintains freestanding `no_std` contracts and explicit
@@ -531,6 +585,13 @@ non-claim.
 - Database adapters run differential scenarios against the APSP reference
   interpreter, including adversarial concurrent histories and ambiguous
   commits; a successful CRUD smoke test is never provider qualification.
+- The SQLite developer-preview profile launches a real loopback server and
+  browser to create, revise, publish, read, restart, export, and restore
+  canonical content before secondary databases are introduced. Tests prove the
+  preview authority and transport are absent from production artifacts.
+- HTTP/TLS, password hashing, WebAuthn, Valkey, OpenBao, S3-compatible storage,
+  media tools, AI providers, mail, payments, and other external boundaries each
+  have protocol/model tests plus independent exact-version live qualification.
 - Backup verification is incomplete without isolated restore rehearsal.
 - Performance evidence uses representative tenants, content, media, routes,
   policies, and concurrent writers, never only empty installations.
@@ -575,18 +636,22 @@ terms:
 1. repository discipline and portable foundations;
 2. canonical values, schemas, documents, queries, policy, events, and proof
    records, including aggregate budgets, typed obligations, and `ContentView`;
-3. conventional storage protocols, conformance, migrations, archives, jobs,
-   local/shared blobs, and the APSP reference semantics;
-4. content commands, revisions, workflows, routing, APIs, audit, and identity;
-5. safe rendering, admin shell, editor, themes, media, and search;
+3. SQLite/local blobs and a real loopback-only CMS developer preview, then
+   admitted production database clients, APSP conformance, archives, cache,
+   secrets, shared blobs, and fenced migration;
+4. content commands, revisions, workflows, taxonomy, navigation, routing,
+   production HTTP/TLS, APIs, audit, and identity;
+5. safe rendering, admin shell, editor, themes, media admission/derivatives,
+   delivery, and search;
 6. capability contracts, admitted mature Component Model runtime integration,
    isolated extension UI, packages, and lifecycle;
 7. multilingual, multisite, forms, mail, memberships, comments, automation,
-   analytics, and bookings;
+   bookings, privacy-preserving analytics, and optional proposal-only AI;
 8. first-party commerce in small invariant-driven passes;
-9. compliance controls, migration tooling, cache offload, optional OpenBao,
-   clustered deployment, Fluxheim compatibility, backup/restore, and
-   full-system hardening;
+9. compliance controls, source-specific migration tooling, backup creation,
+   isolated restore/promotion, native/mobile/container/air-gap packaging,
+   clustered deployment, Fluxheim compatibility, endurance, and full-system
+   hardening;
 10. contract freezes, independent reviews, release candidates, and 1.0;
 11. optional post-1.0 Skrifheim Witness and later Authoritative modes after
    external entry conditions are met.

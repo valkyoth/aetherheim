@@ -5,6 +5,12 @@ dependency graph. Reimplementing mature cryptography, TLS, WebAuthn, database
 clients, Unicode processing, media codecs, or WebAssembly execution would
 increase risk and delay the product.
 
+Dependency admission, adapter behavior, and live provider qualification are
+separate release stops for security-sensitive foundations. Aetherheim does not
+build SQLite engines, database wire/authentication protocols, TLS stacks,
+browser-grade HTML parsers, media codecs/parsers, password hashing, WebAuthn,
+HTTP runtimes, or WebAssembly engines merely to reduce the crate count.
+
 ## Admission Process
 
 Before adding an external Rust crate:
@@ -27,6 +33,12 @@ Before adding an external Rust crate:
 Dependencies are reconsidered during upgrades. A crate can be removed or
 replaced if maintenance, security, scope, or transitive cost changes.
 
+A general transitive-version or policy exception requires explicit user
+approval and a written time-bounded ADR with owner, security comparison,
+expiry, and removal/review plan. It remains visible in metadata, the SBOM, and
+release evidence. There is no exception path for direct or transitive
+`zeroize`.
+
 ## Project-Owned External Crates
 
 Crates maintained in sibling projects still pass normal admission because they
@@ -39,8 +51,9 @@ crates.
 an otherwise acceptable crate cannot be admitted while its selected feature
 graph brings in `zeroize`. The currently inspected `openbao` 2.1.2 graph does
 so through `secrecy` and parts of its default rustls stack; OpenBao work
-therefore remains blocked at its admission milestone until a zeroize-free graph
-is available and reviewed.
+therefore remains blocked until an in-process or separately contained
+zeroize-free graph is available and reviewed. Process isolation does not waive
+the repository's zeroize prohibition.
 
 ## Source Rules
 

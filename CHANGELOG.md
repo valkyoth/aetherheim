@@ -4,6 +4,11 @@ All notable changes to Aetherheim are documented here.
 
 ## Unreleased
 
+- Audited every documented requirement against the roadmap, introduced
+  foundation-time traceability and an early SQLite CMS preview, added missing
+  HTTP/TLS, analytics, AI, media, packaging, and provider qualification stops,
+  and split oversized cross-domain milestones into independently testable
+  versions.
 - Removed an undeclared ripgrep dependency from shell gates so clean GitHub
   runners use standard `grep` and added a regression policy check.
 - Pinned and installed `cargo-sbom 0.10.0` in CI, added it to live tool

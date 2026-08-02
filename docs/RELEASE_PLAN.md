@@ -17,6 +17,26 @@ v1.0.0       first serious production release
 v1.N.0       optional post-1.0 capability milestone
 ```
 
+The existing numbering through `v0.130.0` is intentional and stable. Aetherheim
+does not compress work merely to stay below `v0.99.0`; changing established
+version identities would make release notes, pentest evidence, migration
+fixtures, and compatibility references ambiguous. Patch milestones may grow to
+any needed value, such as `v0.60.13`, while `v1.0.0` remains the first serious
+production release.
+
+Every milestone is an exact-commit implementation and evidence stop, but it is
+not automatically a broad end-user support claim. A capability becomes
+supported only when its owning implementation, live qualification, packaging,
+documentation, and profile gates pass. The pentest workflow remains mandatory
+for every version unless the user explicitly authorises a named batch of at
+most 15 versions.
+
+Milestones are split whenever one stop would admit a dependency and implement
+it, combine independent state machines/domains, qualify multiple platforms or
+providers, or require unrelated migration/rollback and threat reviews. A stop
+should normally introduce one authority boundary or one independently
+reversible behavior.
+
 No version is published to crates.io. Release means signed source, platform
 artifacts, containers where applicable, SBOM/provenance, notes, and pentest
 evidence—not Cargo registry publication.
@@ -328,6 +348,27 @@ Exit criteria:
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.9.1 implementation stop reached. Run pentest for this exact commit.`
 
+### v0.9.2 — Foundation Requirement And Scenario Registry
+
+Status: planned.
+
+Goal: Establish traceability before product milestones accumulate.
+
+Deliverables:
+
+- Minimal machine-readable requirement, threat, control, scenario, owning-version, implementation, evidence, status, and exception records; stable IDs; orphan/duplicate/stale checks; generated coverage summary; migration path to the later standards catalog.
+
+Verification:
+
+- Self-tests reject missing or multiple owners, absent threats/scenarios, stale evidence, unknown versions, expired exceptions, changed behavior without scenario updates, and generated-report drift.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Every milestone from `v0.10.0` onward must register its requirements and scenarios in the same change; traceability is never reconstructed retrospectively.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.9.2 implementation stop reached. Run pentest for this exact commit.`
+
 ### v0.10.0 — Runnable Skeleton
 
 Status: planned.
@@ -347,6 +388,69 @@ Exit criteria:
 
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.10.0 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.10.1 — Typed Configuration Contract
+
+Status: planned.
+
+Goal: Define configuration sources and validation before network or storage adapters exist.
+
+Deliverables:
+
+- Versioned typed schema; defaults; file/environment/CLI precedence; explicit secret references; unknown/deprecated field policy; tenant-independent bootstrap scope; path/origin metadata; redacted effective-config report; migration and rollback rules.
+
+Verification:
+
+- Unknown, duplicate, conflicting, malformed, oversized, deprecated, secret-bearing, path-confused, platform-specific, and old/new schema fixtures fail or migrate exactly as documented.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Later adapters consume validated typed configuration and cannot read ambient environment variables independently.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.10.1 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.10.2 — Process Role Lifecycle And Health
+
+Status: planned.
+
+Goal: Give serve, worker, scheduler, and future realtime roles one bounded lifecycle contract.
+
+Deliverables:
+
+- Startup phases; dependency initialization; liveness/readiness distinction; signal/control handling; graceful drain and deadline; child-process ownership; exit taxonomy; restart safety; role compatibility and unsupported-role rejection.
+
+Verification:
+
+- Partial startup, duplicate start, signal at every phase, hung dependency, child crash, drain timeout, forced termination, restart, and incompatible-role scenarios pass on supported host platforms.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Every future executable role plugs into the same observable lifecycle rather than inventing shutdown and readiness behavior.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.10.2 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.10.3 — Structured Diagnostics And Redaction
+
+Status: planned.
+
+Goal: Provide useful operator diagnostics without leaking secrets or unbounded attacker-controlled data.
+
+Deliverables:
+
+- Structured event envelope; severity/component/operation/correlation fields; classification-aware redaction; bounded values/cardinality; safe console and machine formats; panic/abort boundary; diagnostic bundle manifest and retention controls.
+
+Verification:
+
+- Control-character/log injection, oversized/high-cardinality fields, secrets/tokens/personal data, malformed Unicode, nested errors, panic paths, concurrent output, and diagnostic export fixtures pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- All later crates use the shared diagnostic contract; ad hoc secret-bearing formatting is rejected.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.10.3 implementation stop reached. Run pentest for this exact commit.`
 
 ## Phase 1 — Portable domain foundations
 
@@ -452,6 +556,27 @@ Exit criteria:
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.13.1 implementation stop reached. Run pentest for this exact commit.`
 
+### v0.13.2 — Entropy Provider And Random Token Generation
+
+Status: planned.
+
+Goal: Provide cryptographically secure host randomness without making IDs, sessions, challenges, or tokens depend on ambient ad hoc calls.
+
+Deliverables:
+
+- OS/provider admission; startup health and no-weak-fallback policy; bounded fill/generation interface; fork/snapshot/clone considerations; domain-separated token purposes; deterministic test provider isolation; platform support and failure diagnostics.
+
+Verification:
+
+- Provider unavailable/short/error/repetition fixtures, fork/snapshot simulations, concurrent generation, token-domain confusion, deterministic-provider production exclusion, collision handling, redaction, and platform tests pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Security tokens and identifiers cannot be generated when approved entropy is unavailable, and test randomness cannot enter production builds.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.13.2 implementation stop reached. Run pentest for this exact commit.`
+
 ### v0.14.0 — Time and Duration Contracts
 
 Status: planned.
@@ -472,6 +597,27 @@ Exit criteria:
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.14.0 implementation stop reached. Run pentest for this exact commit.`
 
+### v0.14.1 — Host Clock, Timezone, And Monotonic-Time Providers
+
+Status: planned.
+
+Goal: Map host wall, monotonic, timezone, and trusted-database time into explicit domain contracts.
+
+Deliverables:
+
+- Wall/monotonic/database-time provider interfaces; confidence/source; timezone-data version; skew/backward-jump policy; deadline conversion; schedule evaluation inputs; deterministic test clocks; platform and update behavior.
+
+Verification:
+
+- Backward/forward jumps, suspend/resume, overflow, timezone database update, DST gap/fold, clock skew, unavailable database time, deadline conversion, concurrent timers, and platform fixtures pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Security expiry, leases, schedules, and deadlines name their accepted time source and never silently substitute client wall time.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.14.1 implementation stop reached. Run pentest for this exact commit.`
+
 ### v0.15.0 — Portable Scalar Values
 
 Status: planned.
@@ -491,6 +637,69 @@ Exit criteria:
 
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.15.0 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.15.1 — Unicode Text Semantics
+
+Status: planned.
+
+Goal: Admit mature Unicode foundations and freeze canonical comparison versus display behavior.
+
+Deliverables:
+
+- Exact Unicode normalization/segmentation/property admissions; data-version metadata; scalar validity; canonical storage/display forms; confusable/mixed-script and bidi diagnostics; grapheme/word boundaries; encoded/display length budgets; update compatibility policy.
+
+Verification:
+
+- Malformed scalars, normalization equivalence, combining/deep sequences, bidi controls, confusables, mixed scripts, grapheme/word boundaries, length amplification, data-version drift, and cross-platform golden fixtures pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Security comparison never depends on display text or platform locale, and no application module invents private Unicode normalization.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.15.1 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.15.2 — URL And IDNA Semantics
+
+Status: planned.
+
+Goal: Admit mature URL/IDNA parsing and define canonical host, origin, and display forms.
+
+Deliverables:
+
+- Exact URL/IDNA parser/data admissions; supported schemes; canonical parse/serialize; host/port/origin comparison; percent encoding; path/query component types; IPv4/IPv6/zone policy; IDNA display diagnostics; relative-resolution and update compatibility rules.
+
+Verification:
+
+- Scheme/authority/userinfo confusion, backslash/control/percent encoding, IPv4/IPv6 variants, mixed-script/IDNA deviations, default ports, relative/base resolution, browser differential fixtures, resource limits, and version drift pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Routing, SSRF defenses, redirects, webhooks, media, themes, mail, and plugins use one typed URL/origin contract.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.15.2 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.15.3 — Email Address Semantics
+
+Status: planned.
+
+Goal: Define bounded email parsing, storage, comparison, and display without inventing deliverability or identity guarantees.
+
+Deliverables:
+
+- Exact parser admission if needed; supported syntax/internationalization profile; local/domain/display separation; IDNA domain handling; canonical comparison policy by verified communication point; length/control/header safety; redacted display; explicit non-deliverability/non-ownership claims.
+
+Verification:
+
+- Malformed/oversized/control characters, quoted/comment/international forms by declared scope, IDNA domains, case/comparison ambiguity, header injection, duplicate verified identities, redaction, provider round-trip, and version compatibility pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Parsing an address never proves ownership or deliverability, and identity/mail modules share the same declared syntax/comparison rules.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.15.3 implementation stop reached. Run pentest for this exact commit.`
 
 ### v0.16.0 — Money and Measurement Values
 
@@ -551,6 +760,48 @@ Exit criteria:
 
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.18.0 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.18.1 — Digest Provider And Domain-Separated Roots
+
+Status: planned.
+
+Goal: Admit mature digest implementations and define how canonical roots are computed.
+
+Deliverables:
+
+- Exact algorithm/provider admission; domain-separation labels; version/algorithm identifiers; streaming/finalization interface; digest length/type separation; collision/non-claim policy; known-answer startup self-tests; migration and agility rules.
+
+Verification:
+
+- Known-answer and cross-provider vectors, label/type/algorithm confusion, truncation, incremental chunking, empty/large input, provider failure, version migration, serialization drift, and cross-platform fixtures pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Schema, document, release, archive, audit, package, and evidence roots use typed domain-separated digests rather than ad hoc hashing.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.18.1 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.18.2 — Cryptographic Provider Admission Framework
+
+Status: planned.
+
+Goal: Standardize admission, identity, self-test, failure, and agility for signature, AEAD, MAC, KDF, and key-operation providers.
+
+Deliverables:
+
+- Algorithm/provider/version/key-reference descriptors; exact input/output contracts; known-answer and startup self-tests; allowlists; hardware/OS/service/software provider boundaries; failure/no-fallback policy; operation handles; migration/agility and evidence schema.
+
+Verification:
+
+- Wrong provider/key/algorithm/purpose, downgrade, malformed input/output, self-test failure, unavailable provider, key rotation, signature/MAC/tag failure, nonce misuse prevention contract, and cross-platform fixtures pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Later authentication, TLS, package, webhook, backup, payment, and release features cannot call cryptography outside an admitted typed provider boundary.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.18.2 implementation stop reached. Run pentest for this exact commit.`
 
 ### v0.19.0 — Schema Fingerprints
 
@@ -1187,19 +1438,19 @@ Exit criteria:
 
 ## Phase 4 — SQLite and local operation
 
-### v0.41.0 — SQLite Wire and File Boundary
+### v0.41.0 — SQLite Engine And Driver Admission
 
 Status: planned.
 
-Goal: Define first-party SQLite integration scope safely.
+Goal: Admit a mature SQLite foundation and define file/engine ownership safely.
 
 Deliverables:
 
-- Database-file ownership, native-library/process boundary decision, version negotiation, path safety, locking assumptions, and threat review.
+- Exact reviewed crate/library and feature graph; database-file ownership; bundled/system/process boundary decision; native/unsafe/build-script review; version identity; path and extension-loading policy; locking/threading assumptions; platform and CVE-response plan. Aetherheim does not implement a database engine.
 
 Verification:
 
-- Reject wrong library identity/version, unsafe paths, unsupported modes, and ambiguous ownership.
+- Reject wrong library identity/version, unsafe paths, extension loading, unsupported modes, ambiguous ownership, unsafe feature drift, and unsupported platform behavior.
 - Run the inherited repository, security, documentation, platform, and release-evidence gates.
 
 Exit criteria:
@@ -1207,7 +1458,7 @@ Exit criteria:
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.41.0 implementation stop reached. Run pentest for this exact commit.`
 
-### v0.42.0 — SQLite Statement Protocol
+### v0.42.0 — SQLite Connection And Statement Boundary
 
 Status: planned.
 
@@ -1215,7 +1466,7 @@ Goal: Implement bounded statement preparation and parameter binding.
 
 Deliverables:
 
-- First-party FFI/process adapter crate, typed parameters, exact result decoding, limits, cancellation, and redacted errors.
+- Aetherheim-owned adapter around the admitted driver; connection ownership; typed parameters; exact result decoding; limits; cancellation/interruption; busy policy; transaction state; and redacted errors.
 
 Verification:
 
@@ -1408,17 +1659,101 @@ Exit criteria:
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.50.1 implementation stop reached. Run pentest for this exact commit.`
 
-## Phase 5 — Production storage, archives, jobs, blobs, and cache
-
-### v0.51.0 — PostgreSQL Protocol Admission
+### v0.50.2 — Loopback-Only Preview Transport
 
 Status: planned.
 
-Goal: Establish a first-party production database boundary.
+Goal: Enable an early browser/API developer preview without creating a production network support claim.
 
 Deliverables:
 
-- Protocol/version scope, authentication-provider interface, TLS/proxy assumption, framing budgets, cancellation, and server identity policy.
+- Development-only binary/profile; loopback binding; random per-start origin and one-time capability; no proxy trust, remote bind, production feature, or packaged-service inclusion; bounded HTTP subset; CSRF/origin policy; explicit warning and clean teardown.
+
+Verification:
+
+- Non-loopback bind, forwarded-header spoofing, origin/CSRF confusion, token replay, port race, malformed/oversized request, restart, production-artifact inclusion, and missing-warning tests fail safely.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- The preview is usable locally but technically incapable of becoming an accidental remotely supported deployment.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.50.2 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.50.3 — SQLite CMS Content Vertical Slice
+
+Status: planned.
+
+Goal: Prove the canonical contracts can create, revise, publish, read, and export real content before secondary databases are built.
+
+Deliverables:
+
+- One bounded built-in page schema; create/update draft; immutable revision; publish/unpublish pointer; route; `ContentView`; deterministic minimal HTML and JSON delivery; local blob reference; AHAF-compatible export subset; CLI and loopback preview operations.
+
+Verification:
+
+- Real-process journeys cover create, validation denial, revise, stale edit, publish, read, restart, unpublish, restore revision, export/import subset, corrupt state, cross-site denial, and deterministic output on SQLite.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- A developer can operate a truthful minimal CMS on SQLite; later application milestones generalize this slice without replacing its canonical semantics.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.50.3 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.50.4 — Local Browser Authoring Preview
+
+Status: planned.
+
+Goal: Make the early SQLite content slice usable through a minimal accessible browser interface.
+
+Deliverables:
+
+- Development-only setup screen; page list; structured title/text/link/image blocks; validation; save/revision history; preview; publish/unpublish; visible limitations; keyboard and basic screen-reader behavior; no plugin/theme/remote-user claims.
+
+Verification:
+
+- Browser E2E covers complete authoring, paste as data, XSS payloads, stale edits, restart/recovery, keyboard-only use, focus/error announcements, session capability expiry, and absence from production artifacts.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- The project demonstrates an end-to-end CMS experience before investing in every production provider, while remaining explicitly local and non-production.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.50.4 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.50.5 — Local CMS Preview Acceptance Release
+
+Status: planned.
+
+Goal: Package and continuously exercise the complete early developer-preview journey.
+
+Deliverables:
+
+- One-command `aetherheim dev`; clean ephemeral or persistent site modes; fixture site; bounded logs; browser/API/CLI acceptance profile; upgrade fixture from the prior preview; documented non-claims and feedback workflow.
+
+Verification:
+
+- Clean Linux, Windows, BSD, and macOS host runs launch, author, publish, restart, export, restore, upgrade, and remove the preview; missing browser/tool and any skipped required scenario fail the gate.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- The early CMS slice is reproducibly usable and tested, not merely a collection of library tests or mock handlers.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.50.5 implementation stop reached. Run pentest for this exact commit.`
+
+## Phase 5 — Production storage, archives, jobs, blobs, and cache
+
+### v0.51.0 — PostgreSQL Driver Admission
+
+Status: planned.
+
+Goal: Admit a mature PostgreSQL client behind a first-party production database boundary.
+
+Deliverables:
+
+- Exact reviewed crate/features; protocol/server scope; authentication-provider interface; TLS/proxy assumption; unsafe/native/build-script and transitive review; framing/result budgets; cancellation; server identity; platform and CVE-response policy. Aetherheim does not implement PostgreSQL wire/authentication protocols.
 
 Verification:
 
@@ -1450,19 +1785,19 @@ Exit criteria:
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.52.0 implementation stop reached. Run pentest for this exact commit.`
 
-### v0.53.0 — PostgreSQL Content and Identity Stores
+### v0.53.0 — PostgreSQL Content Store
 
 Status: planned.
 
-Goal: Reach portable authoritative semantics on PostgreSQL.
+Goal: Reach portable content/revision/relationship semantics on PostgreSQL.
 
 Deliverables:
 
-- Schemas, constraints, revisions, relationships, identity/session separation, outbox, and tenant/site scoping.
+- Content/schema/revision/relationship mappings; immutable publication roots; expected revisions; tenant/site constraints; content outbox coupling; indexes and archive identity.
 
 Verification:
 
-- Shared conformance, concurrency, deadlock/retry, isolation, and explain-plan budget tests pass.
+- Shared content conformance, concurrent/stale writes, deadlock/retry, isolation, cross-tenant relationships, publication immutability, and archive-root tests pass.
 - Run the inherited repository, security, documentation, platform, and release-evidence gates.
 
 Exit criteria:
@@ -1470,19 +1805,61 @@ Exit criteria:
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.53.0 implementation stop reached. Run pentest for this exact commit.`
 
-### v0.54.0 — PostgreSQL Jobs, Audit, and Operations
+### v0.53.1 — PostgreSQL Identity And Session Store
 
 Status: planned.
 
-Goal: Complete production-reference provider behavior.
+Goal: Implement identity, credential metadata, session, group, and policy state independently from content storage.
 
 Deliverables:
 
-- Leased jobs, scheduler, chained audit, migrations, online-index strategy, pooling limits, health, backup/PITR hooks.
+- Principal/account/credential metadata mappings; communication-point uniqueness; opaque session and revocation records; groups/policy epochs; tenant constraints; privacy indexes; audit/outbox coupling.
 
 Verification:
 
-- Crash/recovery, lease contention, audit exhaustion, migration, and operational failover fixtures pass.
+- Duplicate/cross-tenant identity, credential/session separation, revocation races, concurrent account change, privacy query, ambiguous commit, deadlock/retry, and redacted diagnostics tests pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Content access cannot expose credential/session records and identity authority has separate conformance evidence.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.53.1 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.53.2 — PostgreSQL APSP Query Translation
+
+Status: planned.
+
+Goal: Translate the complete portable query profile without PostgreSQL-specific semantic leakage.
+
+Deliverables:
+
+- Typed predicates/projections; text/time/value mapping; stable sort/cursors; relationships; aggregates; locale fallback; consistency intent; cost/explain budgets; normalized results/errors.
+
+Verification:
+
+- APSP differential/property/history suites cover collation, null/missing, timezone, pagination mutation, traversal, aggregates, isolation, injection, cost amplification, cancellation, and error normalization.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- PostgreSQL-native extensions remain separately qualified and cannot change portable query results.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.53.2 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.54.0 — PostgreSQL Jobs And Outbox
+
+Status: planned.
+
+Goal: Implement durable asynchronous work on the production-reference provider.
+
+Deliverables:
+
+- Leased jobs, deterministic schedule slots, transactional claim/completion/outbox, fencing inputs, retry/dead-letter, cancellation, fairness, and bounded queue operations.
+
+Verification:
+
+- Crash/recovery at every claim/complete phase, lease contention, stale fence, duplicate schedule, poison work, cancellation, fairness, and outbox replay fixtures pass.
 - Run the inherited repository, security, documentation, platform, and release-evidence gates.
 
 Exit criteria:
@@ -1490,15 +1867,78 @@ Exit criteria:
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.54.0 implementation stop reached. Run pentest for this exact commit.`
 
-### v0.55.0 — MariaDB Protocol and Session
+### v0.54.1 — PostgreSQL Audit Store
 
 Status: planned.
 
-Goal: Establish a separate first-party MariaDB boundary.
+Goal: Complete append-oriented gap-detectable audit on PostgreSQL.
 
 Deliverables:
 
-- Handshake/authentication-provider boundary, capability negotiation, typed parameters, results, transaction state, cancellation, and limits.
+- Chained audit records/checkpoints; per-domain sequences; safe diffs/redaction; mandatory-audit failure policy; verification/export; retention/hold constraints and operator receipts.
+
+Verification:
+
+- Audit delete/reorder/fork/exhaustion, concurrent append, redaction/inference, checkpoint/export verification, retention/hold, backup/restore, and mandatory-audit failure fixtures pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- PostgreSQL audit authority has independent tamper, exhaustion, privacy, backup, and recovery evidence.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.54.1 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.54.2 — PostgreSQL Migration Operations
+
+Status: planned.
+
+Goal: Implement resumable expand/contract and online schema operations on PostgreSQL.
+
+Deliverables:
+
+- Migration locks/checkpoints; preconditions; expand/contract compatibility; backfill and online-index operations; validation; rollback/data-loss class; old/new application overlap; backup requirement and operator receipts.
+
+Verification:
+
+- Interruption/resume at every operation, concurrent migrator, failed backfill/index, lock loss, old/new version overlap, cancellation, rollback, irreversible warning, and post-migration APSP validation pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Every PostgreSQL schema change is typed, resumable, validated, and explicit about rollback/data-loss boundaries.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.54.2 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.54.3 — PostgreSQL Operational Qualification
+
+Status: planned.
+
+Goal: Qualify pooling, health, backup, recovery, and performance for the production reference.
+
+Deliverables:
+
+- Pool/session budgets; health/readiness; connection rotation; backup/PITR hooks; failover profile; query-plan and capacity baselines; exact provider qualification manifest and operational runbook.
+
+Verification:
+
+- Live supported versions/topologies cover pool exhaustion, credential/TLS rotation, failover, PITR, slow queries, cancellation, maintenance, restart, capacity, and recovery without semantic drift.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- PostgreSQL becomes the production reference only for the exact live-qualified versions and settings.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.54.3 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.55.0 — MariaDB Driver And Session Admission
+
+Status: planned.
+
+Goal: Admit a mature client behind a separate Aetherheim-owned MariaDB boundary.
+
+Deliverables:
+
+- Exact reviewed crate/features; supported server/topology scope; authentication/TLS identity boundary; capability negotiation; typed parameters/results; transaction state; cancellation; limits; unsafe/native/build-script review; CVE-response policy. Aetherheim does not implement the MariaDB wire protocol.
 
 Verification:
 
@@ -1510,19 +1950,19 @@ Exit criteria:
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.55.0 implementation stop reached. Run pentest for this exact commit.`
 
-### v0.56.0 — MariaDB Store Parity
+### v0.56.0 — MariaDB Content Store
 
 Status: planned.
 
-Goal: Implement portable storage semantics on MariaDB.
+Goal: Implement authoritative content/revision/relationship semantics on MariaDB.
 
 Deliverables:
 
-- Provider-owned schema, content, identity, outbox, jobs, audit, migration, JSON/index strategy, and capability report.
+- Provider-owned content schema; revisions/relationships/publication roots; expected revisions; tenant/site constraints; content transaction/outbox coupling; JSON/index strategy and archive identity.
 
 Verification:
 
-- Shared conformance plus provider deadlock, collation, index, and retry fixtures pass.
+- Shared content conformance plus provider deadlock, index, transaction, stale-write, relationship/tenant, publication immutability, retry, and archive-root fixtures pass.
 - Run the inherited repository, security, documentation, platform, and release-evidence gates.
 
 Exit criteria:
@@ -1530,15 +1970,141 @@ Exit criteria:
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.56.0 implementation stop reached. Run pentest for this exact commit.`
 
-### v0.57.0 — MongoDB Protocol and Session
+### v0.56.1 — MariaDB Identity And Session Store
 
 Status: planned.
 
-Goal: Establish a bounded first-party document-provider boundary.
+Goal: Implement identity, credential metadata, session, group, and policy state independently from content.
 
 Deliverables:
 
-- Wire framing, authentication-provider boundary, typed document encoding, transactions, cursor limits, cancellation, and topology scope.
+- Principal/account/credential metadata mappings; communication-point uniqueness; opaque session/revocation; groups/policy epochs; tenant constraints; privacy indexes; audit/outbox coupling.
+
+Verification:
+
+- Duplicate/cross-tenant identity, credential/session separation, revocation races, concurrent account change, collation-sensitive uniqueness, privacy queries, ambiguous commits, deadlock/retry, and redaction tests pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- MariaDB identity authority has separate privacy, uniqueness, concurrency, and revocation evidence.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.56.1 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.56.2 — MariaDB APSP Query Translation
+
+Status: planned.
+
+Goal: Translate the complete portable query profile without collation or SQL-mode drift.
+
+Deliverables:
+
+- Typed predicates/projections; text/time/value mapping; stable sort/cursors; relationships; aggregates; locale fallback; consistency intent; cost/explain budgets; normalized results/errors; required server modes.
+
+Verification:
+
+- APSP differential/property/history suites cover collations, SQL modes, null/missing, timezone, pagination mutation, traversal, aggregates, isolation, injection, amplification, cancellation, and errors.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Required MariaDB modes/collations are explicit qualification inputs and provider extensions cannot redefine APSP results.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.56.2 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.56.3 — MariaDB Jobs And Outbox
+
+Status: planned.
+
+Goal: Add durable asynchronous work and transactional outbox behavior on MariaDB.
+
+Deliverables:
+
+- Jobs/schedules/outbox; database-time and lease/fencing mapping; transactional claim/completion; retry/dead-letter; cancellation; fairness; poison handling; bounded queue operations and receipts.
+
+Verification:
+
+- Claim/complete crash points, deadlocks, stale leases/fences, duplicate schedule, replay, poison work, cancellation, fairness, ambiguity, and recovery tests pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- MariaDB background work matches the portable job/outbox contract independently from content and audit authority.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.56.3 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.56.4 — MariaDB Audit Store
+
+Status: planned.
+
+Goal: Implement append-oriented gap-detectable audit on MariaDB.
+
+Deliverables:
+
+- Chained records/checkpoints; per-domain sequences; safe diffs/redaction; mandatory-audit failure; verification/export; retention/hold; backup/restore hooks and receipts.
+
+Verification:
+
+- Delete/reorder/fork/exhaustion, concurrent append/deadlock, redaction/inference, checkpoint/export, retention/hold, backup/restore, and mandatory-audit failure tests pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- MariaDB audit authority has independent tamper, exhaustion, privacy, backup, and recovery evidence.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.56.4 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.56.5 — MariaDB Migration Operations
+
+Status: planned.
+
+Goal: Implement resumable schema/index/backfill evolution under MariaDB capabilities.
+
+Deliverables:
+
+- Migration locks/checkpoints; preconditions; expand/contract compatibility; backfill/index/online-operation strategy; validation; rollback/data-loss class; old/new overlap; backup requirement and receipts.
+
+Verification:
+
+- Interruption/resume, concurrent migrator, lock loss, failed backfill/index, online-operation blocking, old/new overlap, cancellation, rollback, irreversible warning, and APSP post-validation pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Every MariaDB schema change is typed, resumable, validated, and explicit about provider blocking and rollback boundaries.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.56.5 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.56.6 — MariaDB Operational Qualification
+
+Status: planned.
+
+Goal: Establish the exact supported MariaDB version/topology envelope.
+
+Deliverables:
+
+- Live version/topology/settings matrix; collation/timezone/isolation profile; pool and health policy; failover/backup/recovery; capacity/query-plan evidence; capability limitations and qualification manifest.
+
+Verification:
+
+- Every declared live profile passes APSP differential, account/content/job/audit, failover, backup/restore, migration, resource, and performance scenarios; unavailable profiles remain unsupported.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- MariaDB support is claimed only through a current qualification manifest and live evidence.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.56.6 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.57.0 — MongoDB Driver And Session Admission
+
+Status: planned.
+
+Goal: Admit a mature client behind a bounded first-party document-provider boundary.
+
+Deliverables:
+
+- Exact reviewed crate/features; authentication/TLS/server identity; typed document encoding; transaction and topology scope; cursor/result limits; cancellation; unsafe/native/build-script and transitive review; CVE-response policy. Aetherheim does not implement MongoDB wire or authentication protocols.
 
 Verification:
 
@@ -1550,19 +2116,19 @@ Exit criteria:
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.57.0 implementation stop reached. Run pentest for this exact commit.`
 
-### v0.58.0 — MongoDB Store Parity
+### v0.58.0 — MongoDB Content Store
 
 Status: planned.
 
-Goal: Implement portable semantics without pretending documents equal the logical model.
+Goal: Implement authoritative content/revision/relationship semantics without pretending documents equal the logical model.
 
 Deliverables:
 
-- Mappings, transactions where required, indexes, outbox, jobs, audit, query translation, and explicit unsupported capabilities.
+- Content/revision/relationship mappings; publication roots; required transaction boundaries; tenant constraints; indexes; content outbox coupling; archive identity; explicit unsupported capabilities.
 
 Verification:
 
-- Shared conformance, multi-document failure, change-feed duplication, isolation, and rebuild tests pass.
+- Shared content conformance, multi-document failure, stale writes, tenant/relationship isolation, publication immutability, transaction ambiguity, archive root, and index rebuild tests pass.
 - Run the inherited repository, security, documentation, platform, and release-evidence gates.
 
 Exit criteria:
@@ -1570,7 +2136,133 @@ Exit criteria:
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.58.0 implementation stop reached. Run pentest for this exact commit.`
 
-### v0.58.1 — SurrealDB Connection Admission
+### v0.58.1 — MongoDB Identity And Session Store
+
+Status: planned.
+
+Goal: Implement identity, credential metadata, session, group, and policy state in isolated collections.
+
+Deliverables:
+
+- Principal/account/credential metadata mappings; communication-point uniqueness; opaque session/revocation; groups/policy epochs; tenant constraints; privacy indexes; transaction/outbox coupling.
+
+Verification:
+
+- Duplicate/cross-tenant identity, credential/session separation, revocation races, concurrent account changes, transaction ambiguity, privacy queries, index rebuild, topology changes, and redaction tests pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- MongoDB document convenience cannot merge content and identity authority or bypass session revocation semantics.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.58.1 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.58.2 — MongoDB APSP Query Translation
+
+Status: planned.
+
+Goal: Translate portable predicates, cursors, relationships, and aggregates without BSON/provider semantic drift.
+
+Deliverables:
+
+- Canonical value/BSON mapping; typed predicates/projections; stable sorts/cursors; relationship traversal; aggregates; locale fallback; consistency intent; cost/explain budgets; normalized results/errors.
+
+Verification:
+
+- APSP differential/property/history suites cover null/missing, numeric types, text/collation, timezone, pagination mutation, traversal, aggregates, transactions, injection-shaped values, amplification, cancellation, and errors.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Aggregation pipelines and provider-native queries remain adapter-private and cannot broaden normal client/plugin APIs.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.58.2 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.58.3 — MongoDB Jobs And Outbox
+
+Status: planned.
+
+Goal: Add durable asynchronous work and transactional outbox behavior on MongoDB.
+
+Deliverables:
+
+- Job claims/schedules/outbox; database-time and lease/fencing mapping; transactional claim/completion; retry/dead-letter; cancellation/fairness; change-stream acceleration policy and receipts.
+
+Verification:
+
+- Claim/complete crash/replay, transaction uncertainty, stale lease/fence, duplicate schedule, poison work, cancellation/fairness, change-stream duplicate/gap, and rebuild tests pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Change streams remain optional accelerators and cannot redefine job, audit, or migration authority.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.58.3 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.58.4 — MongoDB Audit Store
+
+Status: planned.
+
+Goal: Implement append-oriented gap-detectable audit on MongoDB.
+
+Deliverables:
+
+- Chained records/checkpoints; per-domain sequences; safe diffs/redaction; transaction and mandatory-audit failure policy; verification/export; retention/hold; backup/restore hooks and receipts.
+
+Verification:
+
+- Delete/reorder/fork/exhaustion, concurrent append/transaction ambiguity, redaction/inference, checkpoint/export, retention/hold, backup/restore, topology change, and mandatory-audit failure pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- MongoDB audit authority has independent tamper, ambiguity, privacy, backup, and recovery evidence.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.58.4 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.58.5 — MongoDB Migration Operations
+
+Status: planned.
+
+Goal: Implement resumable collection/index/backfill evolution without treating schemaless storage as migration-free.
+
+Deliverables:
+
+- Migration ownership/checkpoints; document version/preconditions; expand/contract transforms; backfill/index operations; validation; rollback/data-loss class; mixed-version readers/writers; backup requirement and receipts.
+
+Verification:
+
+- Interruption/resume, concurrent migrator, lease loss, failed transform/index, mixed document/application versions, change-stream gaps, cancellation, rollback, irreversible warning, and APSP post-validation pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Every MongoDB logical schema change is typed, resumable, validated, and explicit about mixed-version and rollback boundaries.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.58.5 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.58.6 — MongoDB Operational Qualification
+
+Status: planned.
+
+Goal: Establish the exact supported MongoDB version/topology envelope.
+
+Deliverables:
+
+- Replica/topology/version/settings matrix; read/write concern and transaction profile; pool/health/failover; backup/recovery; capacity/query-plan evidence; limitation and qualification manifest.
+
+Verification:
+
+- Live topology changes, elections, partitions, stale reads, write concern failure, backup/restore, migration, APSP differential, capacity, and full journey suites pass for every claimed cell.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- MongoDB support is claimed only for tested read/write concerns and topology profiles.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.58.6 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.58.7 — SurrealDB Driver And Connection Admission
 
 Status: planned.
 
@@ -1588,27 +2280,153 @@ Verification:
 Exit criteria:
 
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
-- `v0.58.1 implementation stop reached. Run pentest for this exact commit.`
+- `v0.58.7 implementation stop reached. Run pentest for this exact commit.`
 
-### v0.58.2 — SurrealDB Store Parity
+### v0.58.8 — SurrealDB Content Store
 
 Status: planned.
 
-Goal: Implement the portable storage contract on SurrealDB while keeping provider-specific record, relation, and query behavior behind the adapter.
+Goal: Implement authoritative content/revision/relationship semantics while keeping record and relation behavior behind the adapter.
 
 Deliverables:
 
-- Provider-owned schema and migrations, content, identity, outbox, jobs, audit, typed query translation, indexes, transaction boundaries, capability report, and explicit unsupported transformations.
+- Provider-owned content schema; revisions/relations/publication roots; content outbox coupling; indexes; transaction boundaries; tenant/namespace mapping; archive identity; explicit unsupported transformations.
 
 Verification:
 
-- Shared conformance, tenant and namespace isolation, transaction failure, relation mapping, query-budget, reconnect, migration, and rebuild tests pass.
+- Shared content conformance, tenant/namespace/relation isolation, transaction failure/ambiguity, stale write, publication immutability, reconnect, archive root, and index rebuild tests pass.
 - Run the inherited repository, security, documentation, platform, and release-evidence gates.
 
 Exit criteria:
 
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
-- `v0.58.2 implementation stop reached. Run pentest for this exact commit.`
+- `v0.58.8 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.58.9 — SurrealDB Identity And Session Store
+
+Status: planned.
+
+Goal: Implement identity, credential metadata, session, group, and policy state without relying on record-link authority.
+
+Deliverables:
+
+- Principal/account/credential metadata mappings; uniqueness; opaque session/revocation; groups/policy epochs; tenant/namespace constraints; privacy indexes; transaction/outbox coupling; explicit unsupported behavior.
+
+Verification:
+
+- Duplicate/cross-tenant/namespace identity, credential/session separation, revocation races, record-link substitution, concurrent account change, transaction ambiguity, reconnect, privacy query, and redaction tests pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- SurrealDB record IDs/links never become identity or authorization authority and session revocation matches the portable contract.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.58.9 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.58.10 — SurrealDB APSP Query Translation
+
+Status: planned.
+
+Goal: Translate portable query semantics without exposing SurrealQL or provider graph behavior.
+
+Deliverables:
+
+- Canonical value mapping; typed predicates/projections; stable sort/cursors; bounded relationships; aggregates; locale fallback; consistency intent; cost/explain budgets; normalized results/errors; qualified extension separation.
+
+Verification:
+
+- APSP differential/property/history suites cover record/value types, null/missing, text, timezone, pagination mutation, relation traversal, aggregates, transaction behavior, injection-shaped values, amplification, cancellation, and errors.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- SurrealQL and native graph/live-query operations remain adapter-private qualified extensions, never normal client/plugin APIs.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.58.10 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.58.11 — SurrealDB Jobs And Outbox
+
+Status: planned.
+
+Goal: Prove portable durable work without relying on unqualified live-query behavior.
+
+Deliverables:
+
+- Job/schedule/outbox mapping; database-time and lease/fencing semantics; transactional claim/completion; retry/dead-letter; cancellation/fairness; live-query acceleration policy and receipts.
+
+Verification:
+
+- Claim/complete crash/replay, stale lease/fence, duplicate schedule, poison work, cancellation/fairness, live-query duplicate/gap, transaction ambiguity, reconnect, and rebuild tests pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Provider-native live-query features remain optional accelerators and never silently replace portable job/outbox authority.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.58.11 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.58.12 — SurrealDB Audit Store
+
+Status: planned.
+
+Goal: Implement append-oriented gap-detectable audit without relying on graph identity.
+
+Deliverables:
+
+- Chained records/checkpoints; per-domain sequences; safe diffs/redaction; transaction/mandatory-audit policy; verification/export; retention/hold; backup hooks and receipts.
+
+Verification:
+
+- Delete/reorder/fork/exhaustion, record-link substitution, concurrent append/transaction ambiguity, redaction/inference, checkpoint/export, retention/hold, backup/restore, reconnect, and mandatory-audit failure pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- SurrealDB audit authority has independent tamper, ambiguity, privacy, backup, and recovery evidence.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.58.12 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.58.13 — SurrealDB Migration Operations
+
+Status: planned.
+
+Goal: Implement resumable record/relation/index evolution under explicit SurrealDB capabilities.
+
+Deliverables:
+
+- Migration ownership/checkpoints; record/schema versions; expand/contract transforms; relation/index/backfill operations; validation; rollback/data-loss class; mixed-version behavior; backup/export requirement and receipts.
+
+Verification:
+
+- Interruption/resume, concurrent migrator, lease loss, failed transform/relation/index, mixed record/application versions, live-query gaps, cancellation, rollback, irreversible warning, reconnect, and APSP post-validation pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Every SurrealDB logical schema change is typed, resumable, validated, and explicit about experimental/rollback limitations.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.58.13 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.58.14 — SurrealDB Experimental Qualification
+
+Status: planned.
+
+Goal: Establish an exact experimental support envelope before any stable SurrealDB claim.
+
+Deliverables:
+
+- Version/deployment/settings matrix; namespace/database/transaction profile; capability limitations; backup/recovery; APSP results; performance evidence; experimental qualification manifest and promotion criteria.
+
+Verification:
+
+- Every declared live profile passes differential, account/content/job/audit, migration, backup/restore, topology, resource, and failure suites; instability or semantic drift removes the cell rather than weakening APSP.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- SurrealDB remains explicitly experimental until the later clustered/provider qualification and all published promotion criteria pass.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.58.14 implementation stop reached. Run pentest for this exact commit.`
 
 ### v0.59.0 — AHAF Export
 
@@ -1670,19 +2488,19 @@ Exit criteria:
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.60.1 implementation stop reached. Run pentest for this exact commit.`
 
-### v0.60.2 — Valkey Cache Adapter
+### v0.60.2 — Valkey Client Admission
 
 Status: planned.
 
-Goal: Provide Valkey as the first optional remote cache implementation.
+Goal: Admit a mature Valkey-compatible client and transport boundary.
 
 Deliverables:
 
-- Reviewed client/transport admission, TLS and authentication, server identity, command allowlist, namespaced keys, bounded pooling and pipelining, cancellation, timeout, expiry, invalidation, health, metrics, and operational guidance.
+- Exact reviewed crate/features and protocol scope; TLS/authentication/server identity; unsafe/native/build-script and transitive review; command allowlist; response framing budgets; cancellation/timeouts; pooling/pipelining limits; platform and CVE-response plan.
 
 Verification:
 
-- Shared cache conformance plus malformed response, wrong server, credential redaction, cross-tenant key, disconnect, partition, failover, eviction, latency spike, memory pressure, and recovery tests pass against supported Valkey versions.
+- Admission, protocol-fixture, malformed/oversized response, wrong server, downgrade, credential redaction, disconnect, cancellation, feature drift, and unsupported platform/version tests pass.
 - Run the inherited repository, security, documentation, platform, and release-evidence gates.
 
 Exit criteria:
@@ -1690,7 +2508,49 @@ Exit criteria:
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.60.2 implementation stop reached. Run pentest for this exact commit.`
 
-### v0.60.3 — OpenBao Dependency Conflict Decision
+### v0.60.3 — Valkey Cache Adapter Semantics
+
+Status: planned.
+
+Goal: Implement the non-authoritative cache contract through the admitted client.
+
+Deliverables:
+
+- Canonical namespaced keys; bounded values/TTLs; get/put/invalidate; cache-class bypass/fail-closed behavior; stampede control; pooling/pipelining use; health, metrics, redaction, and operational configuration.
+
+Verification:
+
+- Reference conformance covers key collision/dimension omission, poisoning, malformed values, stale epochs, eviction, invalidation races, stampede, cancellation, overload, outage, and reconstruction from authority.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Removing every Valkey value affects only documented performance/availability behavior and cannot create authority.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.60.3 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.60.4 — Valkey Live Qualification
+
+Status: planned.
+
+Goal: Qualify exact Valkey versions and topologies under real failure.
+
+Deliverables:
+
+- Version/topology/ACL/TLS/eviction/persistence profile; clean fixtures; failover/partition controller; latency/memory budgets; support manifest; one acceptance entry point.
+
+Verification:
+
+- Live disconnect, partition, failover, eviction, poison, latency spike, memory pressure, restart, credential rotation, cross-tenant load, and authoritative reconstruction tests pass for every claimed cell.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- No Valkey version or topology is supported without current live qualification evidence.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.60.4 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.60.5 — OpenBao Dependency Conflict Decision
 
 Status: planned.
 
@@ -1709,9 +2569,9 @@ Exit criteria:
 
 - If neither a zeroize-free `openbao` graph nor an approved zeroize-free sidecar is safe and practical, OpenBao remains unsupported; no custom TLS or OpenBao protocol stack is substituted.
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
-- `v0.60.3 implementation stop reached. Run pentest for this exact commit.`
+- `v0.60.5 implementation stop reached. Run pentest for this exact commit.`
 
-### v0.60.4 — OpenBao Client Admission
+### v0.60.6 — OpenBao Client Admission
 
 Status: planned.
 
@@ -1730,9 +2590,9 @@ Exit criteria:
 
 - The selected `openbao` release and feature graph contain no `zeroize`; otherwise this milestone remains blocked and no OpenBao support is claimed.
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
-- `v0.60.4 implementation stop reached. Run pentest for this exact commit.`
+- `v0.60.6 implementation stop reached. Run pentest for this exact commit.`
 
-### v0.60.5 — OpenBao Startup Secret Bootstrap
+### v0.60.7 — OpenBao Startup Secret Bootstrap
 
 Status: planned.
 
@@ -1750,17 +2610,38 @@ Verification:
 Exit criteria:
 
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
-- `v0.60.5 implementation stop reached. Run pentest for this exact commit.`
+- `v0.60.7 implementation stop reached. Run pentest for this exact commit.`
 
-### v0.60.6 — Live Storage Provider Matrix
+### v0.60.8 — OpenBao Live Qualification
 
 Status: planned.
 
-Goal: Prove storage and cache support against launched services rather than protocol models alone.
+Goal: Qualify the admitted OpenBao path against exact real server profiles.
 
 Deliverables:
 
-- Reproducible live fixtures for every declared SQLite, PostgreSQL, MariaDB, MongoDB, SurrealDB, and Valkey version/topology; clean provisioning, health, test isolation, redacted logs, evidence manifest, and one command integrated into `scripts/acceptance.sh all`.
+- Version/topology/TLS/auth-method/KV/lease profile; bootstrap and normal-operation identities; rotation/renew/revoke fixtures; outage/skew controller; redacted evidence and support manifest.
+
+Verification:
+
+- Live wrong identity, auth denial/expiry, KV version conflict, lease renewal/revocation, rotation, clock skew, seal/outage/restart, partial bootstrap, clean-child environment, and secret/redaction scenarios pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- No OpenBao version, authentication method, or topology is supported from protocol mocks alone.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.60.8 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.60.9 — Live Database Provider Matrix
+
+Status: planned.
+
+Goal: Prove database support against launched services rather than protocol models alone.
+
+Deliverables:
+
+- Reproducible live fixtures for every declared SQLite, PostgreSQL, MariaDB, MongoDB, and SurrealDB version/topology; clean provisioning, health, test isolation, redacted logs, APSP traces, evidence manifest, and one command integrated into `scripts/acceptance.sh all`.
 
 Verification:
 
@@ -1770,32 +2651,74 @@ Verification:
 
 Exit criteria:
 
-- No database, topology, or Valkey version appears in the supported matrix without current live acceptance evidence.
+- No database or topology appears in the supported matrix without current live acceptance evidence.
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
-- `v0.60.6 implementation stop reached. Run pentest for this exact commit.`
+- `v0.60.9 implementation stop reached. Run pentest for this exact commit.`
 
-### v0.60.7 — Shared S3-Compatible Blob Adapter
+### v0.60.10 — S3-Compatible Client Admission
 
 Status: planned.
 
-Goal: Provide the shared immutable blob authority required before clustered operation can be claimed.
+Goal: Admit a mature S3-compatible client and define the exact interoperable protocol subset.
 
 Deliverables:
 
-- Reviewed exact client/transport boundary; endpoint/TLS identity; immutable tenant-scoped keys; conditional writes; multipart upload and abort cleanup; digest verification; quotas; lifecycle/retention; health and observability; explicit S3-compatible subset.
+- Exact reviewed crate/features; endpoint/TLS/auth/signing identity; supported S3-compatible operations/services; unsafe/native/build-script and transitive review; request/response/stream budgets; cancellation; retry classification; platform and CVE-response plan.
 
 Verification:
 
-- Live supported-service matrix covers substitution, wrong endpoint, cross-tenant key, concurrent create, partial/multipart failure, stale listing, read-after-write assumptions, corruption, deletion/hold, throttling, outage, restart, backup, and restore.
+- Admission and protocol fixtures cover wrong endpoint/identity, downgrade, signing confusion, malformed/oversized response, retry ambiguity, cancellation, feature drift, and unsupported operation/service behavior.
 - Run the inherited repository, security, documentation, platform, and release-evidence gates.
 
 Exit criteria:
 
-- Clustered profiles use a qualified shared object store; shared filesystem/NFS receives no implied support claim.
+- No object operation is used until its semantics and retry class are explicit in the admitted subset.
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
-- `v0.60.7 implementation stop reached. Run pentest for this exact commit.`
+- `v0.60.10 implementation stop reached. Run pentest for this exact commit.`
 
-### v0.60.8 — Fenced Live Provider Migration
+### v0.60.11 — Shared S3-Compatible Blob Adapter
+
+Status: planned.
+
+Goal: Implement the shared immutable blob authority required by clustered operation.
+
+Deliverables:
+
+- Immutable tenant-scoped keys; conditional creation; bounded streaming; multipart upload/abort journal; digest verification; metadata/classification; quotas; lifecycle/retention/hold; reference integration; health and observability.
+
+Verification:
+
+- Model/fixture tests cover cross-tenant keys, concurrent create, partial/multipart crash, cleanup replay, stale listing, corruption, deletion/hold conflict, throttling, cancellation, and authoritative reference races.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Blob correctness never depends on list consistency, mutable object replacement, or an unqualified provider extension.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.60.11 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.60.12 — S3-Compatible Live Qualification
+
+Status: planned.
+
+Goal: Qualify exact shared-object providers and topologies under real failure.
+
+Deliverables:
+
+- Provider/version/topology/settings matrix; TLS/auth profile; multipart/lifecycle/retention behavior; clean fixtures; outage/corruption controller; performance evidence; support manifest and acceptance entry point.
+
+Verification:
+
+- Live substitution, concurrent create, multipart crash/cleanup, stale listing, read-after-write, corruption, retention/hold, throttling, outage, restart, credential rotation, backup, restore, and cross-node access pass for every claimed cell.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Clustered profiles use only a currently qualified shared object store; NFS/shared-filesystem behavior is not implied.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.60.12 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.60.13 — Fenced Live Provider Migration
 
 Status: planned.
 
@@ -1814,7 +2737,7 @@ Exit criteria:
 
 - Migration either preserves the declared canonical root and cuts over once, or remains/returns to the source with a complete discrepancy report.
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
-- `v0.60.8 implementation stop reached. Run pentest for this exact commit.`
+- `v0.60.13 implementation stop reached. Run pentest for this exact commit.`
 
 ## Phase 6 — Content application, routing, APIs, and audit
 
@@ -1918,6 +2841,48 @@ Exit criteria:
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.65.0 implementation stop reached. Run pentest for this exact commit.`
 
+### v0.65.1 — Taxonomies And Terms
+
+Status: planned.
+
+Goal: Add reusable hierarchical/faceted editorial classification without encoding provider graph semantics.
+
+Deliverables:
+
+- Versioned taxonomy and term identities; hierarchy where declared; aliases/synonyms; localized labels/slugs; content assignments; ordering; locale/visibility/policy context; cycle/cardinality limits; revision/publication/archive behavior.
+
+Verification:
+
+- Cycle, duplicate/alias confusion, deep/wide hierarchy, stale assignment, cross-tenant/locale/visibility leakage, concurrent reorder, publish/unpublish, query-cost, archive, and migration tests pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Taxonomy semantics remain portable content-domain contracts and do not expose database-native graph/query authority.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.65.1 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.65.2 — Curated And Dynamic Collections
+
+Status: planned.
+
+Goal: Publish ordered curated or bounded-query content groupings independently from taxonomy assignment.
+
+Deliverables:
+
+- Collection identity/version; manual members/order; bounded dynamic query reference; mixed-mode precedence; locale/site/visibility/policy context; duplicate/missing-member policy; revision/publication root; API/render/search/archive projection.
+
+Verification:
+
+- Duplicate/missing/private member, cross-tenant/locale leakage, dynamic query amplification, concurrent reorder/query change, stale publication, delete/unpublish, cache/search invalidation, archive, and migration tests pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Dynamic collections use APSP queries and policy-filtered `ContentView`; they cannot embed raw provider queries or reveal forbidden members.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.65.2 implementation stop reached. Run pentest for this exact commit.`
+
 ### v0.66.0 — Routing and Domains
 
 Status: planned.
@@ -1937,6 +2902,153 @@ Exit criteria:
 
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.66.0 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.66.1 — Navigation And Menu Publication
+
+Status: planned.
+
+Goal: Publish explicit accessible navigation independently from themes.
+
+Deliverables:
+
+- Versioned menus; content/route/external-link items; nested ordering; locale/site/visibility context; active state; missing-target policy; publication root; bounded traversal; theme/API projection.
+
+Verification:
+
+- Cycle/depth, broken or private target, unsafe external URL, cross-site/locale leakage, concurrent reorder, stale route, rollback, keyboard semantics, archive, and cache-invalidation tests pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Themes consume a validated navigation projection and cannot invent access to unpublished targets.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.66.1 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.66.2 — Publication Metadata, Robots, Sitemaps, And Feeds
+
+Status: planned.
+
+Goal: Define canonical discovery output as policy-filtered publication artifacts.
+
+Deliverables:
+
+- Title/description/social metadata; canonical URL; robots directives; sitemap indexes/entries; RSS/Atom-shaped feed contract; update timestamps; locale/site partitions; pagination and size limits; release-rooted generation.
+
+Verification:
+
+- Draft/private/expired content, wrong canonical/host/locale, metadata injection, oversized sitemap/feed, stale deletion, cache mixing, deterministic regeneration, and search-engine preview fixtures pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Discovery artifacts derive only from the immutable allowed publication view and cannot leak management metadata.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.66.2 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.66.3 — Production HTTP Runtime Admission
+
+Status: planned.
+
+Goal: Admit a mature HTTP server/runtime boundary without coupling domain code to a framework.
+
+Deliverables:
+
+- Exact reviewed runtime/server crates and features; supported HTTP versions; async/executor ownership; unsafe/native/build-script and transitive review; connection/task/body limits; cancellation; upgrade/streaming scope; platform and CVE-response policy.
+
+Verification:
+
+- Admission fixtures, protocol corpus, malformed framing, request smuggling, slow clients, cancellation, task leak, unsupported upgrade/version, dependency feature drift, and platform tests pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- The runtime remains behind `aetherheim-http`; application services and portable contracts expose no framework types.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.66.3 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.66.4 — TLS And Certificate Lifecycle
+
+Status: planned.
+
+Goal: Provide secure direct serving through an admitted TLS foundation and explicit certificate ownership.
+
+Deliverables:
+
+- Exact TLS/provider admission; protocol/cipher policy; server identity and SNI; certificate/key references; load/renew/rotate/revoke; OCSP/status scope; direct versus proxy termination; clock/failure policy; secret-memory/redaction integration.
+
+Verification:
+
+- Wrong/expired/not-yet-valid/revoked certificate, hostname/SNI confusion, downgrade, weak algorithm, key mismatch/leak, partial rotation, clock skew, reload race, provider outage, and cross-platform tests pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Remote production serving never falls back to plaintext or an unreviewed TLS implementation.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.66.4 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.66.5 — HTTP Request And Response Governance
+
+Status: planned.
+
+Goal: Apply one bounded security policy to every public and administrative HTTP exchange.
+
+Deliverables:
+
+- Host/origin derivation; method/path/query/header/body budgets; content-type and encoding policy; timeout/cancellation; compression limits; security headers/CSP/HSTS; cookies; error/problem responses; request IDs; logging/redaction; graceful drain.
+
+Verification:
+
+- Host/origin spoofing, method/content-type confusion, duplicate headers, smuggling, compression bombs, slowloris, oversized bodies/responses, disconnect, error leakage, cookie/header injection, and drain races pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- APIs, rendering, media, admin, GraphQL, and webhooks cannot define weaker private transport rules.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.66.5 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.66.6 — Direct HTTP/TLS Acceptance Matrix
+
+Status: planned.
+
+Goal: Qualify direct serving on every claimed host platform before proxy profiles exist.
+
+Deliverables:
+
+- Packaged serve-role fixtures; HTTP/TLS/version/platform matrix; certificate rotation; connection/resource/slow-client controller; health/readiness/drain journeys; evidence manifest and one acceptance command.
+
+Verification:
+
+- Live Linux, Windows, BSD, and macOS direct-serving tests cover requests, streaming where supported, TLS identity/rotation, limits, malformed traffic, restart, drain, dependency loss, and clean uninstall; missing required runners fail the release gate.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Direct serving is supported only for exact tested protocol/platform profiles; proxy support remains separate.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.66.6 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.66.7 — Domain Ownership And Lifecycle
+
+Status: planned.
+
+Goal: Bind public and administrative hosts only after explicit ownership verification and safe lifecycle transitions.
+
+Deliverables:
+
+- Domain claim/challenge/verification methods; DNS/provider boundary; tenant/site/admin purpose; expiry/reverification; transfer/release/tombstone; certificate and route linkage; takeover prevention; canonical-host transition; audit and operator recovery.
+
+Verification:
+
+- Forged/stale/replayed challenge, dangling DNS, expired verification, cross-tenant claim, concurrent transfer, deleted site, subdomain/wildcard confusion, certificate mismatch, cache/redirect persistence, takeover, and recovery tests pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- No unverified or released domain can route, issue certificates, set cookies, or become a canonical URL for a tenant.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.66.7 implementation stop reached. Run pentest for this exact commit.`
 
 ### v0.67.0 — Content Delivery API
 
@@ -2041,25 +3153,46 @@ Exit criteria:
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.68.3 implementation stop reached. Run pentest for this exact commit.`
 
-### v0.69.0 — Integration Events and Webhooks
+### v0.69.0 — Integration Event Publication
 
 Status: planned.
 
-Goal: Deliver signed, replay-resistant external events.
+Goal: Publish versioned external integration facts without exposing internal event authority.
 
 Deliverables:
 
-- Subscription scope, payload versions, delivery IDs, destination policy, signature-provider boundary, retry/dead letter, and replay control.
+- External event catalog and payload versions; tenant/site/data-classification scope; outbox projection; delivery identity; compatibility/deprecation; redaction; retention; replay/export cursor; internal-versus-external event separation.
 
 Verification:
 
-- SSRF/rebinding, redirect, private-address, response-size, signature, replay, and poison-delivery tests pass.
+- Draft/private/field/tenant leakage, schema drift, duplicate/reordered projection, stale policy, cursor replay, retention/deletion, redaction, and internal-payload disclosure tests pass.
 - Run the inherited repository, security, documentation, platform, and release-evidence gates.
 
 Exit criteria:
 
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.69.0 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.69.1 — Signed Webhook Delivery
+
+Status: planned.
+
+Goal: Deliver integration events to approved destinations with replay resistance and bounded failure handling.
+
+Deliverables:
+
+- Subscription lifecycle and destination policy; DNS/private-address/redirect controls; signature-provider and secret rotation; timestamp/delivery ID; bounded request/response; retry/backoff/dead-letter; pause/replay; receipts and operator diagnostics.
+
+Verification:
+
+- SSRF/rebinding/redirect, header injection, signature/key rotation, replay, duplicate/reorder, response amplification, timeout, poison destination, cancellation, disable/delete race, and secret/log leakage tests pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Webhook failure never changes the committed source fact and every retry remains idempotently identifiable.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.69.1 implementation stop reached. Run pentest for this exact commit.`
 
 ### v0.70.0 — Audit and Operation Receipt API
 
@@ -2080,6 +3213,48 @@ Exit criteria:
 
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.70.0 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.70.1 — Notification Intents And In-Product Inbox
+
+Status: planned.
+
+Goal: Give security, workflow, account, media, commerce, and operations events one user-visible notification model before mail/push adapters.
+
+Deliverables:
+
+- Typed notification intent; recipient/tenant/purpose/priority; deduplication; read/acknowledge/dismiss; expiry/retention; sensitive preview policy; deep-link capability; preference and mandatory-security classes; audit and delivery-adapter outbox.
+
+Verification:
+
+- Wrong recipient/tenant, duplicate/reordered intent, sensitive preview leak, stale/revoked deep link, preference bypass, mandatory-notice suppression, read-state race, expiry/deletion, retry, and accessibility tests pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Domain modules propose typed notifications and never send mail or UI messages directly.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.70.1 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.70.2 — Operator CLI And Scripting Contract
+
+Status: planned.
+
+Goal: Expose administration and operations through the same typed application boundary with stable automation behavior.
+
+Deliverables:
+
+- Local/remote endpoint selection; authenticated profiles; version negotiation; structured input/output; idempotency and expected revision; confirmation/non-interactive policy; stdin/file secret handling; exit codes; pagination/streaming; operation receipts; shell completion and offline diagnostics.
+
+Verification:
+
+- Wrong endpoint/tenant/version, output injection, secret argv/history/log leakage, missing confirmation, replay, partial stream, pipe cancellation, pagination, non-interactive errors, automation compatibility, and cross-platform shell tests pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- CLI commands do not bypass API/application policy, and scripts receive stable machine-readable results and exit semantics.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.70.2 implementation stop reached. Run pentest for this exact commit.`
 
 ## Phase 7 — Identity, sessions, authorisation, and platform security
 
@@ -2103,6 +3278,48 @@ Exit criteria:
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.71.0 implementation stop reached. Run pentest for this exact commit.`
 
+### v0.71.1 — Administrator Bootstrap And Installation Ownership
+
+Status: planned.
+
+Goal: Establish the first administrator without a permanent default credential or raceable public setup path.
+
+Deliverables:
+
+- Uninitialized installation state; local/one-time bootstrap capability; installation ownership claim; first administrator and recovery setup; expiry/attempt budget; atomic close; re-bootstrap authorization; audit and clean diagnostics.
+
+Verification:
+
+- Concurrent/remote claim, replay/guessing, stale bootstrap token, partial account creation, restart, database ambiguity, log/argv/env leakage, proxy exposure, already-initialized state, recovery failure, and authorized re-bootstrap tests pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- No shipped default account/password exists and the public setup surface closes atomically after one successful ownership claim.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.71.1 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.71.2 — Account Registration, Verification, And Lifecycle
+
+Status: planned.
+
+Goal: Implement complete account creation and state transitions independently from credential mechanisms.
+
+Deliverables:
+
+- Administrator-created/invited/self-registration profiles; verified communication-point challenge; pending/active/restricted/disabled/deletion states; uniqueness/privacy; resend/change flows; abuse budgets; notifications; retention/erasure and audit.
+
+Verification:
+
+- Enumeration, duplicate/case/Unicode identity, verification replay/substitution, invite theft, resend abuse, concurrent activation/disable/delete, cross-tenant registration, stale sessions/credentials, notification failure, retention/erasure, and restore tests pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Every account state has explicit authentication/session/authorization behavior and launchable public-boundary tests.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.71.2 implementation stop reached. Run pentest for this exact commit.`
+
 ### v0.72.0 — Password Credential Boundary
 
 Status: planned.
@@ -2122,6 +3339,27 @@ Exit criteria:
 
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.72.0 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.72.1 — Password Hash Provider Admission And Calibration
+
+Status: planned.
+
+Goal: Admit a mature password-hashing implementation and calibrate it per supported profile.
+
+Deliverables:
+
+- Exact crate/provider and algorithm/version admission; parameter bounds; pepper operation handle; per-platform calibration; rehash/upgrade policy; concurrency/memory budgets; unavailable-provider behavior; secret-memory and CVE-response plan.
+
+Verification:
+
+- Known-answer/format, weak/oversized parameters, wrong pepper, downgrade, truncated/corrupt hash, calibration under load, resource exhaustion, rehash race, provider absence, redaction, and platform tests pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Password login remains unavailable until a reviewed provider and measured profile exist; no home-grown password hash is permitted.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.72.1 implementation stop reached. Run pentest for this exact commit.`
 
 ### v0.73.0 — Opaque Browser Sessions
 
@@ -2184,6 +3422,27 @@ Exit criteria:
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.74.0 implementation stop reached. Run pentest for this exact commit.`
 
+### v0.74.1 — WebAuthn Standards Implementation Admission
+
+Status: planned.
+
+Goal: Admit mature WebAuthn/CBOR/authenticator-data handling instead of implementing the protocol parser in application code.
+
+Deliverables:
+
+- Exact crate/features and supported ceremony/extension/attestation scope; origin/RP policy mapping; bounded CBOR/authenticator/client data; unsafe/native/transitive review; algorithm handoff; browser/platform matrix; CVE-response plan.
+
+Verification:
+
+- Official/mutated vectors, malformed/deep CBOR, duplicate fields, origin/RP/challenge/type confusion, unsupported extension/attestation, feature drift, and cross-browser/platform fixtures pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- WebAuthn protocol parsing and ceremony validation stay behind a reviewed standards boundary and cannot be bypassed by management transport code.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.74.1 implementation stop reached. Run pentest for this exact commit.`
+
 ### v0.75.0 — Authenticator Crypto Provider
 
 Status: planned.
@@ -2204,19 +3463,19 @@ Exit criteria:
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.75.0 implementation stop reached. Run pentest for this exact commit.`
 
-### v0.76.0 — TOTP and Recovery
+### v0.76.0 — TOTP Authenticators
 
 Status: planned.
 
-Goal: Add bounded fallback and non-catastrophic recovery.
+Goal: Add a bounded fallback authenticator without conflating it with account recovery.
 
 Deliverables:
 
-- TOTP provider boundary, hashed one-time recovery codes, recovery approvals, post-recovery restricted session, and notifications.
+- TOTP provider/algorithm boundary; enrollment proof; secret reference and display window; replay state; clock/skew policy; brute-force budget; disable/replace ceremony; audit and notifications.
 
 Verification:
 
-- Replay, brute-force budget, code disclosure, clock skew, stronger-credential preservation, and lockout recovery tests pass.
+- Enrollment substitution, replay, brute-force budget, code/secret disclosure, clock skew/movement, concurrent verification, disable/replace, backup restore, and stronger-authenticator preservation tests pass.
 - Run the inherited repository, security, documentation, platform, and release-evidence gates.
 
 Exit criteria:
@@ -2224,25 +3483,130 @@ Exit criteria:
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.76.0 implementation stop reached. Run pentest for this exact commit.`
 
-### v0.77.0 — OAuth/OIDC and Service Tokens
+### v0.76.1 — Account Recovery And Recovery Codes
 
 Status: planned.
 
-Goal: Support delegated clients with explicit trust.
+Goal: Restore access without allowing recovery to silently defeat stronger authenticators or administrative policy.
 
 Deliverables:
 
-- Authorization-code/PKCE state, issuer/audience/nonce, scoped short-lived tokens, refresh replay, hashed PATs, and service constraints.
+- Hashed one-time recovery codes; reset/recovery request and expiry; proof/risk/approval policy; anti-enumeration and abuse budgets; post-recovery restricted session; credential inventory review; notifications; revoke-all and support-admin separation.
 
 Verification:
 
-- Mix-up, redirect, audience, tenant, scope, refresh replay, expiry, and revocation tests pass.
+- Code/token replay, guessing, enumeration, stale request, self/admin abuse, cross-tenant recovery, email/provider loss, stronger-credential removal, concurrent recovery, notification failure, restricted-session escape, and audit tests pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Recovery cannot directly grant a normal privileged session or remove stronger credentials without the configured evidence and review path.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.76.1 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.77.0 — OIDC Relying-Party Federation
+
+Status: planned.
+
+Goal: Authenticate through explicitly trusted external OIDC issuers.
+
+Deliverables:
+
+- Issuer discovery/pinning; authorization-code/PKCE state; redirect URI; issuer/audience/nonce/time validation; signing-key rotation; claim mapping/linking; step-up/assurance mapping; logout/session linkage; outage and revocation policy.
+
+Verification:
+
+- Mix-up, malicious discovery, redirect, issuer/audience/nonce, key rotation, algorithm downgrade, claim/account collision, tenant, expiry, logout/revocation, and provider outage tests pass.
 - Run the inherited repository, security, documentation, platform, and release-evidence gates.
 
 Exit criteria:
 
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.77.0 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.77.1 — OAuth Authorization Server Boundary
+
+Status: planned.
+
+Goal: Authorize external clients through a narrow standards-compliant server profile when enabled.
+
+Deliverables:
+
+- Client registration/trust; authorization-code/PKCE; redirect policy; consent; tenant/audience/scope model; short-lived access and refresh-token families; rotation/replay/revocation; metadata; signing provider; rate and audit policy.
+
+Verification:
+
+- Client/redirect substitution, code interception/replay, mix-up, PKCE downgrade, consent/scope broadening, audience/tenant confusion, refresh-family replay, key rotation, revocation, and abuse tests pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Authorization-server behavior is optional, separately profiled, and never inferred from OIDC login support.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.77.1 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.77.2 — Personal Access Tokens
+
+Status: planned.
+
+Goal: Support user-created API credentials without turning them into browser sessions or passwords.
+
+Deliverables:
+
+- Hashed personal token records; one-time display; user/tenant/audience/scope/purpose/expiry; issuance step-up and policy; rotation/revocation/inventory; last-use privacy; secret-memory, rate, notification, and audit rules.
+
+Verification:
+
+- Token substitution/replay, scope/audience/tenant confusion, leaked inventory/value, stale privilege, revocation race, expiry, brute force/rate, log leakage, account disable/delete, and disabled-profile tests pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Personal tokens have narrower authority than their user, cannot enter browser session flows, and are disabled by profiles that prohibit them.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.77.2 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.77.3 — Service And Workload Identities
+
+Status: planned.
+
+Goal: Authenticate automated workloads through explicit non-human principals and platform identity boundaries.
+
+Deliverables:
+
+- Service/workload principal lifecycle; tenant/audience/scope/purpose; workload identity/provider attestation reference; credential/certificate/token exchange; rotation/revocation; deployment binding; no interactive recovery; inventory, rate, audit, and incident response.
+
+Verification:
+
+- Human/service confusion, workload/deployment substitution, audience/tenant/scope escalation, stale attestation/credential, rotation overlap, revocation race, cloned workload, provider outage, log leakage, and disabled-profile tests pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Workloads never borrow human credentials or recovery paths, and each identity is bound to a declared deployment/provider profile.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.77.3 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.77.4 — Device Authorization Flow
+
+Status: planned.
+
+Goal: Authorize input-constrained devices without phishing-prone or over-broad token behavior.
+
+Deliverables:
+
+- Optional OAuth device flow; user/device codes; verification URI/origin; polling interval/expiry; client/audience/scope/tenant consent; rate and abuse controls; token issuance/revocation; user notifications and audit.
+
+Verification:
+
+- Code guessing/replay/substitution, phishing origin, client/audience/scope/tenant confusion, polling amplification, concurrent approval/denial, expiry, user-switch, token replay/revocation, and disabled-profile tests pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Device authorization is optional, visibly consented, short-lived, and never bundled implicitly with personal or workload-token support.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.77.4 implementation stop reached. Run pentest for this exact commit.`
 
 ### v0.78.0 — RBAC Administration
 
@@ -2264,19 +3628,19 @@ Exit criteria:
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.78.0 implementation stop reached. Run pentest for this exact commit.`
 
-### v0.79.0 — ABAC/ReBAC Enforcement
+### v0.79.0 — Contextual ABAC Enforcement
 
 Status: planned.
 
-Goal: Apply field, locale, workflow, relationship, and context policy.
+Goal: Apply field, locale, workflow, classification, purpose, and request-context policy.
 
 Deliverables:
 
-- Central decision service, explicit deny, relationship proof, field projection filter, decision cache key, and explanation.
+- Central decision service; explicit deny; tenant/site/environment/field/locale/workflow/classification/purpose attributes; projection filters; typed obligations; decision cache dimensions; explanation and epochs.
 
 Verification:
 
-- Cache-omission model tests and cross-context denial suites prove no policy dimension is lost.
+- Cache-omission model tests, stale attributes/epochs, field/locale/classification/purpose projection, and cross-context denial suites prove no policy dimension is lost.
 - Run the inherited repository, security, documentation, platform, and release-evidence gates.
 
 Exit criteria:
@@ -2284,19 +3648,61 @@ Exit criteria:
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.79.0 implementation stop reached. Run pentest for this exact commit.`
 
-### v0.80.0 — Security Profiles and Admin Isolation
+### v0.79.1 — Relationship-Based Authorization
 
 Status: planned.
 
-Goal: Turn security profiles into tested policy templates.
+Goal: Add bounded ReBAC proofs without exposing provider graph traversal as authority.
 
 Deliverables:
 
-- Personal, Standard, Hardened, Regulated, and Air-gapped presets; separate admin origin; egress defaults; override risk diff; recovery.
+- Versioned relationship types; subject/resource edges; provenance/revision; bounded proof traversal; cycle/depth/work limits; revocation and stale-proof policy; explanation; APSP query mapping and cache dimensions.
 
 Verification:
 
-- Profile conformance, origin/cookie isolation, egress, override audit, and usable recovery tests pass.
+- Forged/stale/revoked edges, cycles, path explosion, provider divergence, cross-tenant traversal, delegation loops, cache omission, concurrent edge change, and explanation/proof mismatch tests pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- A relationship allow requires a current bounded portable proof; database-native graph reachability alone is never an authorization decision.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.79.1 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.79.2 — Authorization Enforcement Acceptance Matrix
+
+Status: planned.
+
+Goal: Prove every management and delivery surface consumes the same decisions and obligations.
+
+Deliverables:
+
+- Cross-surface action/field matrix for CLI, REST, GraphQL, browser, jobs, search, render, cache, webhooks, plugins, and imports; allow/deny/obligation scenarios; policy-change invalidation; evidence report.
+
+Verification:
+
+- Real-process tests exercise actor/role/attribute/relationship/policy changes and prove immediate consistent denial/redaction/step-up across every implemented surface and qualified database.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- No supported surface or adapter has a private authorization path or can ignore a typed obligation.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.79.2 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.80.0 — Administrative Origin And Surface Isolation
+
+Status: planned.
+
+Goal: Separate administrative authority from public delivery and extension origins.
+
+Deliverables:
+
+- Separate administrative origin/listener and cookie scope; CSP/egress defaults; health/support endpoint separation; extension-origin isolation; direct/proxy derivation; emergency/recovery entry; explicit development-only co-origin non-claim.
+
+Verification:
+
+- Origin/cookie/CSRF/CORS isolation, public-route confusion, forwarding spoof, extension frame/message escape, admin discovery, egress, health/support exposure, and usable recovery tests pass.
 - Run the inherited repository, security, documentation, platform, and release-evidence gates.
 
 Exit criteria:
@@ -2347,6 +3753,27 @@ Exit criteria:
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.80.2 implementation stop reached. Run pentest for this exact commit.`
 
+### v0.80.3 — Privileged Support And Impersonation Sessions
+
+Status: planned.
+
+Goal: Allow tightly controlled support actions without hiding the real actor or granting ambient administrator impersonation.
+
+Deliverables:
+
+- Explicit request/approval/reason/ticket/purpose; actor/effective actor/executor attribution; scope/time/action limits; step-up; user notification/consent profile; visible banner; prohibited actions; immediate revoke; immutable audit/receipt and review report.
+
+Verification:
+
+- Self-approval, forged/stale approval, hidden actor, scope/tenant escalation, prohibited credential/payment/privacy action, session extension, cache confusion, revoke race, notification suppression, audit failure, and browser/API/CLI tests pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Impersonation is never anonymous, unlimited, or equivalent to the user's own authenticated session.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.80.3 implementation stop reached. Run pentest for this exact commit.`
+
 ## Phase 8 — Rendering, administration, editor, themes, and search
 
 ### v0.81.0 — Render Intermediate Representation
@@ -2389,25 +3816,46 @@ Exit criteria:
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.82.0 implementation stop reached. Run pentest for this exact commit.`
 
-### v0.83.0 — Sanitised Embedded Markup
+### v0.83.0 — HTML Parser And Sanitizer Admission
 
 Status: planned.
 
-Goal: Admit explicitly authorised legacy markup under a versioned policy.
+Goal: Admit mature standards-aware parsing foundations for hostile legacy markup.
 
 Deliverables:
 
-- First-party parser/sanitizer scope, element/attribute/URL policy, resource budgets, inert fallback, and provenance.
+- Exact reviewed HTML parser/sanitizer foundations and features; supported parsing algorithm; tree and token budgets; unsafe/native/build-script/transitive review; differential browser corpus; maintenance/CVE-response policy; Aetherheim-owned inert input/output types. Aetherheim does not implement a browser-grade HTML parser to avoid dependencies.
 
 Verification:
 
-- Differential browser corpus, mutation fuzzing, nesting bombs, URL tricks, and policy-upgrade fixtures pass.
+- Official/browser differential corpus, mutation fuzzing, malformed/deep markup, foreign-content edges, encoding confusion, allocation exhaustion, feature drift, and platform tests pass.
 - Run the inherited repository, security, documentation, platform, and release-evidence gates.
 
 Exit criteria:
 
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.83.0 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.83.1 — Versioned Legacy Markup Sanitization Policy
+
+Status: planned.
+
+Goal: Convert explicitly authorized legacy HTML/SVG input to bounded inert safe-render data.
+
+Deliverables:
+
+- Versioned element/attribute/URL/namespace policy; CSS/SVG exclusion or handoff; provenance; permission and data-classification checks; inert fallback; policy-upgrade/resanitize plan; no public safe-string constructor.
+
+Verification:
+
+- XSS/browser corpus, URL and namespace tricks, mutation after validation, policy downgrade/upgrade, unknown elements, embedded resources, cross-tenant provenance, deterministic output, and resanitization tests pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Stored legacy markup remains untrusted source data; only policy-versioned typed output can enter Render IR.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.83.1 implementation stop reached. Run pentest for this exact commit.`
 
 ### v0.84.0 — Safe Template Compiler
 
@@ -2429,25 +3877,46 @@ Exit criteria:
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.84.0 implementation stop reached. Run pentest for this exact commit.`
 
-### v0.85.0 — Server Renderer and Cache
+### v0.85.0 — Server Renderer
 
 Status: planned.
 
-Goal: Render public HTML with complete visibility partitioning.
+Goal: Render deterministic public HTML from `ContentView` and typed Render IR.
 
 Deliverables:
 
-- Release-root render context, theme digest, dependency graph, ETag, page cache, tag invalidation, and stale policy.
+- Release-root render context; theme/template/runtime digest; dependency graph; streaming/output budgets; deterministic HTML/metadata; error boundaries; ETag/artifact manifest; cancellation; no cache dependency.
 
 Verification:
 
-- Tenant/locale/viewer/release cache mixing, invalidation race, failure fallback, and deterministic fixture tests pass.
+- Content/theme/release substitution, missing/unknown blocks, output exhaustion, cancellation, partial stream, error fallback, deterministic cross-platform output, and browser parse fixtures pass.
 - Run the inherited repository, security, documentation, platform, and release-evidence gates.
 
 Exit criteria:
 
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.85.0 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.85.1 — Render And Page Cache
+
+Status: planned.
+
+Goal: Cache rendered artifacts with complete security partitioning and reconstructible state.
+
+Deliverables:
+
+- Canonical tenant/site/environment/host/route/locale/viewer/policy/release/theme keys; dependency tags; ETag/conditional responses; bounded local/Valkey storage; invalidation; stampede control; stale-public-only policy; cache diagnostics.
+
+Verification:
+
+- Tenant/locale/viewer/host/policy/release/theme mixing, collision, poisoning, stale private content, invalidation race, stampede, eviction, Valkey loss, renderer failure, and authoritative rebuild tests pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Cache loss changes performance only, and stale delivery is limited to explicitly public immutable release artifacts.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.85.1 implementation stop reached. Run pentest for this exact commit.`
 
 ### v0.86.0 — Administration Shell
 
@@ -2510,6 +3979,27 @@ Exit criteria:
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.87.1 implementation stop reached. Run pentest for this exact commit.`
 
+### v0.87.2 — Realtime Collaboration Transport
+
+Status: planned.
+
+Goal: Carry presence and bounded collaboration operations over authenticated cancellable realtime connections.
+
+Deliverables:
+
+- WebSocket or admitted equivalent transport; origin/session/tenant/document binding; connection/resume identity; sequence/ack/backpressure; message and rate budgets; presence privacy; permission-epoch revalidation; drain/reconnect; proxy compatibility and audit.
+
+Verification:
+
+- Cross-origin/tenant/document connection, stolen resume token, replay/reorder/gap, oversized/flooded messages, stale permission/session, slow consumer, node/proxy loss, reconnect, drain, presence leak, and malformed framing tests pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Realtime transport carries validated operations only and cannot become a second canonical or authorization path.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.87.2 implementation stop reached. Run pentest for this exact commit.`
+
 ### v0.88.0 — Design Tokens and Theme Contracts
 
 Status: planned.
@@ -2529,6 +4019,27 @@ Exit criteria:
 
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.88.0 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.88.1 — Theme CSS, SVG, Font, And Asset Boundary
+
+Status: planned.
+
+Goal: Admit visual theme assets without granting script, network, parser, or cross-origin authority.
+
+Deliverables:
+
+- Versioned CSS subset/token output; URL/resource policy; SVG sanitization or rasterization boundary; font format/size/licence policy; immutable asset digests; CSP/integrity metadata; external-resource default deny; build and runtime budgets.
+
+Verification:
+
+- CSS exfiltration/import/url tricks, browser quirks, SVG script/event/foreign content, font bombs, path traversal, MIME confusion, substitution, external fetch, CSP weakening, licence omission, and cache tests pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- A declarative theme cannot introduce executable script or undeclared network destinations through its visual assets.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.88.1 implementation stop reached. Run pentest for this exact commit.`
 
 ### v0.89.0 — Theme Packaging and Lifecycle
 
@@ -2634,25 +4145,109 @@ Exit criteria:
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.91.0 implementation stop reached. Run pentest for this exact commit.`
 
-### v0.92.0 — Media Structure Admission
+### v0.91.1 — Malware Scanning Provider Boundary
 
 Status: planned.
 
-Goal: Parse owned metadata under strict budgets.
+Goal: Add optional defense-in-depth malware scanning without treating scanner output as structural validation or absolute safety.
 
 Deliverables:
 
-- First-party envelope parsers, dimensions/pages/frames/duration/archive expansion limits, filename normalization, and rejection report.
+- Scanner/process/provider identity; signature/version freshness; bounded stream/file handoff; timeout/quota; clean/suspicious/malicious/error outcomes; quarantine retention; rescan policy; privacy/egress controls; operator override authority and explicit non-claim.
 
 Verification:
 
-- Malformed corpora, decompression-shaped bombs, deep metadata, type mismatch, and allocation-failure tests pass.
+- EICAR/synthetic fixtures, scanner outage/hang/crash, stale signatures, oversized/partial files, substitution/TOCTOU, archive bombs, false-positive override, privacy leakage, rescan, and audit scenarios pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- A clean scan never bypasses type/structure/content validation, and scanner absence follows the configured fail-closed profile.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.91.1 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.92.0 — Media Probe And Metadata Tool Admission
+
+Status: planned.
+
+Goal: Admit mature isolated probing foundations before parsing hostile media metadata.
+
+Deliverables:
+
+- Exact reviewed probe/parser/process foundations and feature scope; supported container/metadata inventory; worker-only execution; unsafe/native/build-script/transitive review; input/output/time/memory budgets; filename normalization contract; CVE and tool-update response. Aetherheim does not build full media/document codecs or parsers.
+
+Verification:
+
+- Malformed public corpora, parser differential, type mismatch, deep/oversized metadata, decompression-shaped bombs, tool crash/hang, output spoof, allocation/resource failure, and platform tests pass.
 - Run the inherited repository, security, documentation, platform, and release-evidence gates.
 
 Exit criteria:
 
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.92.0 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.92.1 — Image Structure And Metadata Admission
+
+Status: planned.
+
+Goal: Extract bounded image structure and privacy-safe metadata through the isolated probe boundary.
+
+Deliverables:
+
+- Format/dimension/frame/orientation/color-profile scope; claimed/detected type; metadata allowlist; location/device metadata stripping policy; animated-image budgets; rejection/provenance report.
+
+Verification:
+
+- Malformed/polyglot/truncated images, dimension/frame bombs, type confusion, EXIF/location leakage, orientation/profile abuse, parser disagreement, crash, cancellation, and deterministic report tests pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Images remain quarantined until the exact bytes receive a successful bounded structural report.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.92.1 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.92.2 — Document And Archive Structure Admission
+
+Status: planned.
+
+Goal: Inspect supported documents and archives without extraction or parser authority escaping quarantine.
+
+Deliverables:
+
+- PDF/office/document/archive scope; page/member/depth/expanded-size and compression-ratio limits; encrypted/macro/active-content policy; safe member names; nested-container policy; rejection/provenance report.
+
+Verification:
+
+- Malformed/polyglot/encrypted/macro documents, zip slips, symlink/device entries, nested and decompression bombs, duplicate names, parser crash/hang, partial output, cancellation, and privacy metadata tests pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Archive/document admission never writes attacker-selected paths or enables active content, and unsupported formats remain quarantined.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.92.2 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.92.3 — Audio And Video Structure Admission
+
+Status: planned.
+
+Goal: Extract bounded audiovisual structure without decoding in the application process.
+
+Deliverables:
+
+- Supported container/codec metadata; duration/track/chapter/subtitle/frame-rate/dimension limits; claimed/detected type; embedded attachment and metadata policy; rejection/provenance report.
+
+Verification:
+
+- Malformed/polyglot/truncated containers, extreme duration/rate/dimensions/tracks, attachment abuse, metadata leakage, parser crash/hang, cancellation, timeout, and cross-tool disagreement tests pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Audio/video bytes remain private until their exact structure and declared processing path are admitted.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.92.3 implementation stop reached. Run pentest for this exact commit.`
 
 ### v0.93.0 — Isolated Media Workers
 
@@ -2694,25 +4289,130 @@ Exit criteria:
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.94.0 implementation stop reached. Run pentest for this exact commit.`
 
-### v0.95.0 — Digital Asset Management
+### v0.94.1 — Audio And Video Derivative Pipeline
 
 Status: planned.
 
-Goal: Track rights, accessibility, usage, and lifecycle.
+Goal: Produce bounded immutable audiovisual renditions through isolated admitted processors.
 
 Deliverables:
 
-- Localized alt/caption/transcript, licence/attribution/expiry, consent reference, classification, collections, usage graph, replacement, and holds.
+- Transcode/package recipe identity; codec/container/profile allowlist; duration/resolution/bitrate limits; thumbnails/waveforms/subtitle handling; cancellation/progress; output revalidation; digest/provenance; metadata privacy.
 
 Verification:
 
-- Rights expiry, deletion, relink, locale fallback, accessibility policy, and complete-usage reporting tests pass.
+- Malformed inputs, processor crash/hang, resource exhaustion, recipe collision, truncated/spoofed output, subtitle injection, metadata leak, retry/cancel, deterministic identity, and original-preservation tests pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Every audiovisual output is immutable, revalidated, recipe/version identified, and never trusted merely because a processor exited successfully.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.94.1 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.94.2 — Document Preview And Safe Download Pipeline
+
+Status: planned.
+
+Goal: Generate inert document previews while preserving safe original-download policy.
+
+Deliverables:
+
+- Page/text/thumbnail preview recipes; active-content stripping or rejection; isolated conversion; output revalidation; preview limits; original-download disposition/type/nosniff policy; provenance and accessibility extraction hints.
+
+Verification:
+
+- Malformed/active/encrypted documents, converter crash/hang, script-bearing output, MIME sniffing, content-disposition injection, partial preview, resource exhaustion, retry, and original-preservation tests pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Browser-facing previews are inert validated derivatives; original downloads cannot execute inline by accidental content sniffing.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.94.2 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.95.0 — Asset Metadata And Accessibility
+
+Status: planned.
+
+Goal: Make assets discoverable and accessible without combining rights and deletion authority.
+
+Deliverables:
+
+- Localized title/alt/caption/transcript; language/direction; classification; collections/tags; focal point; derivative inventory; accessibility completeness and fallback; editorial provenance.
+
+Verification:
+
+- Locale fallback/required translation, missing/invalid alternatives, transcript/caption association, classification inheritance, derivative mismatch, search visibility, replacement preview, and accessibility policy tests pass.
 - Run the inherited repository, security, documentation, platform, and release-evidence gates.
 
 Exit criteria:
 
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.95.0 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.95.1 — Asset Rights, Consent, And Expiry
+
+Status: planned.
+
+Goal: Prevent publication beyond declared licence, attribution, consent, territory, or time constraints.
+
+Deliverables:
+
+- Licence/attribution/source; consent/model/property releases; territory/channel/time constraints; expiry and renewal; legal hold; policy obligations; publication/search/render enforcement and evidence.
+
+Verification:
+
+- Missing/expired/revoked consent or licence, territory/channel mismatch, stale cache/search/render, renewal race, derivative propagation, hold conflict, import provenance, and override approval tests pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Rights and consent obligations follow every derivative and block new publication when invalid.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.95.1 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.95.2 — Asset Usage, Replacement, And Lifecycle
+
+Status: planned.
+
+Goal: Make asset replacement and deletion complete, explainable, and recoverable.
+
+Deliverables:
+
+- Complete usage graph; published/draft/theme/plugin/form/commerce references; replacement/relink plan; soft-delete/purge/hold; derivative cleanup; archive/export; stale-projection repair; operation receipt.
+
+Verification:
+
+- Hidden/stale/missing references, concurrent publish/replacement, partial relink, delete/hold conflict, derivative/cache/search cleanup, restore, archive round-trip, and cross-provider migration tests pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Purge cannot proceed without a complete current usage decision, and partial replacement remains recoverable.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.95.2 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.95.3 — Media Delivery And CDN Boundary
+
+Status: planned.
+
+Goal: Serve admitted originals and derivatives safely through direct or optional CDN/object delivery.
+
+Deliverables:
+
+- Immutable URL/version model; authorization/viewer/tenant context; range/conditional requests; content type/disposition/nosniff; signed short-lived delivery permits; CDN cache/invalidation policy; private-origin and hotlink policy; download budgets and audit.
+
+Verification:
+
+- Cross-tenant/private asset access, token replay/audience/expiry, path/type/disposition injection, range amplification, stale CDN after revoke/delete/rights expiry, cache mixing, origin bypass, and direct/CDN equivalence tests pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Delivery never turns blob possession or a guessable URL into authority, and CDN state remains revocable derived state.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.95.3 implementation stop reached. Run pentest for this exact commit.`
 
 ### v0.96.0 — Plugin and Theme Package Manifest
 
@@ -2837,11 +4537,11 @@ Exit criteria:
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.99.0 implementation stop reached. Run pentest for this exact commit.`
 
-### v0.100.0 — Component Host Calls and Quotas
+### v0.100.0 — Component Handles And Proposal Host Calls
 
 Status: planned.
 
-Goal: Expose only typed capability-checked operations.
+Goal: Expose only typed capability-checked in-process proposal operations.
 
 Deliverables:
 
@@ -2961,6 +4661,27 @@ Exit criteria:
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.103.0 implementation stop reached. Run pentest for this exact commit.`
 
+### v0.103.1 — Extension Registry, Update, And Offline Trust
+
+Status: planned.
+
+Goal: Discover and update ecosystem packages without turning a registry or network into installation authority.
+
+Deliverables:
+
+- Signed registry/update metadata; publisher/package/version identity; freeze/rollback protection; mirrors; revocation/compromise; package lock; staged download; offline/air-gapped bundles; trust-root rotation and operator policy.
+
+Verification:
+
+- Registry/mirror substitution, stale/freeze/rollback metadata, revoked key/package, publisher takeover, partial download, lock drift, offline expiry/rotation, compromise response, and prior-version recovery tests pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Registry metadata can propose bytes only; local verification and explicit policy approval remain authoritative.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.103.1 implementation stop reached. Run pentest for this exact commit.`
+
 ### v0.104.0 — Extension Activation and Rollback
 
 Status: planned.
@@ -3021,6 +4742,27 @@ Exit criteria:
 - The default author loop needs only the documented local toolchain, while optional advanced services remain explicit profile additions.
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.105.1 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.105.2 — Guest Language SDK Qualification Framework
+
+Status: planned.
+
+Goal: Let each selected guest language earn support independently from the WIT contract and runtime.
+
+Deliverables:
+
+- Language/toolchain selection criteria; exact compiler/bindgen/package-builder versions; generated binding adapter; deterministic/offline build policy; minimal/malicious sample suite; support matrix; insertion rule requiring a separate patch milestone per future language.
+
+Verification:
+
+- A deliberately incompatible toolchain, stale bindings, nondeterministic package, hidden network fetch, unsupported WIT feature, malformed output, trap, quota, and capability denial fail predictably.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- No guest language is called supported merely because a generator can emit code; each language gets its own later qualification stop and live sample evidence.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.105.2 implementation stop reached. Run pentest for this exact commit.`
 
 ### v0.106.0 — Locale and Fallback Core
 
@@ -3145,19 +4887,19 @@ Exit criteria:
 
 ## Phase 11 — Growth modules and commerce
 
-### v0.111.0 — Contacts and Segments
+### v0.111.0 — Contacts And Organisations
 
 Status: planned.
 
-Goal: Add a privacy-aware lightweight CRM.
+Goal: Add privacy-aware contact and organisation records without an implicit marketing audience.
 
 Deliverables:
 
-- Contacts, organisations, provenance, consent, classification, duplicate merge, activity, segments, import/export, and deletion propagation.
+- Contacts; organisations and membership; source/provenance; purpose/consent/classification; verified communication points; duplicate candidates/merge; activity references; import/export; retention and deletion propagation.
 
 Verification:
 
-- Merge and segment isolation, stale consent, duplicate resolution, deletion, and sensitive-field tests pass.
+- Cross-tenant access, merge/unmerge, identity collision, stale consent/purpose, duplicate resolution, communication verification, import provenance, retention/deletion, and sensitive-field tests pass.
 - Run the inherited repository, security, documentation, platform, and release-evidence gates.
 
 Exit criteria:
@@ -3165,7 +4907,28 @@ Exit criteria:
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.111.0 implementation stop reached. Run pentest for this exact commit.`
 
-### v0.112.0 — Transactional Mail
+### v0.111.1 — Segments And Audience Snapshots
+
+Status: planned.
+
+Goal: Build explainable bounded segments without allowing query or cache state to override consent.
+
+Deliverables:
+
+- Typed segment rules; query-cost budgets; tenant/purpose/channel/consent filters; dynamic preview; immutable audience snapshot root; exclusion/suppression linkage; staleness and rebuild; explanation and export controls.
+
+Verification:
+
+- Query amplification, consent/purpose race, cross-tenant/field leakage, stale segment/cache, exclusion bypass, concurrent contact change, snapshot replay, deletion, and rebuild-equivalence tests pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- A segment match is never sufficient delivery authority; each snapshot remains bound to current consent and suppression checks.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.111.1 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.112.0 — Transactional Mail Composition And Delivery
 
 Status: planned.
 
@@ -3173,17 +4936,59 @@ Goal: Send application mail through bounded provider contracts.
 
 Deliverables:
 
-- Template/text alternative, recipient source, provider identity, secret handle, idempotency, bounce/complaint, suppression, rate, and redaction.
+- Typed template and text alternative; recipient source/purpose; header/address policy; provider identity and secret operation; idempotent outbox delivery; bounded body/attachments; rate, redaction, and delivery receipt.
 
 Verification:
 
-- Header/template injection, duplicate send, suppression bypass, provider replay, and secret logging tests pass.
+- Header/address/template injection, unsafe links/content, duplicate send, wrong recipient/tenant, oversized attachment, provider timeout/ambiguity, retry, rate, and secret logging tests pass.
 - Run the inherited repository, security, documentation, platform, and release-evidence gates.
 
 Exit criteria:
 
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.112.0 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.112.1 — Mail Suppression, Bounce, And Complaint Lifecycle
+
+Status: planned.
+
+Goal: Process provider feedback without allowing untrusted callbacks to corrupt contact or consent authority.
+
+Deliverables:
+
+- Signed/polled provider event boundary; durable receipt; bounce/complaint normalization; suppression scope/reason/expiry; manual review; consent/contact linkage; replay/reconciliation; privacy retention and audit.
+
+Verification:
+
+- Forged/replayed/out-of-order feedback, wrong recipient/tenant, provider mismatch, duplicate suppression, transient/permanent bounce, complaint race, unsuppress approval, deletion, and reconciliation tests pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Provider feedback is evidence, not direct authority, and suppression checks remain mandatory at send time.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.112.1 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.112.2 — Mail Domain Authentication And Deliverability
+
+Status: planned.
+
+Goal: Bind sender domains and signing/configuration evidence before production mail is claimed.
+
+Deliverables:
+
+- Sender-domain ownership; SPF/DKIM/DMARC-oriented configuration checks; DKIM signing-provider/key lifecycle; envelope/header alignment; return-path policy; provider/IP identity; TLS policy; reputation/rate guidance; verification, rotation, revoke, and operator diagnostics.
+
+Verification:
+
+- Unverified/dangling domain, forged From/return path, DKIM key mismatch/rotation/revocation, alignment failure, DNS staleness, provider substitution, header injection, TLS downgrade, rate/reputation event, and failover tests pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Production profiles cannot send from an unverified domain or silently continue with invalid signing/authentication configuration.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.112.2 implementation stop reached. Run pentest for this exact commit.`
 
 ### v0.113.0 — Newsletters and Campaigns
 
@@ -3205,19 +5010,19 @@ Exit criteria:
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.113.0 implementation stop reached. Run pentest for this exact commit.`
 
-### v0.114.0 — Memberships and Comments
+### v0.114.0 — Memberships And Entitlements
 
 Status: planned.
 
-Goal: Provide entitlements and moderated community behavior.
+Goal: Provide membership tiers and protected-content entitlements.
 
 Deliverables:
 
-- Tiers, invitations, content gates, profiles, grace state, threaded comments, moderation, reports, appeals, and notifications.
+- Tiers; invitations; profile/privacy policy; content entitlements; grant/source/expiry; grace/downgrade/cancel; payment/refund linkage; cache/API/render/search enforcement; export/deletion.
 
 Verification:
 
-- Cache/API entitlement isolation, sanction bypass, pseudonym privacy, moderation audit, and deletion tests pass.
+- Cache/API/render/search entitlement isolation, invite replay, downgrade/expiry/refund, grace abuse, cross-tenant access, pseudonym privacy, concurrent lifecycle, export, and deletion tests pass.
 - Run the inherited repository, security, documentation, platform, and release-evidence gates.
 
 Exit criteria:
@@ -3225,19 +5030,40 @@ Exit criteria:
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.114.0 implementation stop reached. Run pentest for this exact commit.`
 
-### v0.115.0 — Automation and Bookings
+### v0.114.1 — Comments And Moderation
 
 Status: planned.
 
-Goal: Add durable bounded workflows and time-aware reservations.
+Goal: Add threaded community discussion through an independently moderated lifecycle.
 
 Deliverables:
 
-- Trigger/condition/action graph, permissions, loops, dry run, approval, services/resources/availability/capacity, waitlist, recurrence, and reminders.
+- Comment/revision/thread model; identity/pseudonym policy; edit window; moderation states/queues; spam provider boundary; reports, sanctions, appeals, notifications; retention/erasure and audit.
 
 Verification:
 
-- Loop, replay, partial failure, DST, concurrency, duplicate booking, capacity, and cancellation tests pass.
+- Stored XSS/URL abuse, cross-content/tenant posting, thread depth/amplification, edit/moderation replay, sanction bypass, moderator conflict, spam outage, notification leakage, pseudonym erasure, and audit tests pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Comment authority and moderation state remain separate from membership entitlements and canonical editorial content.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.114.1 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.115.0 — Durable Automation
+
+Status: planned.
+
+Goal: Add bounded event-driven workflows without granting ambient extension authority.
+
+Deliverables:
+
+- Typed trigger/condition/action graph; actor/effective actor and capabilities; deterministic execution; loop/work/depth budgets; durable checkpoints; idempotency; dry run; approval; pause/cancel/retry/dead-letter; audit and explanation.
+
+Verification:
+
+- Loop/amplification, replay, duplicate/out-of-order events, stale permission, partial effect, crash/resume, approval/revocation, cancellation, poison action, tenant scope, and explanation tests pass.
 - Run the inherited repository, security, documentation, platform, and release-evidence gates.
 
 Exit criteria:
@@ -3245,19 +5071,124 @@ Exit criteria:
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.115.0 implementation stop reached. Run pentest for this exact commit.`
 
-### v0.116.0 — Catalogue and Price Books
+### v0.115.1 — Bookings And Capacity
 
 Status: planned.
 
-Goal: Create exact content-backed products and prices.
+Goal: Add time-zone-aware reservations with atomic capacity protection.
 
 Deliverables:
 
-- Products, variants, options, SKUs, channels, currency/scale, price books, tax display intent, and immutable price explanation roots.
+- Services/resources/locations; availability and blackout rules; capacity/party size; hold/confirm/cancel/no-show states; waitlist; recurrence; timezone/DST policy; reminders; payment/deposit proposal; privacy/retention.
 
 Verification:
 
-- Decimal/rounding sweeps, SKU uniqueness, visibility, stale price, and snapshot tests pass.
+- Concurrent overbooking, duplicate/replayed request, hold expiry, DST/gap/fold, recurrence changes, resource conflict, waitlist race, cancel/payment race, reminder duplication, provider outage, and privacy tests pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Capacity changes are atomic authoritative operations and automation/reminders cannot create bookings directly.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.115.1 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.115.2 — Privacy-Preserving First-Party Analytics
+
+Status: planned.
+
+Goal: Measure published experiences without making tracking or raw event retention the default.
+
+Deliverables:
+
+- Versioned bounded event schema; tenant/site/release/route context; consent and do-not-track policy; pseudonymous/session-free default; classification; cardinality and sampling budgets; retention/aggregation; bot/internal exclusion; delete propagation; export and non-claim.
+
+Verification:
+
+- Cross-tenant identity, fingerprinting fields, consent withdrawal, event replay/spoof, cardinality/amplification, cache/proxy context, deletion, raw-event expiry, aggregation correctness, and no-tracking-default tests pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Personal and Standard profiles collect no unnecessary cross-site identity, and analytics never becomes content, consent, billing, or authorization authority.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.115.2 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.115.3 — Optional AI Provider And Data-Egress Boundary
+
+Status: planned.
+
+Goal: Admit optional AI providers without ambient data access, hidden training consent, or publication authority.
+
+Deliverables:
+
+- Disabled-by-default provider contract; named operations/models/versions; tenant/site/user enablement; source and field authorization; data-classification/region/retention/training policy; prompt/output/token/time budgets; secret handles; redaction; provenance; cancellation and outage behavior.
+
+Verification:
+
+- Unauthorized source/field retrieval, cross-tenant prompt context, prompt injection, secret/personal data egress, provider retention/training mismatch, model substitution, oversized output/cost, cancellation, outage, log leakage, and disabled-profile tests pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- No AI provider receives data or network authority outside one explicit classified operation, and absence leaves all normal CMS behavior usable.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.115.3 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.115.4 — AI-Assisted Authoring Proposals
+
+Status: planned.
+
+Goal: Offer draft, translation, metadata, and accessibility suggestions as reviewable non-authoritative proposals.
+
+Deliverables:
+
+- Proposal types for text, summary, metadata, alt text, taxonomy, and translation; exact source/revision/model/prompt-policy roots; human review/edit/reject; stale-source invalidation; attribution and explanation; normal validation/policy/workflow handoff.
+
+Verification:
+
+- False/unsafe output, prompt injection, source update, attribution confusion, human-only policy, locale/rights mismatch, repeated proposal, rejection retention, workflow bypass, direct publication attempt, and rollback tests pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- AI output cannot become canonical or public without the same human/policy/schema/workflow checks as manually authored content.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.115.4 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.115.5 — AI Live Safety And Cost Matrix
+
+Status: planned.
+
+Goal: Qualify enabled AI operations against exact provider/model profiles and real abuse/failure cases.
+
+Deliverables:
+
+- Provider/model/version/region/retention matrix; sandbox accounts; egress recorder; cost/token budgets; prompt-injection and leakage corpus; provenance fixtures; outage/model-change runbook; acceptance profile.
+
+Verification:
+
+- Live providers/models pass authorization, classification, region/retention, injection, leakage, cost, cancellation, model drift, outage, stale-source, review, rejection, and no-direct-publication journeys; absent providers fail enabled profiles.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- No AI provider/model is supported from mocks alone, and every reference profile remains valid with AI entirely disabled.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.115.5 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.116.0 — Product Catalogue
+
+Status: planned.
+
+Goal: Create content-backed products, variants, and channel publication independently from pricing.
+
+Deliverables:
+
+- Products; variants/options; SKU and external-reference uniqueness; bundles/kits intent; channel/site/locale visibility; media/content relationships; catalogue revisions/publication; import/export and archive behavior.
+
+Verification:
+
+- SKU/reference uniqueness, invalid variant combinations, bundle cycles, cross-tenant/channel/locale visibility, concurrent revision/publication, deletion/reference, archive, and migration tests pass.
 - Run the inherited repository, security, documentation, platform, and release-evidence gates.
 
 Exit criteria:
@@ -3265,7 +5196,28 @@ Exit criteria:
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.116.0 implementation stop reached. Run pentest for this exact commit.`
 
-### v0.116.1 — Promotions And Coupons
+### v0.116.1 — Price Books And Price Explanations
+
+Status: planned.
+
+Goal: Define exact versioned prices by channel, market, customer class, quantity, and time.
+
+Deliverables:
+
+- Price-book identity/version; product/variant/channel/market/customer/quantity rules; currency/scale; validity window; priority/conflict policy; immutable price components and explanation root; publication and rollback.
+
+Verification:
+
+- Overlap/conflict, stale/expired/future price, channel/customer/quantity mismatch, decimal/rounding/overflow, concurrent publication, replay, rollback, cache, and deterministic explanation tests pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Every quoted base price resolves to one immutable versioned explanation; product content cannot carry ambient mutable price authority.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.116.1 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.116.2 — Promotions And Coupons
 
 Status: planned.
 
@@ -3284,9 +5236,9 @@ Exit criteria:
 
 - Every discount in an accepted quote is reproducible from immutable versioned inputs and checked arithmetic.
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
-- `v0.116.1 implementation stop reached. Run pentest for this exact commit.`
+- `v0.116.2 implementation stop reached. Run pentest for this exact commit.`
 
-### v0.116.2 — Tax Rules And Quote Boundary
+### v0.116.3 — Tax Rules And Quote Boundary
 
 Status: planned.
 
@@ -3305,9 +5257,9 @@ Exit criteria:
 
 - Accepted tax amounts are immutable calculation components and no connector can directly mutate an order or journal.
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
-- `v0.116.2 implementation stop reached. Run pentest for this exact commit.`
+- `v0.116.3 implementation stop reached. Run pentest for this exact commit.`
 
-### v0.116.3 — Currency And Exchange-Rate Policy
+### v0.116.4 — Currency And Exchange-Rate Policy
 
 Status: planned.
 
@@ -3326,7 +5278,7 @@ Exit criteria:
 
 - Every converted amount identifies the exact rate, source, time, policy, and rounding decision used.
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
-- `v0.116.3 implementation stop reached. Run pentest for this exact commit.`
+- `v0.116.4 implementation stop reached. Run pentest for this exact commit.`
 
 ### v0.117.0 — Cart Lifecycle And Security
 
@@ -3410,25 +5362,67 @@ Exit criteria:
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.118.1 implementation stop reached. Run pentest for this exact commit.`
 
-### v0.119.0 — Inventory and Reservations
+### v0.119.0 — Inventory Ledger And Locations
 
 Status: planned.
 
-Goal: Protect stock invariants under concurrency.
+Goal: Represent physical stock movements and locations as append-oriented authoritative facts.
 
 Deliverables:
 
-- Locations, on-hand/available/reserved/allocated/damaged states, atomic reservation, expiry, bundles, backorders, oversell policy, and reconciliation.
+- Locations/zones; item/SKU stock identity; receive/adjust/transfer/allocate/ship/return/damage movements; on-hand/allocated/damaged derived balances; reason/source/idempotency; append-only revisions; permissions and audit.
 
 Verification:
 
-- Concurrent checkout cannot oversell unless declared; expiry, crash, replay, bundle, and reconciliation tests pass.
+- Balanced movement/property tests cover duplicate/replay, concurrent receive/transfer/allocate, negative/overflow, stale revision, cross-location/tenant, damaged disposition, immutable history, crash, and audit behavior.
 - Run the inherited repository, security, documentation, platform, and release-evidence gates.
 
 Exit criteria:
 
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.119.0 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.119.1 — Inventory Reservations And Availability
+
+Status: planned.
+
+Goal: Protect available stock through atomic expiring reservations under checkout concurrency.
+
+Deliverables:
+
+- Available-to-promise calculation; reservation/renew/release/consume state machine; expiry and database-time policy; bundle component allocation; backorder/oversell policy; lock/order/fencing semantics; order/quote binding and idempotency.
+
+Verification:
+
+- Linearizable concurrent checkout, expiry/renew/consume races, crash/replay, stale worker, bundle contention, partial allocation, backorder/oversell profiles, cancel/order race, and every qualified database history pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Oversell occurs only under an explicit documented policy; otherwise concurrent accepted reservations cannot exceed available stock.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.119.1 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.119.2 — Inventory Reconciliation And Cycle Counts
+
+Status: planned.
+
+Goal: Detect and correct discrepancies without rewriting inventory history.
+
+Deliverables:
+
+- Count sessions/snapshots; expected versus observed; variance approval; compensating movements; external warehouse/provider comparison; damaged/lost disposition; audit/evidence; scheduling and operator reports.
+
+Verification:
+
+- Concurrent movement during count, duplicate/partial count, stale snapshot, provider mismatch/outage, approval conflict, compensation replay, cross-location/tenant, crash/resume, and final balance/history tests pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Reconciliation preserves original movements and records every approved correction as a new append-only fact.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.119.2 implementation stop reached. Run pentest for this exact commit.`
 
 ### v0.120.0 — Payment Intents And Capture
 
@@ -3555,28 +5549,49 @@ Exit criteria:
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.120.5 implementation stop reached. Run pentest for this exact commit.`
 
-### v0.120.6 — Digital Entitlements And Fiscal Documents
+### v0.120.6 — Digital Entitlements And Secure Delivery
 
 Status: planned.
 
-Goal: Issue bounded digital access and immutable invoice/credit-note evidence.
+Goal: Issue bounded digital access derived from authoritative commerce state.
 
 Deliverables:
 
-- Product/version-bound grants; audience/device/download limits; expiry/revocation; secure delivery token; invoice/credit-note numbering; tax evidence; classification, retention, and authorized export.
+- Product/version-bound grants; order/payment/refund/subscription linkage; audience/device/download/concurrency limits; expiry/revocation; secure short-lived delivery token; watermark/provenance hooks; classification, privacy, retention, and usage audit.
 
 Verification:
 
-- Token sharing/replay, cross-tenant access, expiry/revocation, product replacement, duplicate numbering, credit-note linkage, deletion/retention conflict, and archive/restore tests pass.
+- Token sharing/replay/audience confusion, cross-tenant access, expiry/revocation, refund/chargeback, subscription lapse, product replacement, download/concurrency limits, CDN cache, deletion/retention conflict, archive, and restore tests pass.
 - Run the inherited repository, security, documentation, platform, and release-evidence gates.
 
 Exit criteria:
 
-- Digital access is reconstructible from authoritative order/payment/refund state and fiscal records remain append-only for required retention.
+- Digital access is reconstructible from authoritative order/payment/refund/subscription state and never survives its source entitlement.
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.120.6 implementation stop reached. Run pentest for this exact commit.`
 
-### v0.120.7 — Commerce Live Failure Matrix
+### v0.120.7 — Invoices, Credit Notes, And Tax Evidence
+
+Status: planned.
+
+Goal: Issue immutable fiscal documents independently from digital delivery authority.
+
+Deliverables:
+
+- Jurisdiction/series numbering policy; immutable invoice and credit-note snapshots; seller/customer/tax/currency/line/payment references; correction/linkage; rendered and structured export; signature/provider hook where required; retention/hold/classification and authorized delivery.
+
+Verification:
+
+- Duplicate/gap/concurrent numbering by policy, wrong jurisdiction/series, post-issue mutation, partial credit, currency/tax mismatch, customer-data correction, unauthorized delivery, retention/erasure/hold, archive/restore, and migration tests pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Issued fiscal facts are append-only; corrections use linked credit/replacement documents and preserve required evidence without overstating legal compliance.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.120.7 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.120.8 — Commerce Live Failure Matrix
 
 Status: planned.
 
@@ -3595,7 +5610,7 @@ Exit criteria:
 
 - No commerce connector, database, or topology appears in a support profile without current end-to-end failure/recovery evidence.
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
-- `v0.120.7 implementation stop reached. Run pentest for this exact commit.`
+- `v0.120.8 implementation stop reached. Run pentest for this exact commit.`
 
 ## Phase 12 — Compliance, migration, operations, hardening, and 1.0
 
@@ -3619,19 +5634,19 @@ Exit criteria:
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.121.0 implementation stop reached. Run pentest for this exact commit.`
 
-### v0.121.1 — Requirement, Control, And Scenario Registry
+### v0.121.1 — Standards Control Catalog Expansion
 
 Status: planned.
 
-Goal: Give every architecture rule and support claim one visible owner and evidence path.
+Goal: Extend the foundation registry with formal standards mappings and compliance evidence fields.
 
 Deliverables:
 
-- Versioned machine-readable requirement/control/scenario registry; owning milestone; implementation reference; automated/manual evidence; threat and operator control; applicability, exception, owner, review date, result, and non-claim fields; generated coverage and orphan reports.
+- Migrate the existing registry without ID churn; add versioned ASVS/NIST/PCI/WCAG/privacy mappings; applicability, evidence type, operator control, exception, owner, review date, result, and non-claim fields; generated coverage, standard-version diff, and orphan reports.
 
 Verification:
 
-- Fixtures reject unowned, multiply owned, untested, stale, waived-without-expiry, unsupported-claim, and evidence-without-artifact entries; generated documentation is reproducible.
+- Migration fixtures preserve every earlier owner/scenario/evidence link; catalog tests reject stale standard references, unowned, multiply owned, untested, waived-without-expiry, unsupported-claim, and evidence-without-artifact entries; generated documentation is reproducible.
 - Run the inherited repository, security, documentation, platform, and release-evidence gates.
 
 Exit criteria:
@@ -3723,19 +5738,40 @@ Exit criteria:
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.122.2 implementation stop reached. Run pentest for this exact commit.`
 
-### v0.123.0 — Regulated and Commerce Packs
+### v0.122.3 — Sensitive Field And Blob Encryption Profiles
 
 Status: planned.
 
-Goal: Provide HIPAA, NIS2, PCI DSS, SOC/ISO evidence, and AI governance support.
+Goal: Apply envelope encryption and crypto-erasure to declared sensitive values without hiding query, backup, or availability limitations.
 
 Deliverables:
 
-- PHI/access presets, incidents, suppliers, card-scope prevention, checkout integrity inventory, control mapping, AI provenance, and human review.
+- Field/blob eligibility and classification; per-tenant/data-key hierarchy; AEAD context binding; key-reference/generation; encrypted index/search non-support or explicit scheme; rotation/re-encryption; backup/restore; hold/retention; crypto-erasure; cache/log/export policy and operational failure behavior.
 
 Verification:
 
-- Profile conformance proves controls while every UI/API explicitly avoids automatic compliance claims.
+- Ciphertext/tenant/field/version substitution, nonce/context misuse prevention, partial rotation, unavailable/revoked/lost key, stale cache/search, backup restore with old generations, hold/erasure conflict, corruption, migration, and redaction tests pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Encryption claims name exact fields/providers/availability/search consequences, and erasure cannot be claimed while recoverable key material remains in supported backups.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.122.3 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.123.0 — Healthcare And Highly Sensitive Data Pack
+
+Status: planned.
+
+Goal: Provide healthcare/PHI-oriented technical controls and evidence without claiming HIPAA certification.
+
+Deliverables:
+
+- PHI/sensitive-data classification; minimum-necessary access; emergency access; workforce/device/session presets; disclosure/audit reports; retention/erasure/hold; processor/region controls; incident/evidence workflow; backup/restore behavior and non-claim UI.
+
+Verification:
+
+- PHI classification/propagation, minimum-necessary field access, emergency access review, disclosure accounting, processor/region denial, incident, retention/hold, backup/restore, and non-certification profile tests pass.
 - Run the inherited repository, security, documentation, platform, and release-evidence gates.
 
 Exit criteria:
@@ -3743,7 +5779,49 @@ Exit criteria:
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.123.0 implementation stop reached. Run pentest for this exact commit.`
 
-### v0.123.1 — Payment Page Integrity And Card-Data Discovery
+### v0.123.1 — Cybersecurity Governance Evidence Packs
+
+Status: planned.
+
+Goal: Map NIS2, SOC 2, and ISO 27001-oriented operator evidence without pretending product controls certify an organization.
+
+Deliverables:
+
+- Asset/service/supplier inventory; risk/owner/exception records; incident/vulnerability/continuity/change/access-review evidence; responsibility matrix; evidence retention/export; standard-version mapping; operator-versus-product control separation and non-claims.
+
+Verification:
+
+- Missing owner/evidence, stale supplier/control, expired exception, incident escalation, access review, continuity rehearsal, export redaction, standard update, and false-certification UI/API tests pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Every mapping states applicability and responsibility; Aetherheim never labels an installation or organization compliant/certified automatically.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.123.1 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.123.2 — AI Governance And Provenance Pack
+
+Status: planned.
+
+Goal: Govern optional AI use through inventory, purpose, risk, review, provenance, and incident evidence.
+
+Deliverables:
+
+- Provider/model/use-case inventory; data/purpose/region/retention/training terms; risk/impact review; human oversight; source/output provenance; model-change assessment; complaint/incident/disable workflow; public disclosure and non-claim controls.
+
+Verification:
+
+- Unregistered use case/model, changed terms/model, missing impact review, sensitive-data mismatch, false provenance, missing human review, incident disable, export/redaction, and AI-disabled profile tests pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- AI governance evidence cannot enable AI operations or publication; it documents and constrains separately authorized behavior.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.123.2 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.123.3 — Payment Page Integrity And Card-Data Discovery
 
 Status: planned.
 
@@ -3762,30 +5840,51 @@ Exit criteria:
 
 - Aetherheim can demonstrate its declared card-data boundary and clearly states that technical controls do not certify PCI compliance.
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
-- `v0.123.1 implementation stop reached. Run pentest for this exact commit.`
+- `v0.123.3 implementation stop reached. Run pentest for this exact commit.`
 
-### v0.123.2 — Security Events, Observability, Capacity, And SLOs
+### v0.123.4 — Security Events And Observability
 
 Status: planned.
 
-Goal: Detect abuse and failure without leaking sensitive data or inventing unmeasured availability claims.
+Goal: Detect abuse and failure through bounded privacy-safe operational signals.
 
 Deliverables:
 
-- Versioned security-event taxonomy; structured redaction; metrics/traces/log correlation; audit linkage; cardinality and retention budgets; alert/runbook mapping; capacity model; availability/latency/freshness SLOs and error budgets by profile.
+- Versioned security-event taxonomy; structured redaction; metrics/traces/log correlation; audit linkage; cardinality/sampling/retention budgets; alert/runbook/escalation mapping; tenant/profile context; diagnostic export and evidence.
 
 Verification:
 
-- Authentication, authorization, tenant, cache, plugin, commerce, migration, secret, proxy, and cluster incidents emit bounded useful signals; injection/cardinality/secret leakage, alert loss, overload, and SLO calculation tests pass.
+- Authentication, authorization, tenant, cache, plugin, commerce, migration, secret, proxy, and cluster incidents emit bounded useful signals; injection/cardinality/secret leakage, alert loss/duplication, retention, and export tests pass.
 - Run the inherited repository, security, documentation, platform, and release-evidence gates.
 
 Exit criteria:
 
-- Every production profile has tested operator signals, capacity assumptions, and truthful SLO/non-claim documentation.
+- Every production profile has tested operator signals and runbooks without exposing protected data.
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
-- `v0.123.2 implementation stop reached. Run pentest for this exact commit.`
+- `v0.123.4 implementation stop reached. Run pentest for this exact commit.`
 
-### v0.123.3 — Vulnerability, Update, And Revocation Lifecycle
+### v0.123.5 — Capacity Models, SLOs, And Error Budgets
+
+Status: planned.
+
+Goal: Publish measured performance and availability objectives without mixing them into event collection.
+
+Deliverables:
+
+- Representative workload and capacity model; resource saturation thresholds; availability/latency/freshness/durability objectives; error-budget calculation; measurement windows/exclusions; dependency/topology assumptions; scaling/degradation policy; alerts and operator reports by profile.
+
+Verification:
+
+- Load/soak/failure evidence validates calculations under traffic shape, tenant skew, provider latency/loss, cache miss, background work, media/commerce spikes, clock gaps, telemetry loss, and declared maintenance; unsupported targets are rejected.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Every claimed SLO names exact profile, workload, dependencies, measurement method, and current passing evidence; unmeasured claims are absent.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.123.5 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.123.6 — Vulnerability, Update, And Revocation Lifecycle
 
 Status: planned.
 
@@ -3804,9 +5903,9 @@ Exit criteria:
 
 - Every shipped artifact and ecosystem package can be identified, blocked or revoked, updated, rolled back, and audited under its supported profile.
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
-- `v0.123.3 implementation stop reached. Run pentest for this exact commit.`
+- `v0.123.6 implementation stop reached. Run pentest for this exact commit.`
 
-### v0.123.4 — Abuse Controls And Resource Fairness
+### v0.123.7 — Abuse Controls And Resource Fairness
 
 Status: planned.
 
@@ -3825,21 +5924,21 @@ Exit criteria:
 
 - No externally reachable operation lacks an owning resource budget and tested overload behavior.
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
-- `v0.123.4 implementation stop reached. Run pentest for this exact commit.`
+- `v0.123.7 implementation stop reached. Run pentest for this exact commit.`
 
-### v0.124.0 — WordPress and WooCommerce Import
+### v0.124.0 — WordPress Content Import
 
 Status: planned.
 
-Goal: Provide a resumable staged migration from the primary source ecosystem.
+Goal: Provide a resumable staged content/community migration from WordPress.
 
 Deliverables:
 
-- Users/roles, content/types, blocks, taxonomies, comments, media, menus, metadata, redirects, orders/products mapping, source IDs, and issue report.
+- Users/roles attribution; posts/pages/custom types; block/classic content quarantine; taxonomies; comments; media; menus; metadata; redirects/URLs; source IDs/provenance; plugin-field envelope; staged validation and issue report.
 
 Verification:
 
-- Large hostile fixtures resume safely, preserve source attribution/URLs, quarantine bytes, and report rather than drop unsupported data.
+- Large hostile fixtures resume safely; malformed serialization/markup/media and plugin metadata remain bounded/quarantined; attribution, relationships, URLs, IDs, comments, redirects, and unsupported-data reports are complete.
 - Run the inherited repository, security, documentation, platform, and release-evidence gates.
 
 Exit criteria:
@@ -3847,19 +5946,40 @@ Exit criteria:
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.124.0 implementation stop reached. Run pentest for this exact commit.`
 
-### v0.125.0 — Other and Generic Importers
+### v0.124.1 — WooCommerce Import
 
 Status: planned.
 
-Goal: Cover Drupal, Joomla, Ghost, Wix-supported exports, static sites, Markdown, CSV, JSON, RSS, and media folders.
+Goal: Migrate WooCommerce commerce history without weakening Aetherheim monetary and inventory invariants.
 
 Deliverables:
 
-- Mapping DSL, crawler permission, source digest, conversion provenance, checkpoints, validation, redirects, and complete limitations report.
+- Products/variants/SKUs; price/tax/coupon metadata; customers/addresses with classification; orders/lines/status/history; payments/refunds as imported evidence; inventory; subscriptions where representable; source IDs; discrepancy and non-importable-secret/card-data reports.
 
 Verification:
 
-- Each source corpus exercises malformed input, retries, encoding, relationships, media, and unsupported-field reporting.
+- Large hostile stores, malformed decimals/currencies/tax, duplicate IDs/SKUs/orders, inconsistent totals, partial refunds, status drift, personal-data policy, raw-card/secret discovery, resume/rollback, and complete discrepancy tests pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Imported records preserve source attribution and discrepancies; they never masquerade as balanced Aetherheim-native transactions without explicit reconciliation.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.124.1 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.125.0 — Drupal Import
+
+Status: planned.
+
+Goal: Provide a resumable staged Drupal content/community migration.
+
+Deliverables:
+
+- Supported Drupal version/export scope; users/roles attribution; content entities/types/fields; taxonomy; comments; media/files; menus/routes/aliases; multilingual revisions; source IDs/provenance; checkpoints; validation and limitations report.
+
+Verification:
+
+- Versioned hostile corpora exercise malformed serialization/markup/files, retries, encoding, entity references, multilingual state, routes, unsupported modules/fields, complete reporting, and rollback.
 - Run the inherited repository, security, documentation, platform, and release-evidence gates.
 
 Exit criteria:
@@ -3867,19 +5987,145 @@ Exit criteria:
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.125.0 implementation stop reached. Run pentest for this exact commit.`
 
-### v0.126.0 — Backup, Restore, and Disaster Recovery
+### v0.125.1 — Joomla Import
 
 Status: planned.
 
-Goal: Make recoverability demonstrated rather than assumed.
+Goal: Provide a resumable staged Joomla content/community migration.
 
 Deliverables:
 
-- Encrypted-provider backup boundary, database/blob/config/package manifests, AHAF, chunk roots, verification jobs, isolated restore, promotion, and RPO/RTO report.
+- Supported version/export scope; users/groups attribution; articles/categories/tags; custom fields; contacts; media; menus/routes/aliases; multilingual associations; source IDs/provenance; checkpoints; validation and limitations report.
 
 Verification:
 
-- Missing/substituted chunks, wrong roots/keys, partial backup, clean-environment restore, and disaster rehearsal pass.
+- Versioned hostile corpora cover malformed markup/files, ACL/group ambiguity, encoding, relationships, multilingual routing, extensions/unsupported fields, retries, rollback, and complete reporting.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Unsupported Joomla extension data is preserved in bounded source envelopes or reported, never silently discarded or granted authority.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.125.1 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.125.2 — Ghost Import
+
+Status: planned.
+
+Goal: Provide a resumable staged Ghost publication/member migration.
+
+Deliverables:
+
+- Supported export scope; users/authors attribution; posts/pages/tags; lexical/HTML content quarantine and conversion; members/tiers/newsletters/consent metadata; media/routes/redirects; source IDs/provenance; checkpoints and limitations report.
+
+Verification:
+
+- Hostile/malformed exports, HTML/card conversion, member/privacy data, tier/newsletter ambiguity, URLs, media, encoding, retries, rollback, and unsupported-field reporting tests pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Ghost member and newsletter data is imported only with source provenance and explicit consent/purpose review requirements.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.125.2 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.125.3 — Wix Supported-Export Import
+
+Status: planned.
+
+Goal: Import only officially obtainable Wix exports without bypassing access controls or scraping private services.
+
+Deliverables:
+
+- Supported export/API scope; operator authorization; pages/content/data collections; products where representable; contacts with purpose review; media; routes; source IDs/provenance; rate/resume/checkpoint policy and limitations report.
+
+Verification:
+
+- Authorization denial/expiry, rate limits, partial exports, schema drift, hostile content/media, privacy/consent ambiguity, retries, rollback, and complete omission reporting pass; no unsupported private crawler path exists.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- The importer uses only operator-authorized supported source boundaries and makes no completeness claim beyond the exact export profile.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.125.3 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.125.4 — Static Site And Markdown Import
+
+Status: planned.
+
+Goal: Convert authorized static files and Markdown into structured content with explicit loss reporting.
+
+Deliverables:
+
+- Root/path allowlist; symlink policy; Markdown/front-matter scope; HTML quarantine; file-to-route mapping; assets/links; metadata/schema mapping; source digests/provenance; checkpoints; redirects and limitations report.
+
+Verification:
+
+- Path/symlink escape, encoding, huge/deep documents, HTML/XSS, link cycles, duplicate routes, malformed front matter, binary confusion, retry, deterministic conversion, and unsupported construct reporting pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Import reads only the authorized root and never silently converts unsupported markup into trusted rendered output.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.125.4 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.125.5 — CSV, JSON, And Feed Mapping Import
+
+Status: planned.
+
+Goal: Map bounded structured records and RSS/Atom feeds through an explicit typed import specification.
+
+Deliverables:
+
+- Mapping DSL/schema; source encoding and digest; CSV/JSON/RSS/Atom scope; record/field/relationship transforms; ID/upsert/conflict policy; checkpoints; validation/quarantine; dry run, provenance, error and omission reports.
+
+Verification:
+
+- Formula/injection-shaped text, deep/large JSON, entity/encoding tricks, duplicate IDs, relationship cycles, partial records, schema drift, retry/resume, deterministic mapping, rollback, and complete error reporting pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Mapping cannot invoke arbitrary code or raw provider queries, and every skipped/changed record is reportable.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.125.5 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.125.6 — Media Folder Import
+
+Status: planned.
+
+Goal: Import authorized media trees through the normal quarantine, probe, rights, and lifecycle paths.
+
+Deliverables:
+
+- Root/path/symlink policy; recursive limits; duplicate/digest handling; sidecar metadata mapping; filename/collection structure; rights/consent review; checkpoints; source provenance; issue and omission report.
+
+Verification:
+
+- Path/symlink escape, device/special files, deep/wide trees, hostile files/sidecars, duplicates, case/Unicode collisions, partial copy, restart, scanner/processor failure, rights ambiguity, and rollback tests pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Imported bytes remain quarantined until normal admission succeeds and filesystem layout never becomes publication authority.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.125.6 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.126.0 — Backup Creation And Verification
+
+Status: planned.
+
+Goal: Create complete encrypted, integrity-checked backup sets without claiming restore success yet.
+
+Deliverables:
+
+- Encrypted-provider boundary; database/blob/config/package/secret-reference manifests; AHAF and provider-native components; incremental/full/chunk roots; consistency/fence policy; retention/hold; verification jobs; rotation; offsite/region policy; inventory and operation receipt.
+
+Verification:
+
+- Missing/substituted/corrupt chunks, wrong roots/keys, partial/inconsistent backup, concurrent writes, failed incremental chain, rotation, retention/hold, provider outage, cancellation, and verification-job tests pass.
 - Run the inherited repository, security, documentation, platform, and release-evidence gates.
 
 Exit criteria:
@@ -3887,40 +6133,61 @@ Exit criteria:
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.126.0 implementation stop reached. Run pentest for this exact commit.`
 
-### v0.126.1 — Isolated Restore Promotion And Regional Recovery
+### v0.126.1 — Isolated Restore Verification
 
 Status: planned.
 
-Goal: Prove a verified restore can be promoted safely without reviving stale authority or violating region constraints.
+Goal: Prove complete backups restore in a clean isolated environment before any promotion.
 
 Deliverables:
 
-- Clean-room restore network; dependency/key/package verification; deletion and revocation replay; regional placement policy; DNS/proxy cutover; session/token invalidation; job/outbox reconciliation; failback; authorized promotion receipt and runbook.
+- Clean-room restore network; exact dependency/key/package verification; database/blob/AHAF/config restore; deletion/revocation replay; derived cache/search rebuild; job/outbox quarantine and reconciliation report; integrity/application acceptance; RPO/RTO measurement and restore receipt.
 
 Verification:
 
-- Restore then promote under region loss, stale backup, revoked key/package/session, pending jobs/effects, cache/search absence, database/blob mismatch, partial cutover, rollback, and operator-error scenarios meets declared RPO/RTO or fails closed.
+- Restore under stale/partial/corrupt backup, wrong/revoked key/package, database/blob mismatch, deletion/revocation state, pending jobs/effects, cache/search absence, cross-provider target, operator error, and resource exhaustion meets declared verification rules or fails closed.
 - Run the inherited repository, security, documentation, platform, and release-evidence gates.
 
 Exit criteria:
 
-- Backup success is never equated with recoverability; every production profile has a rehearsed isolated restore and authorized promotion path.
+- Backup success is never equated with recoverability; every supported backup profile has a clean-room restore acceptance result.
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.126.1 implementation stop reached. Run pentest for this exact commit.`
 
-### v0.127.0 — Production Packaging and Platform Qualification
+### v0.126.2 — Disaster Promotion And Regional Recovery
 
 Status: planned.
 
-Goal: Ship signed artifacts for every supported platform without crates.io.
+Goal: Promote a verified restore without reviving stale authority or violating region and topology constraints.
 
 Deliverables:
 
-- Standalone archives, OCI images, Compose, system service guidance, platform installers/bundles, rootless operation, SBOM, provenance, checksums, and air-gap bundle.
+- Authorized promotion state machine; regional placement; dependency readiness; session/token invalidation; job/outbox reconciliation decision; DNS/proxy cutover; readiness/drain; split-authority prevention; failback; operator approvals/receipt and RPO/RTO runbook.
 
 Verification:
 
-- Clean Linux/Windows/BSD/macOS installs, Android/iOS library integration, rootless container smoke, artifact verification, and uninstall tests pass.
+- Region loss, stale source node, partial DNS/proxy cutover, old database/blob reachability, pending effects, token/session replay, cache/secret loss, failback, concurrent operators, and every crash point meet the declared recovery profile or fail closed.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Only one authorized topology accepts mutations after promotion, and every production profile has a rehearsed promotion/failback path.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.126.2 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.127.0 — Release Artifact Manifest And Portable Archives
+
+Status: planned.
+
+Goal: Define one no-crates.io artifact set and portable archive format before platform-specific packaging.
+
+Deliverables:
+
+- Artifact/release manifest; standalone archive layout; binaries/assets/config/schema/migrations/licences/notices; checksums; SBOM/provenance/signature references; install/uninstall/upgrade contract; platform identity; offline verification; no crates.io metadata.
+
+Verification:
+
+- Archive traversal/substitution, missing/extra file, permission drift, wrong platform/version, install/uninstall/upgrade failure, offline verification, SBOM/provenance linkage, and no-crates.io tests pass.
 - Run the inherited repository, security, documentation, platform, and release-evidence gates.
 
 Exit criteria:
@@ -3990,19 +6257,208 @@ Exit criteria:
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.127.3 implementation stop reached. Run pentest for this exact commit.`
 
-### v0.128.0 — Upgrade, Rollback, and Long-Run Qualification
+### v0.127.4 — Linux Service Packaging
 
 Status: planned.
 
-Goal: Prove every supported installation can evolve safely.
+Goal: Qualify native and portable Linux deployment without assuming a container runtime.
 
 Deliverables:
 
-- Expand/contract migrations, compatibility window, drain, canary guidance, job/plugin compatibility, rollback automation, 24/72-hour and defined long soak.
+- GNU/musl and supported architectures; standalone archive; systemd/OpenRC-style guidance where applicable; dedicated user/directories; capabilities/permissions; rootless mode; logs/limits; install/upgrade/rollback/uninstall; distribution support matrix.
 
 Verification:
 
-- Upgrade from every fixture under injected failure either completes or rolls back; no loss, duplicate effect, or secret leak.
+- Clean supported distributions/architectures cover install, initialize, direct serve, service restart/drain, permissions, read-only paths, upgrade/rollback, backup/restore, uninstall, and hostile pre-existing filesystem state.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Linux support names exact distributions/libc/architectures and never relies only on a developer machine or OCI image.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.127.4 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.127.5 — Windows Service Packaging
+
+Status: planned.
+
+Goal: Qualify native Windows operation and service lifecycle.
+
+Deliverables:
+
+- MSVC and any retained GNU profile; archive/installer decision; Windows service identity; ACLs/data directories; certificate/secret integration; Event Log/diagnostics; firewall guidance; install/upgrade/rollback/uninstall and support matrix.
+
+Verification:
+
+- Clean supported Windows versions cover install, service identity/ACLs, direct serve/TLS, restart/drain, path/Unicode/locking behavior, upgrade/rollback, backup/restore, diagnostics, uninstall, and hostile pre-existing state.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Windows support is real packaged operation, not cross-compilation alone.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.127.5 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.127.6 — macOS Service Packaging
+
+Status: planned.
+
+Goal: Qualify native macOS operation on Intel and Apple Silicon.
+
+Deliverables:
+
+- Universal/separate artifact decision; signing/notarization boundary; launchd guidance; user/service identity and directories; Keychain/certificate/secret integration; quarantine attributes; install/upgrade/rollback/uninstall and support matrix.
+
+Verification:
+
+- Clean supported macOS/architectures cover verification, quarantine/notarization, install, launchd/restart/drain, permissions, TLS, upgrade/rollback, backup/restore, diagnostics, uninstall, and wrong-architecture/substitution failures.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- macOS support includes verified packaged lifecycle on both claimed architectures.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.127.6 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.127.7 — FreeBSD Service Packaging
+
+Status: planned.
+
+Goal: Qualify FreeBSD operation separately from Linux and other BSD assumptions.
+
+Deliverables:
+
+- Exact FreeBSD versions/architectures; archive/pkg decision; rc.d/service identity; filesystem/permission/socket/TLS differences; jail guidance where supported; install/upgrade/rollback/uninstall and limitations.
+
+Verification:
+
+- Native runners cover clean install, rc lifecycle, direct serve/TLS, permissions, filesystem locking, jail profile, restart/drain, upgrade/rollback, backup/restore, diagnostics, and uninstall on every claimed FreeBSD cell.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- FreeBSD support requires native runtime evidence and never follows from a compile-only target check.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.127.7 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.127.8 — NetBSD Service Packaging
+
+Status: planned.
+
+Goal: Qualify NetBSD operation independently from FreeBSD and Linux assumptions.
+
+Deliverables:
+
+- Exact NetBSD versions/architectures; archive/pkgsrc decision; rc.d/service identity; filesystem/permission/socket/TLS differences; chroot guidance where supported; install/upgrade/rollback/uninstall and limitations.
+
+Verification:
+
+- Native runners cover clean install, rc lifecycle, direct serve/TLS, permissions, filesystem locking, chroot profile, restart/drain, upgrade/rollback, backup/restore, diagnostics, and uninstall on every claimed NetBSD cell.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- NetBSD support requires native runtime evidence and never follows from FreeBSD behavior or a compile-only target check.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.127.8 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.127.9 — Android Host And Library Qualification
+
+Status: planned.
+
+Goal: Define and qualify the supported Android embedding/runtime surface without pretending a mobile device is a production server profile.
+
+Deliverables:
+
+- Supported API levels/architectures; library/JNI boundary; lifecycle/background limits; storage/keystore/network integration; no_std/shared-domain scope; generated Kotlin API; packaging/update; resource budgets; explicit absent server/worker features and sample host.
+
+Verification:
+
+- Emulator/device matrix covers load/unload, process/activity death, storage/key loss, offline/network change, API compatibility, Kotlin schema, thread/cancellation, resource pressure, upgrade/rollback, and unsupported-feature rejection.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Android support names exact embeddable capabilities and limitations; it does not imply the clustered server topology runs on Android.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.127.9 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.127.10 — iOS Host And Library Qualification
+
+Status: planned.
+
+Goal: Define and qualify the supported iOS embedding surface under platform lifecycle and distribution constraints.
+
+Deliverables:
+
+- Supported iOS versions/architectures; static/dynamic library boundary; Swift API generation; lifecycle/background limits; sandbox storage/Keychain/network integration; packaging/update; resource budgets; explicit absent server/worker features and sample host.
+
+Verification:
+
+- Simulator/device matrix covers load/unload, process/background termination, storage/key loss, offline/network change, Swift schema, thread/cancellation, memory pressure, upgrade/rollback, code-signing/package behavior, and unsupported-feature rejection.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- iOS support names exact embeddable capabilities and limitations; it does not imply production server operation on iOS.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.127.10 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.127.11 — Rootless OCI And Compose Packaging
+
+Status: planned.
+
+Goal: Qualify container images and simple multi-role composition independently from native packages.
+
+Deliverables:
+
+- Minimal non-root images; immutable digest; multi-architecture manifest; read-only root/filesystem mounts; UID/GID and capabilities; health/readiness; serve/worker/scheduler composition; secrets/config; resource limits; upgrade/rollback/uninstall and SBOM/provenance linkage.
+
+Verification:
+
+- Rootless Podman and supported container runtimes cover pull/verify, read-only/no-capability operation, volume permissions, network isolation, health/drain, multi-role restart, upgrade/rollback, backup/restore, digest substitution, and cleanup.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Container support is rootless by default and never requires ambient host privileges or mutable image tags for release identity.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.127.11 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.127.12 — Air-Gapped Installation Bundle
+
+Status: planned.
+
+Goal: Install, verify, update, roll back, and revoke Aetherheim without network access.
+
+Deliverables:
+
+- Complete platform artifact/dependency/package/tool/trust metadata bundle; offline signatures/SBOM/provenance/advisories/revocations; import/export media policy; expiry/freeze rules; update/rollback runbook; reproducible inventory and evidence.
+
+Verification:
+
+- Clean isolated environments cover install, verify, operate, update, rollback, revoked/stale metadata, missing/substituted artifact, trust-root rotation, extension/theme bundle, backup/restore, and complete uninstall with network physically unavailable.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Air-gapped support has no hidden online fetch and can still detect known bundled revocations and stale metadata truthfully.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.127.12 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.128.0 — Upgrade And Rollback Qualification
+
+Status: planned.
+
+Goal: Prove every supported installation can upgrade or return safely within its declared rollback window.
+
+Deliverables:
+
+- Expand/contract migrations; schema/protocol/package/config compatibility window; drain and canary; job/plugin/theme compatibility; data-loss/irreversibility checks; rollback automation; per-profile/operator runbooks and receipts.
+
+Verification:
+
+- Upgrade/rollback from every supported fixture with failure at each phase either completes or returns within the declared boundary; no loss, duplicate effect, stale authority, or secret leak.
 - Run the inherited repository, security, documentation, platform, and release-evidence gates.
 
 Exit criteria:
@@ -4010,7 +6466,28 @@ Exit criteria:
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.128.0 implementation stop reached. Run pentest for this exact commit.`
 
-### v0.128.1 — Cluster Identity And Readiness
+### v0.128.1 — Long-Run Endurance And Resource Qualification
+
+Status: planned.
+
+Goal: Find leaks, drift, starvation, and recovery defects independently from migration correctness.
+
+Deliverables:
+
+- Representative tenant/content/media/search/plugin/commerce workload; 24/72-hour and defined long soak profiles; memory/handle/thread/connection/disk/cardinality budgets; fault schedule; capacity and degradation thresholds; evidence and triage artifacts.
+
+Verification:
+
+- Sustained authoring/delivery/jobs/search/media/plugins/commerce with restarts, clock movement, provider latency/loss, cache eviction, secret rotation, disk pressure, and load spikes meets declared leak/fairness/latency/recovery budgets.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Every production profile has a reproducible long-run workload and no unexplained unbounded resource growth or starvation.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.128.1 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.128.2 — Cluster Identity And Readiness
 
 Status: planned.
 
@@ -4028,9 +6505,9 @@ Verification:
 Exit criteria:
 
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
-- `v0.128.1 implementation stop reached. Run pentest for this exact commit.`
+- `v0.128.2 implementation stop reached. Run pentest for this exact commit.`
 
-### v0.128.2 — Fenced Cluster Work And Failure Recovery
+### v0.128.3 — Fenced Cluster Work And Failure Recovery
 
 Status: planned.
 
@@ -4049,9 +6526,9 @@ Exit criteria:
 
 - Documentation states at-least-once/idempotent effects honestly and makes no exactly-once or home-grown consensus claim.
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
-- `v0.128.2 implementation stop reached. Run pentest for this exact commit.`
+- `v0.128.3 implementation stop reached. Run pentest for this exact commit.`
 
-### v0.128.3 — Active-Active Load And Failover Qualification
+### v0.128.4 — Active-Active Load And Failover Qualification
 
 Status: planned.
 
@@ -4070,9 +6547,9 @@ Exit criteria:
 
 - Single-node operation remains supported and every multi-node availability claim names the required database, shared blob, cache, secret-provider, and load-balancer assumptions.
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
-- `v0.128.3 implementation stop reached. Run pentest for this exact commit.`
+- `v0.128.4 implementation stop reached. Run pentest for this exact commit.`
 
-### v0.128.4 — PostgreSQL Cluster Reference Qualification
+### v0.128.5 — PostgreSQL Cluster Reference Qualification
 
 Status: planned.
 
@@ -4091,9 +6568,9 @@ Exit criteria:
 
 - “Clustered” initially means the exact qualified PostgreSQL/shared-blob topology; no broader database claim is inferred.
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
-- `v0.128.4 implementation stop reached. Run pentest for this exact commit.`
+- `v0.128.5 implementation stop reached. Run pentest for this exact commit.`
 
-### v0.128.5 — Additional Database Cluster Qualifications
+### v0.128.6 — Additional Database Cluster Qualifications
 
 Status: planned.
 
@@ -4112,21 +6589,21 @@ Exit criteria:
 
 - Each provider/profile is independently qualified or explicitly absent; SurrealDB remains experimental until this stop and every prerequisite matrix pass.
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
-- `v0.128.5 implementation stop reached. Run pentest for this exact commit.`
+- `v0.128.6 implementation stop reached. Run pentest for this exact commit.`
 
-### v0.129.0 — Contract Freeze and Full Security Campaign
+### v0.129.0 — Contract Inventory And Semantic Freeze
 
 Status: planned.
 
-Goal: Freeze 1.0 candidates only after ecosystem and migration evidence.
+Goal: Freeze every public/portable contract only after compatibility and migration evidence.
 
 Deliverables:
 
-- Complete REST, GraphQL, event, webhook, generated-client, archive/AHAF, theme, package, WIT/plugin ABI, and proof inventory; semantic compatibility checker; complete threat refresh; broad fuzzing; tenant/cache/session isolation; commerce audit; external review.
+- Complete REST, GraphQL, event, webhook, generated-client, archive/AHAF, theme, package, WIT/plugin ABI, configuration, CLI, database/profile, and proof inventory; semantic compatibility checker; deprecation/versioning decisions; generated documentation/SDK/fixture reproduction; migration and rollback compatibility evidence.
 
 Verification:
 
-- Reproducible SDK/docs/artifacts and full security campaign have zero unresolved critical/high findings; blocking medium findings are fixed.
+- Reproducible SDK/docs/fixtures/artifacts match the inventory; accidental breaking changes fail; every intentional versioned break has migration, rollback, consumer, and support-window evidence.
 - Run the inherited repository, security, documentation, platform, and release-evidence gates.
 
 Exit criteria:
@@ -4134,7 +6611,28 @@ Exit criteria:
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.129.0 implementation stop reached. Run pentest for this exact commit.`
 
-### v0.129.1 — Non-Skippable Release Qualification Matrix
+### v0.129.1 — Full Internal Security Campaign
+
+Status: planned.
+
+Goal: Run the complete cross-surface security campaign after contract freeze and before release qualification.
+
+Deliverables:
+
+- Complete threat-model refresh; broad parser/state-machine/protocol fuzzing; Miri/sanitizers where applicable; tenant/context/cache/session isolation; identity/recovery; upload/media; render/browser; extension/runtime; commerce; migration/backup; supply-chain and independent specialist reviews.
+
+Verification:
+
+- Every campaign target runs against exact frozen source/artifacts and reference profiles; findings have severity/owner/remediation/retest evidence; zero unresolved critical/high and no release-blocking medium findings remain.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Security review is not hidden inside compatibility freeze, and any semantic fix repeats affected freeze and campaign evidence.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.129.1 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.129.2 — Non-Skippable Release Qualification Matrix
 
 Status: planned.
 
@@ -4153,7 +6651,7 @@ Exit criteria:
 
 - Every enabled 1.0 profile and support-matrix cell has fresh required evidence for the exact candidate commit; optional absent profiles are clearly not claimed.
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
-- `v0.129.1 implementation stop reached. Run pentest for this exact commit.`
+- `v0.129.2 implementation stop reached. Run pentest for this exact commit.`
 
 ### v0.130.0 — Feature-Complete 1.0 Baseline
 
@@ -4901,3 +7399,11 @@ Exit criteria:
 ## Roadmap maintenance rule
 
 A release is split whenever its implementation, review, verification, or pentest scope is no longer comfortably bounded. New security patches use `v0.N.P` or `v1.N.P` and must include the same sections and pentest handoff stop. Planning numbers may move before implementation; tagged history never does. Individual pentests remain the default; only an explicit user instruction creates a batch, and no batch may exceed 15 listed releases.
+
+Every requirement, threat, support claim, migration, recovery action, manual
+review, and executable scenario has one owning milestone in the foundation
+registry. New discoveries are inserted at the earliest safe dependency point,
+not hidden in `v0.130.0`, a release candidate, or a generic hardening stop.
+Admission, semantic implementation, and live qualification remain separate for
+external security foundations and providers. Integration milestones may join
+earlier evidence, but do not absorb unfinished subsystem behavior.

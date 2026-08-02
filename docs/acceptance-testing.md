@@ -36,7 +36,8 @@ and report success.
 4. Black-box acceptance tests use the public CLI, HTTP/API, browser, package,
    import/export, and operator surfaces without internal shortcuts.
 5. Live-provider tests run against actual supported database, Valkey, OpenBao,
-   mail, object-store, search, identity, payment-sandbox, and proxy versions.
+   mail, object-store, HTTP/TLS, identity, media-tool, AI, payment-sandbox, and
+   proxy versions.
 6. Multi-process tests exercise real Aetherheim nodes, workers, Fluxheim, shared
    providers, failover, partitions, draining, and rolling upgrades.
 7. Packaged-artifact tests install and launch the same signed archive, image,
@@ -60,6 +61,11 @@ Each implemented capability receives stable scenario IDs and records:
 - applicable operating systems and topology profiles; and
 - owning release milestone and most recent passing evidence.
 
+The minimal registry begins before runtime product work. IDs created by early
+milestones are extended later with standards/control mappings; they are not
+renamed or reconstructed during compliance work. A release-plan entry without
+registered requirements and scenarios fails even when its tests happen to pass.
+
 Code review must update the scenarios in the same change as behavior. A changed
 public behavior without an updated executable scenario blocks merging and
 release. Disabled, ignored, quarantined, flaky, or skipped release scenarios
@@ -76,12 +82,16 @@ Once the relevant surfaces exist, the launchable suite covers at least:
   account, session revocation, WebAuthn/TOTP where enabled, role changes, and
   cross-tenant denial;
 - create schema/content, autosave, preview, approve, publish, edit, schedule,
-  unpublish, restore revision, route, render, search, translate, and export;
-- upload/quarantine/process/serve/delete media and survive hostile files;
+  unpublish, restore revision, classify, navigate, route, render, search,
+  translate, and export through equivalent `ContentView` REST/GraphQL/render
+  projections;
+- upload/quarantine/scan/probe/process/serve/revoke/delete image, document,
+  audio, and video media and survive hostile files and failed processors;
 - install/activate/deny/upgrade/rollback/remove themes and plugins with
   capability and isolation assertions;
-- forms, consent, mail, memberships, comments, automation, webhooks, imports,
-  commerce, refunds, inventory, and compliance workflows for enabled profiles;
+- forms, consent, mail, memberships, comments, automation, bookings, analytics,
+  optional AI proposal/review, webhooks, source-specific imports, commerce,
+  refunds, inventory, and compliance workflows for enabled profiles;
 - cache hit/miss/invalidation/eviction/poisoning/outage and authoritative
   reconstruction;
 - OpenBao bootstrap/read/renew/revoke/outage/redaction and clean child
@@ -90,6 +100,12 @@ Once the relevant surfaces exist, the launchable suite covers at least:
   fencing, partition, recovery, drain, and rolling-version compatibility; and
 - direct HTTP plus trusted-proxy and optional Fluxheim routing, forwarding,
   TLS/mTLS, retry, WebSocket, limit, health, drain, and all-down behavior.
+
+Before secondary databases are implemented, the SQLite developer-preview
+profile must already launch a real loopback process and browser to create,
+revise, publish, read, restart, export, and restore canonical content. Its
+acceptance suite also proves the development-only listener and one-time
+capability are absent from production artifacts and cannot bind remotely.
 
 This is a minimum, not a closed list. Every new command, endpoint, workflow,
 provider capability, security control, and documented recovery action adds its
@@ -108,6 +124,17 @@ Adapter-specific tests add malformed protocol responses, transaction and
 isolation behavior, deadlocks/retries, topology changes, version negotiation,
 limits, and unsupported-capability reporting. An in-memory adapter or mocked
 client never substitutes for this live matrix.
+
+Every database also runs differential query/result/error and generated
+concurrent-history scenarios against the APSP reference interpreter. Each
+support result records exact server version/topology, isolation/durability,
+collation, timezone, extensions, and capability limitations. A provider can
+pass CRUD journeys and still fail qualification when its semantics diverge.
+
+Shared S3-compatible blob support has its own live matrix for immutable
+conditional writes, multipart failure/cleanup, integrity, retention/hold,
+outage, cross-node reads, backup, and restore. It is a prerequisite for cluster
+profiles and cannot be replaced by unqualified NFS behavior.
 
 ## Execution Tiers
 

@@ -22,6 +22,7 @@ Status: foundation baseline; update for every release.
 - job scheduler to workers and external effects;
 - upload quarantine to isolated media processor;
 - host to plugin/component runtime and isolated extension UI;
+- client/proxy to admitted HTTP runtime and TLS/certificate provider;
 - Aetherheim to database, blob, mail, payment, search, key, and identity
   providers;
 - Aetherheim nodes to optional cache, OpenBao, cluster peers, and trusted edge
@@ -59,9 +60,14 @@ Status: foundation baseline; update for every release.
 - publication or approval replay, stale revision, ambiguous commit, job
   duplication, and audit suppression;
 - malicious archive, upload, image/document metadata, decompression bomb, and
-  compromised decoder;
+  compromised scanner/probe/decoder/transcoder;
+- shared-object substitution, multipart orphan/leak, stale listing, retention
+  bypass, cross-node blob inconsistency, and unsafe local/NFS fallback;
 - extension escape, confused deputy, forged actor/grant/handle, capability
-  broadening, resource exhaustion, and frontend origin escape;
+  broadening, ambient WASI import, guest-memory/handle abuse, runtime CVE,
+  resource exhaustion, and frontend origin escape;
+- HTTP request smuggling, slow-client exhaustion, Host/origin confusion, TLS
+  downgrade/certificate rotation failure, and development-preview exposure;
 - supply-chain substitution, stale action/tool, forged SBOM/provenance,
   rollback, and compromised publisher;
 - test-only bypass reaching production, mock-only assurance, silently skipped
@@ -71,7 +77,10 @@ Status: foundation baseline; update for every release.
 - backup theft, restore poisoning, incomplete erasure, legal-hold overreach,
   and privacy-invasive immutable evidence;
 - AI prompt injection, unauthorised source retrieval, data egress, false
-  provenance, and unreviewed publication.
+  provenance, model/terms substitution, cost amplification, and unreviewed
+  publication;
+- analytics fingerprinting, consent bypass, event spoof/replay, cardinality
+  exhaustion, raw-event over-retention, and cross-tenant identity linkage.
 
 ## Foundation Security Claims
 

@@ -18,6 +18,12 @@ small, justified external set. Before adding a crates.io dependency:
   and failure tests;
 - run Cargo deny, audit, SBOM, and freshness gates.
 
+Security-sensitive foundations receive separate admission, adapter, and live
+qualification milestones. This applies to database/cache/object-store clients,
+HTTP/TLS, password hashing, WebAuthn, HTML sanitization, media tools/codecs,
+Component Model runtimes, OpenBao, mail, identity, AI, and commerce providers.
+A successful dependency review does not itself establish behavior or support.
+
 Git dependencies, custom registries, undeclared crates, inexact versions, and
 unreviewed vendoring are denied. Every workspace package remains private with
 `publish = false`.
@@ -40,3 +46,9 @@ exact pins where possible, least privilege, and release evidence.
 The roadmap requires checksums, signatures through an explicit provider,
 component/platform SBOMs, provenance, clean builders, and offline verification.
 No release package is uploaded to crates.io.
+
+Each Linux, Windows, macOS, BSD, Android, iOS, OCI, and air-gapped support claim
+has a separate packaged-artifact matrix. Compile-only evidence is insufficient
+for runtime or mobile-host support. Signed registry/update metadata, freeze and
+rollback protection, trust-root rotation, and revocation are tested both online
+and in an actually disconnected environment.

@@ -18,8 +18,17 @@ must be reviewed before it enters the workspace. Interop features that add
 The planned `openbao` integration has the same admission requirements. The
 currently inspected `openbao` 2.1.2 graph contains `zeroize` through `secrecy`
 and parts of its default rustls stack, so that version cannot be admitted to
-Aetherheim. Integration waits for a reviewed, exact, zeroize-free `openbao`
-feature graph.
+Aetherheim. An explicit decision milestone may select an in-process adapter or
+a separately contained sidecar, but either distributed dependency graph must
+remain zeroize-free. If neither is safe and practical, OpenBao stays
+unsupported. Aetherheim does not implement a replacement TLS/OpenBao stack.
+
+Normal secret access uses typed references and short-lived operation or lease
+handles rather than general strings. Handles carry provider, tenant, purpose,
+generation, expiry, and revocation context. Rotation generations invalidate
+dependent pools/caches; renewal, revocation, outage, cancellation, and clock
+skew are tested against exact live OpenBao profiles independently from client
+admission and bootstrap implementation.
 
 ## Proportional Sanitization
 

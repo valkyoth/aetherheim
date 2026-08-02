@@ -56,6 +56,11 @@ application.
 - SQLite is the simple default; PostgreSQL is the production reference;
   MariaDB, MongoDB, and SurrealDB must pass the same portable conformance
   contract before support is claimed.
+- The portable contract is executable: APSP defines storage semantics and a
+  reference interpreter/differential history suite qualifies each database.
+- A loopback-only SQLite developer-preview slice is planned before secondary
+  databases so the architecture proves a real author/publish/read CMS journey
+  early without creating a production network claim.
 - Optional Valkey cache offload, multi-node operation, OpenBao secret bootstrap,
   and Fluxheim proxy/load-balancer deployments have separate fail-closed
   qualification gates; none is required for a simple installation.
@@ -69,6 +74,10 @@ application.
 - External crates are used only where they materially improve correctness,
   security, interoperability, or maintainability. Every addition is discussed
   first and entered in the dependency admission register.
+- Database clients, HTTP/TLS, password hashing, WebAuthn, HTML parsing,
+  media tools, and WebAssembly Component Model execution use mature admitted
+  foundations behind Aetherheim contracts; the project does not build its own
+  engines or security protocols merely to reduce dependencies.
 - Normal Rust source files may never exceed 500 lines.
 
 ## Platform Direction
@@ -78,6 +87,10 @@ from the foundation. Core `no_std` contracts are also checked independently so
 the architecture does not become locked to one operating system. Aesynx does
 not yet exist as a usable operating system or Rust target; it is only a possible
 future adapter and is not a present dependency, build target, or support claim.
+
+Compile portability, packaged server operation, and mobile embedding are
+separate claims. Native Linux/Windows/BSD/macOS operation and Android/iOS host
+libraries each receive their own release and live qualification matrix.
 
 ## Build
 
