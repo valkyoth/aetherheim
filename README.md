@@ -82,15 +82,18 @@ application.
 
 ## Platform Direction
 
-Linux, Windows, FreeBSD/NetBSD, macOS, Android, and iOS are supported targets
-from the foundation. Core `no_std` contracts are also checked independently so
-the architecture does not become locked to one operating system. Aesynx does
-not yet exist as a usable operating system or Rust target; it is only a possible
-future adapter and is not a present dependency, build target, or support claim.
+Aetherheim server operation is planned for Linux, Windows, FreeBSD/NetBSD, and
+macOS. Core `no_std` contracts are checked independently so the architecture
+does not become locked to one operating system. Aesynx does not yet exist as a
+usable operating system or Rust target; it is only a possible future adapter
+and is not a present dependency, build target, or support claim.
 
-Compile portability, packaged server operation, and mobile embedding are
-separate claims. Native Linux/Windows/BSD/macOS operation and Android/iOS host
-libraries each receive their own release and live qualification matrix.
+Android and iOS are not Aetherheim server or Rust-library embedding targets.
+After the 1.0 server release, the roadmap introduces dedicated native Android
+and iOS applications that connect to supported Aetherheim servers through a
+versioned client contract. They are real platform applications, not WebView or
+website wrappers, and receive their own security, compatibility, offline-sync,
+device, packaging, and release qualification.
 
 ## Build
 

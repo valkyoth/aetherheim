@@ -1,4 +1,4 @@
-# Aetherheim Release Plan To 1.0 And Optional Post-1.0 Assurance
+# Aetherheim Release Plan To 1.0, Native Clients, And Optional Assurance
 
 Status: planning document
 
@@ -14,7 +14,8 @@ v0.N.0       one pre-1.0 implementation milestone
 v0.N.P       compatible correction or additional safety gate
 v1.0.0-rc.N exact production candidate
 v1.0.0       first serious production release
-v1.N.0       optional post-1.0 capability milestone
+v1.1.0..v1.20.0 planned post-1.0 native client milestone
+v1.100.0+       optional later post-1.0 capability milestone
 ```
 
 The existing numbering through `v0.130.0` is intentional and stable. Aetherheim
@@ -256,7 +257,9 @@ Goal: Prove target portability from the first development line.
 
 Deliverables:
 
-- Linux GNU/musl, Windows GNU/MSVC, FreeBSD, NetBSD, macOS, Android, iOS, and freestanding core target checks.
+- Linux GNU/musl, Windows GNU/MSVC, FreeBSD, NetBSD, macOS, and
+  freestanding core target checks. Android and iOS are intentionally excluded:
+  they are future native client products, not server or embedding targets.
 
 Verification:
 
@@ -3149,7 +3152,10 @@ Verification:
 
 Exit criteria:
 
-- Generated artifacts remain repository/release assets and do not imply crates.io or external package-registry publication.
+- Generated artifacts remain repository/release assets and do not imply
+  crates.io, external package-registry publication, a mobile app, mobile
+  server operation, or Rust-library embedding support before the dedicated
+  post-1.0 milestones pass.
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.68.3 implementation stop reached. Run pentest for this exact commit.`
 
@@ -6362,49 +6368,7 @@ Exit criteria:
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.127.8 implementation stop reached. Run pentest for this exact commit.`
 
-### v0.127.9 — Android Host And Library Qualification
-
-Status: planned.
-
-Goal: Define and qualify the supported Android embedding/runtime surface without pretending a mobile device is a production server profile.
-
-Deliverables:
-
-- Supported API levels/architectures; library/JNI boundary; lifecycle/background limits; storage/keystore/network integration; no_std/shared-domain scope; generated Kotlin API; packaging/update; resource budgets; explicit absent server/worker features and sample host.
-
-Verification:
-
-- Emulator/device matrix covers load/unload, process/activity death, storage/key loss, offline/network change, API compatibility, Kotlin schema, thread/cancellation, resource pressure, upgrade/rollback, and unsupported-feature rejection.
-- Run the inherited repository, security, documentation, platform, and release-evidence gates.
-
-Exit criteria:
-
-- Android support names exact embeddable capabilities and limitations; it does not imply the clustered server topology runs on Android.
-- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
-- `v0.127.9 implementation stop reached. Run pentest for this exact commit.`
-
-### v0.127.10 — iOS Host And Library Qualification
-
-Status: planned.
-
-Goal: Define and qualify the supported iOS embedding surface under platform lifecycle and distribution constraints.
-
-Deliverables:
-
-- Supported iOS versions/architectures; static/dynamic library boundary; Swift API generation; lifecycle/background limits; sandbox storage/Keychain/network integration; packaging/update; resource budgets; explicit absent server/worker features and sample host.
-
-Verification:
-
-- Simulator/device matrix covers load/unload, process/background termination, storage/key loss, offline/network change, Swift schema, thread/cancellation, memory pressure, upgrade/rollback, code-signing/package behavior, and unsupported-feature rejection.
-- Run the inherited repository, security, documentation, platform, and release-evidence gates.
-
-Exit criteria:
-
-- iOS support names exact embeddable capabilities and limitations; it does not imply production server operation on iOS.
-- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
-- `v0.127.10 implementation stop reached. Run pentest for this exact commit.`
-
-### v0.127.11 — Rootless OCI And Compose Packaging
+### v0.127.9 — Rootless OCI And Compose Packaging
 
 Status: planned.
 
@@ -6423,9 +6387,9 @@ Exit criteria:
 
 - Container support is rootless by default and never requires ambient host privileges or mutable image tags for release identity.
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
-- `v0.127.11 implementation stop reached. Run pentest for this exact commit.`
+- `v0.127.9 implementation stop reached. Run pentest for this exact commit.`
 
-### v0.127.12 — Air-Gapped Installation Bundle
+### v0.127.10 — Air-Gapped Installation Bundle
 
 Status: planned.
 
@@ -6444,7 +6408,7 @@ Exit criteria:
 
 - Air-gapped support has no hidden online fetch and can still detect known bundled revocations and stale metadata truthfully.
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
-- `v0.127.12 implementation stop reached. Run pentest for this exact commit.`
+- `v0.127.10 implementation stop reached. Run pentest for this exact commit.`
 
 ### v0.128.0 — Upgrade And Rollback Qualification
 
@@ -6752,11 +6716,421 @@ Exit criteria:
 - Every definition-of-done item in the implementation plan is evidenced and no release blocker remains.
 - `v1.0.0 implementation stop reached. Run pentest for this exact commit.`
 
-## Optional post-1.0 Skrifheim roadmap
+## Post-1.0 native application roadmap
+
+Android and iOS are client products in this roadmap. They never run Aetherheim
+server, worker, scheduler, or database roles and do not embed the Rust server.
+Each application uses native platform UI and services over a versioned public
+client profile; a WebView, PWA shell, or responsive website does not satisfy
+these milestones. Planned app support begins only after the 1.0 server contract
+is stable and may move before implementation under the roadmap maintenance
+rule.
+
+### v1.1.0 — Native Client Profile
+
+Status: planned after 1.0.
+
+Goal: Freeze the server contract required by independently released native clients.
+
+Deliverables:
+
+- Versioned Native Client Profile over the public API; capability and version discovery; stable error/problem vocabulary; pagination, revisions, idempotency, upload, workflow, and event semantics; generated Kotlin/Swift schemas; compatibility fixtures; deprecation and minimum-supported-server policy; explicit exclusions for browser-only and extension-provided UI.
+
+Verification:
+
+- Contract fixtures prove Kotlin and Swift representations preserve every supported value, unknown optional fields remain forward compatible, incompatible required capabilities fail explicitly, and the profile exposes no storage-provider or cluster internals.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- A native client can negotiate exactly what a server supports without guessing from its database, topology, edition, theme, or plugin set.
+- `v1.1.0 implementation stop reached. Run pentest for this exact commit.`
+
+### v1.2.0 — Server Onboarding And Identity
+
+Status: planned after 1.0.
+
+Goal: Connect a device to an intended Aetherheim deployment without server or tenant confusion.
+
+Deliverables:
+
+- Canonical server URL and identity document; WebPKI and managed-enterprise trust profiles; QR/universal/app-link onboarding as untrusted input; redirect and origin policy; server rename/certificate-change handling; tenant/site selection; capability preview; removal and re-enrolment receipts.
+
+Verification:
+
+- Real clients reject HTTP downgrade, wrong origin, hostile QR/deep links, redirect escape, lookalike identity, stale discovery, incompatible server versions, and silent server-identity replacement while valid direct and Fluxheim-fronted servers connect.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- The selected server and tenant are shown and cryptographically transported without inventing unsafe trust-on-first-use or certificate-pinning guarantees.
+- `v1.2.0 implementation stop reached. Run pentest for this exact commit.`
+
+### v1.3.0 — Native Authentication And Device Sessions
+
+Status: planned after 1.0.
+
+Goal: Give native apps scoped, revocable device sessions without copying browser credentials unsafely.
+
+Deliverables:
+
+- System-browser authorization flow; passkey/MFA and step-up integration; one-time callback state; device registration and naming; short-lived access plus rotated refresh authority; scoped logout/revoke-all; Android Keystore and iOS Keychain storage; screenshot/clipboard/logging policy; recovery and lost-device runbook.
+
+Verification:
+
+- Device, emulator, and server tests cover callback interception, CSRF/state replay, token rotation races, expiry, password/MFA change, administrator revocation, stolen refresh material, app reinstall, key loss, clock skew, offline expiry, and redacted diagnostics.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- No reusable password or session token is placed in ordinary app storage, logs, backups, notifications, or cross-app handoff data.
+- `v1.3.0 implementation stop reached. Run pentest for this exact commit.`
+
+### v1.4.0 — Encrypted Local Data Boundary
+
+Status: planned after 1.0.
+
+Goal: Define bounded offline state that cannot become a second authority or cross server boundaries.
+
+Deliverables:
+
+- Per-server/account encrypted store; data classification and field allowlist; non-exportable key wrapping; cache/outbox/media partitioning; lock and background-access policy; quotas and eviction; backup exclusion; logout/account/server removal erasure; schema migration and corruption recovery.
+
+Verification:
+
+- Tests cover locked device, copied store, wrong key, OS backup/restore, account switch, two lookalike servers, crash during migration, disk pressure, corrupt pages, logout, remote revocation, uninstall/reinstall, and bounded remanence evidence.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Local data is encrypted, least-retained, server/account isolated, disposable, and never presented as authoritative after its freshness or permission context expires.
+- `v1.4.0 implementation stop reached. Run pentest for this exact commit.`
+
+### v1.5.0 — Offline Outbox And Conflict Protocol
+
+Status: planned after 1.0.
+
+Goal: Make intermittent-network editing safe under retry, ambiguity, and concurrent change.
+
+Deliverables:
+
+- Durable idempotent outbox; dependency ordering; revision preconditions; status lookup after ambiguous completion; retry budgets; explicit conflicts and three-way comparison inputs; discard/rebase/manual-resolution paths; permission and schema revalidation; user-visible sync state.
+
+Verification:
+
+- Airplane mode, process death at every transition, duplicated/reordered responses, captive portal, server failover, token expiry, policy/schema change, concurrent browser editor, deleted content, quota failure, and app/server upgrade scenarios lose no acknowledged work or silently overwrite a newer revision.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Offline commands are either durably pending, observably committed once, explicitly conflicted, or safely rejected; ambiguous success is never converted into a duplicate mutation.
+- `v1.5.0 implementation stop reached. Run pentest for this exact commit.`
+
+### v1.6.0 — Privacy-Preserving Push
+
+Status: planned after 1.0.
+
+Goal: Notify devices without placing protected CMS data or bearer authority in push infrastructure.
+
+Deliverables:
+
+- APNs/FCM registration contract; per-device opaque handles; minimal event hint; authenticated in-app fetch; tenant/account routing; preference and quiet-time controls; handle rotation/revocation; collapse and expiry rules; provider outage/degradation behavior; no-push profile.
+
+Verification:
+
+- Inspect provider payloads and logs; exercise forged/replayed/misdirected/late notifications, account removal, device restore, token rotation, denied permissions, provider outage, duplicate delivery, locked device, and cross-server registration attempts.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Push payloads reveal no content, identity secret, protected title, tenant-private detail, or authority and are never required for correctness.
+- `v1.6.0 implementation stop reached. Run pentest for this exact commit.`
+
+### v1.7.0 — Multi-Server And Account Isolation
+
+Status: planned after 1.0.
+
+Goal: Let one app manage several compatible Aetherheim servers without identity or data crossover.
+
+Deliverables:
+
+- Server/account switcher; independent trust, credentials, stores, outboxes, push handles, deep links, and policy caches; clear active-context UI; duplicate-server detection; per-account background sync and removal; managed-device restrictions.
+
+Verification:
+
+- Concurrent scenarios use multiple tenants and same-named sites/accounts across direct and Fluxheim-fronted servers, then inject push, link, retry, cache, clipboard/share, logout, and background-task confusion attempts.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Every native action displays and carries an unambiguous server, tenant/site, account, and environment context from UI intent through server authorization.
+- `v1.7.0 implementation stop reached. Run pentest for this exact commit.`
+
+### v1.8.0 — Native Reading And Operations Dashboard
+
+Status: planned after 1.0.
+
+Goal: Deliver useful native monitoring and content access before mutation-rich workflows.
+
+Deliverables:
+
+- Native navigation, dashboard, content/revision/workflow lists, safe previews, search, audit and job status, health notices, bounded offline reading, share/export policy, deep links, theme-independent rendering, and explicit unsupported extension panels.
+
+Verification:
+
+- Black-box app journeys cover pagination, locale/direction, permission changes, stale content, sensitive previews, hostile rich content/URLs, offline cache, background/foreground, large sites, Fluxheim routing, and every supported database reference profile.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- The native experience uses platform controls and canonical `ContentView` data without executing theme/plugin HTML as privileged app UI.
+- `v1.8.0 implementation stop reached. Run pentest for this exact commit.`
+
+### v1.9.0 — Native Structured Authoring
+
+Status: planned after 1.0.
+
+Goal: Edit canonical structured content through a touch-first native interface.
+
+Deliverables:
+
+- Schema-driven block editor; field validation; autosave into the offline outbox; revision comparison; locale/direction support; undo/redo; bounded unknown-block representation; preview; drafts; keyboard and assistive input; clear browser-handoff boundary for unsupported editors.
+
+Verification:
+
+- Real-device journeys create, edit, reorder, validate, autosave, crash/recover, conflict, translate, preview, publish later, and round-trip known/unknown blocks without dropping inert data or permitting invalid canonical documents.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- App-authored documents pass the same schema, bounds, policy, and revision rules as browser-, CLI-, and API-authored documents.
+- `v1.9.0 implementation stop reached. Run pentest for this exact commit.`
+
+### v1.10.0 — Native Media Capture And Transfer
+
+Status: planned after 1.0.
+
+Goal: Capture and upload media safely through native platform facilities.
+
+Deliverables:
+
+- Camera/photo/file pickers with least privilege; metadata disclosure and stripping choices; resumable bounded upload; local staging encryption/cleanup; progress/cancel/retry; quarantine/scan/processing state; derivative preview; accessibility text and rights fields; background-transfer policy.
+
+Verification:
+
+- Device tests cover permission denial/revocation, hostile provider URIs, oversized and malformed files, EXIF/location leakage, low storage, network change, duplicate chunks, process death, server rejection, scanner outage, cancellation, cleanup, and cross-account substitution.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Native capture never bypasses server media admission, quarantine, scanning, policy, quota, provenance, or publication controls.
+- `v1.10.0 implementation stop reached. Run pentest for this exact commit.`
+
+### v1.11.0 — Native Editorial Workflows
+
+Status: planned after 1.0.
+
+Goal: Complete review, approval, scheduling, and publication from native clients.
+
+Deliverables:
+
+- Assignment and review queues; comments and revision comparison; approve/reject/request-change; scheduled publish/unpublish; step-up and separation-of-duties UI; workflow/audit receipts; stale-approval invalidation; safe external link and browser handoff.
+
+Verification:
+
+- Multi-actor app/browser scenarios cover self-approval denial, stale revisions, expired step-up, schedule/timezone changes, revoked roles, duplicate taps, offline approval attempts, partial cluster outage, audit failure, and publication status reconciliation.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Mobile convenience cannot weaken server-side workflow, policy, evidence, publication, or audit invariants.
+- `v1.11.0 implementation stop reached. Run pentest for this exact commit.`
+
+### v1.12.0 — Android Native Foundation
+
+Status: planned after 1.0.
+
+Goal: Implement the Android client as a first-class native application.
+
+Deliverables:
+
+- Current stable Kotlin and Android toolchain admission; Jetpack Compose application architecture; generated schema boundary; networking, Keystore, encrypted data, work scheduling, notification, camera/file, lifecycle, deep-link, and accessibility adapters; tablet/foldable layouts; dependency register and reproducible build.
+
+Verification:
+
+- Supported Android API/architecture emulator and representative-device matrix runs every implemented client journey through activity/process death, rotation, background restriction, Doze, low memory/storage, network transitions, OS upgrade, and dependency/toolchain freshness checks.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Android capability is native, documented per OS/device class, minimal-dependency, reproducibly built, and independent of any Rust server runtime on the device.
+- `v1.12.0 implementation stop reached. Run pentest for this exact commit.`
+
+### v1.13.0 — Android Distribution And Update Security
+
+Status: planned after 1.0.
+
+Goal: Qualify authentic Android packages and safe lifecycle transitions.
+
+Deliverables:
+
+- Application ID and signing-key ceremony; Play/App Bundle and approved direct-distribution profiles; provenance/SBOM; update and minimum-version policy; key rotation and compromise response; backup/export rules; data/schema migration; staged rollout/rollback and removal documentation.
+
+Verification:
+
+- Clean installs, valid/invalid upgrades, downgrade refusal, signing mismatch, stale/revoked package, key rotation, interrupted migration, store outage, managed-device policy, sideload where claimed, uninstall/reinstall, and server compatibility windows pass using release-identical artifacts.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Users and managed deployments can verify Android app identity, provenance, supported update path, and revocation state before trusting it with server access.
+- `v1.13.0 implementation stop reached. Run pentest for this exact commit.`
+
+### v1.14.0 — iOS Native Foundation
+
+Status: planned after 1.0.
+
+Goal: Implement the iOS client as a first-class native application.
+
+Deliverables:
+
+- Current stable Swift and Apple toolchain admission; SwiftUI application architecture; generated schema boundary; URLSession, Keychain, protected data, background task, notification, photo/file, lifecycle, universal-link, and accessibility adapters; iPhone/iPad layouts; dependency register and reproducible archive process.
+
+Verification:
+
+- Supported iOS/device simulator and representative-device matrix runs every implemented client journey through scene/process death, background expiration, protected-data lock, memory/storage pressure, network transitions, OS upgrade, and dependency/toolchain freshness checks.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- iOS capability is native, documented per OS/device class, minimal-dependency, reproducibly archived, and independent of any Rust server runtime on the device.
+- `v1.14.0 implementation stop reached. Run pentest for this exact commit.`
+
+### v1.15.0 — iOS Distribution And Update Security
+
+Status: planned after 1.0.
+
+Goal: Qualify authentic iOS packages and safe lifecycle transitions.
+
+Deliverables:
+
+- Bundle identity, entitlements, certificate/profile and signing-key ceremony; App Store/TestFlight and approved managed-distribution profiles; privacy manifest, provenance/SBOM; update/minimum-version policy; compromise response; data migration; staged rollout/rollback and removal documentation.
+
+Verification:
+
+- Clean installs, valid/invalid upgrades, downgrade/data refusal, entitlement/signing mismatch, stale/revoked package, certificate/key rotation, interrupted migration, store outage, managed-device policy, uninstall/reinstall, and server compatibility windows pass using release-identical archives.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Users and managed deployments can verify iOS app identity, privacy declarations, provenance, supported update path, and revocation state before trusting it with server access.
+- `v1.15.0 implementation stop reached. Run pentest for this exact commit.`
+
+### v1.16.0 — Native Accessibility And Localisation
+
+Status: planned after 1.0.
+
+Goal: Make both applications usable across declared accessibility, language, and device profiles.
+
+Deliverables:
+
+- Shared semantic behavior with platform-native presentation; screen-reader labels/order/actions; switch/keyboard input; dynamic text and reflow; contrast/motion settings; captions/alternatives; bidirectional layouts; plural/date/number/timezone handling; localised security and recovery messages; documented parity matrix.
+
+Verification:
+
+- Human and automated Android/iOS tests cover supported screen readers and assistive inputs, maximum text, narrow/tablet layouts, RTL and mixed direction, locale switching, long translations, reduced motion, offline/error/security flows, and editorial journeys.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- No critical read, author, review, security, sync, or recovery journey requires a browser because the native UI is inaccessible or untranslated in a claimed profile.
+- `v1.16.0 implementation stop reached. Run pentest for this exact commit.`
+
+### v1.17.0 — App And Server Compatibility Matrix
+
+Status: planned after 1.0.
+
+Goal: Prove native clients work with every server version and deployment profile they claim.
+
+Deliverables:
+
+- Explicit app/server support window; capability downgrade rules; rolling-server-upgrade behavior; direct and Fluxheim edge profiles; single-node and clustered profiles; database-independent client contract; reference SQLite/PostgreSQL plus every supported adapter matrix; deprecation telemetry without content leakage.
+
+Verification:
+
+- Android and iOS release artifacts run the same black-box journeys against every claimed server version, database capability profile, topology, proxy, upgrade direction, feature absence, clock gap, partial rollout, and unsupported combination; unsupported pairs refuse safely with actionable guidance.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- “Connect to Aetherheim” means any explicitly compatible supported server, independent of its storage adapter and topology, never an unbounded promise about arbitrary old or modified deployments.
+- `v1.17.0 implementation stop reached. Run pentest for this exact commit.`
+
+### v1.18.0 — Native Resilience And Resource Campaign
+
+Status: planned after 1.0.
+
+Goal: Qualify long-running client behavior under device, network, server, and resource failure.
+
+Deliverables:
+
+- Battery/network/storage/memory budgets; cold/warm launch and sync performance budgets; large-site fixtures; 24/72-hour foreground/background campaigns; server outage/failover/restore; push storms; media transfer load; crash/ANR/watchdog and bounded diagnostic evidence.
+
+Verification:
+
+- Representative Android/iOS devices endure constrained networks, airplane/captive transitions, process eviction, clock change, low power/data modes, low storage/memory, repeated account switching, huge paginated sites, server cluster loss, provider latency, app update, and recovery without data crossover, lost acknowledged work, runaway background activity, or secret-bearing reports.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Published resource and resilience envelopes are met on every supported device class, and out-of-envelope behavior degrades visibly and safely.
+- `v1.18.0 implementation stop reached. Run pentest for this exact commit.`
+
+### v1.19.0 — Native Application Independent Review
+
+Status: planned after 1.0.
+
+Goal: Review the complete server/client, device, offline, and distribution boundary before native GA.
+
+Deliverables:
+
+- Updated joint threat model; Android/iOS architecture and privacy review; API/auth review; lost-device and malicious-server tabletop; package/update/signing review; mobile application pentest; dependency/tool audit; remediation, retest, residual-risk owners, and public-safe report.
+
+Verification:
+
+- Independent testers exercise both release-identical apps against supported direct, Fluxheim, clustered, offline, hostile-network, hostile-content, multi-server, revocation, and upgrade profiles; all findings are reproduced and linked to executable regressions.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- No unresolved critical/high issue remains, accepted lower risks have owners and expiry, and both platform reports pass for the exact candidate artifacts.
+- `v1.19.0 implementation stop reached. Run pentest for this exact commit.`
+
+### v1.20.0 — Native Applications GA
+
+Status: planned after 1.0.
+
+Goal: Release supported Android and iOS clients without changing Aetherheim server authority.
+
+Deliverables:
+
+- Signed Android and iOS releases; store and approved distribution listings; compatibility and device matrices; onboarding, privacy, recovery, lost-device, update, support, and deprecation documentation; incident/revocation process; reproducible artifacts, SBOMs, provenance, and release notes.
+
+Verification:
+
+- Clean users connect each release artifact to compatible direct and Fluxheim-fronted servers, complete read/author/media/workflow/offline/sync/recovery journeys, verify updates and provenance, and receive safe actionable refusal from unsupported servers; final app/server and pentest evidence matches exact artifact digests.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Android and iOS are truthfully supportable native client products; neither is described, packaged, tested, or operated as an Aetherheim server or website wrapper.
+- `v1.20.0 implementation stop reached. Run pentest for this exact commit.`
+
+## Optional later post-1.0 Skrifheim roadmap
 
 Entry conditions: Aetherheim 1.0 and Skrifheim 1.0 are stable; relevant Skrifheim extension contracts are frozen; exact versions pass dependency admission and joint review; Standard builds omit the integration; migration and rollback exist; and the joint threat model has passed independent review. These versions are not commitments until those conditions hold.
 
-### v1.1.0 — Optional Integration Repository
+### v1.100.0 — Optional Integration Repository
 
 Status: blocked by post-1.0 entry conditions.
 
@@ -6774,9 +7148,9 @@ Verification:
 Exit criteria:
 
 - Standard Mode remains independently buildable and behaviorally unchanged.
-- `v1.1.0 implementation stop reached. Run pentest for this exact commit.`
+- `v1.100.0 implementation stop reached. Run pentest for this exact commit.`
 
-### v1.2.0 — Endpoint Identity and Negotiation
+### v1.101.0 — Endpoint Identity and Negotiation
 
 Status: blocked by post-1.0 entry conditions.
 
@@ -6794,9 +7168,9 @@ Verification:
 Exit criteria:
 
 - Standard Mode remains independently buildable and behaviorally unchanged.
-- `v1.2.0 implementation stop reached. Run pentest for this exact commit.`
+- `v1.101.0 implementation stop reached. Run pentest for this exact commit.`
 
-### v1.3.0 — Actor and Workload Bridge
+### v1.102.0 — Actor and Workload Bridge
 
 Status: blocked by post-1.0 entry conditions.
 
@@ -6814,9 +7188,9 @@ Verification:
 Exit criteria:
 
 - Standard Mode remains independently buildable and behaviorally unchanged.
-- `v1.3.0 implementation stop reached. Run pentest for this exact commit.`
+- `v1.102.0 implementation stop reached. Run pentest for this exact commit.`
 
-### v1.4.0 — Witness Mode
+### v1.103.0 — Witness Mode
 
 Status: blocked by post-1.0 entry conditions.
 
@@ -6834,9 +7208,9 @@ Verification:
 Exit criteria:
 
 - Standard Mode remains independently buildable and behaviorally unchanged.
-- `v1.4.0 implementation stop reached. Run pentest for this exact commit.`
+- `v1.103.0 implementation stop reached. Run pentest for this exact commit.`
 
-### v1.5.0 — Witness-Gated Publication
+### v1.104.0 — Witness-Gated Publication
 
 Status: blocked by post-1.0 entry conditions.
 
@@ -6854,9 +7228,9 @@ Verification:
 Exit criteria:
 
 - Standard Mode remains independently buildable and behaviorally unchanged.
-- `v1.5.0 implementation stop reached. Run pentest for this exact commit.`
+- `v1.104.0 implementation stop reached. Run pentest for this exact commit.`
 
-### v1.6.0 — Witness Verification UX
+### v1.105.0 — Witness Verification UX
 
 Status: blocked by post-1.0 entry conditions.
 
@@ -6874,9 +7248,9 @@ Verification:
 Exit criteria:
 
 - Standard Mode remains independently buildable and behaviorally unchanged.
-- `v1.6.0 implementation stop reached. Run pentest for this exact commit.`
+- `v1.105.0 implementation stop reached. Run pentest for this exact commit.`
 
-### v1.7.0 — Fact Schema Catalog
+### v1.106.0 — Fact Schema Catalog
 
 Status: blocked by post-1.0 entry conditions.
 
@@ -6894,9 +7268,9 @@ Verification:
 Exit criteria:
 
 - Standard Mode remains independently buildable and behaviorally unchanged.
-- `v1.7.0 implementation stop reached. Run pentest for this exact commit.`
+- `v1.106.0 implementation stop reached. Run pentest for this exact commit.`
 
-### v1.8.0 — World Mapping
+### v1.107.0 — World Mapping
 
 Status: blocked by post-1.0 entry conditions.
 
@@ -6914,9 +7288,9 @@ Verification:
 Exit criteria:
 
 - Standard Mode remains independently buildable and behaviorally unchanged.
-- `v1.8.0 implementation stop reached. Run pentest for this exact commit.`
+- `v1.107.0 implementation stop reached. Run pentest for this exact commit.`
 
-### v1.9.0 — Verified Content Ingest
+### v1.108.0 — Verified Content Ingest
 
 Status: blocked by post-1.0 entry conditions.
 
@@ -6934,9 +7308,9 @@ Verification:
 Exit criteria:
 
 - Standard Mode remains independently buildable and behaviorally unchanged.
-- `v1.9.0 implementation stop reached. Run pentest for this exact commit.`
+- `v1.108.0 implementation stop reached. Run pentest for this exact commit.`
 
-### v1.10.0 — Projection Journal
+### v1.109.0 — Projection Journal
 
 Status: blocked by post-1.0 entry conditions.
 
@@ -6954,9 +7328,9 @@ Verification:
 Exit criteria:
 
 - Standard Mode remains independently buildable and behaviorally unchanged.
-- `v1.10.0 implementation stop reached. Run pentest for this exact commit.`
+- `v1.109.0 implementation stop reached. Run pentest for this exact commit.`
 
-### v1.11.0 — Authorised Management Reads
+### v1.110.0 — Authorised Management Reads
 
 Status: blocked by post-1.0 entry conditions.
 
@@ -6974,9 +7348,9 @@ Verification:
 Exit criteria:
 
 - Standard Mode remains independently buildable and behaviorally unchanged.
-- `v1.11.0 implementation stop reached. Run pentest for this exact commit.`
+- `v1.110.0 implementation stop reached. Run pentest for this exact commit.`
 
-### v1.12.0 — Atomic Publication
+### v1.111.0 — Atomic Publication
 
 Status: blocked by post-1.0 entry conditions.
 
@@ -6994,9 +7368,9 @@ Verification:
 Exit criteria:
 
 - Standard Mode remains independently buildable and behaviorally unchanged.
-- `v1.12.0 implementation stop reached. Run pentest for this exact commit.`
+- `v1.111.0 implementation stop reached. Run pentest for this exact commit.`
 
-### v1.13.0 — Public Projection
+### v1.112.0 — Public Projection
 
 Status: blocked by post-1.0 entry conditions.
 
@@ -7014,9 +7388,9 @@ Verification:
 Exit criteria:
 
 - Standard Mode remains independently buildable and behaviorally unchanged.
-- `v1.13.0 implementation stop reached. Run pentest for this exact commit.`
+- `v1.112.0 implementation stop reached. Run pentest for this exact commit.`
 
-### v1.14.0 — Media Provenance
+### v1.113.0 — Media Provenance
 
 Status: blocked by post-1.0 entry conditions.
 
@@ -7034,9 +7408,9 @@ Verification:
 Exit criteria:
 
 - Standard Mode remains independently buildable and behaviorally unchanged.
-- `v1.14.0 implementation stop reached. Run pentest for this exact commit.`
+- `v1.113.0 implementation stop reached. Run pentest for this exact commit.`
 
-### v1.15.0 — Multilingual Provenance
+### v1.114.0 — Multilingual Provenance
 
 Status: blocked by post-1.0 entry conditions.
 
@@ -7054,9 +7428,9 @@ Verification:
 Exit criteria:
 
 - Standard Mode remains independently buildable and behaviorally unchanged.
-- `v1.15.0 implementation stop reached. Run pentest for this exact commit.`
+- `v1.114.0 implementation stop reached. Run pentest for this exact commit.`
 
-### v1.16.0 — Quorum Workflows
+### v1.115.0 — Quorum Workflows
 
 Status: blocked by post-1.0 entry conditions.
 
@@ -7074,9 +7448,9 @@ Verification:
 Exit criteria:
 
 - Standard Mode remains independently buildable and behaviorally unchanged.
-- `v1.16.0 implementation stop reached. Run pentest for this exact commit.`
+- `v1.115.0 implementation stop reached. Run pentest for this exact commit.`
 
-### v1.17.0 — Community Domains
+### v1.116.0 — Community Domains
 
 Status: blocked by post-1.0 entry conditions.
 
@@ -7094,9 +7468,9 @@ Verification:
 Exit criteria:
 
 - Standard Mode remains independently buildable and behaviorally unchanged.
-- `v1.17.0 implementation stop reached. Run pentest for this exact commit.`
+- `v1.116.0 implementation stop reached. Run pentest for this exact commit.`
 
-### v1.18.0 — Extension Proofs
+### v1.117.0 — Extension Proofs
 
 Status: blocked by post-1.0 entry conditions.
 
@@ -7114,9 +7488,9 @@ Verification:
 Exit criteria:
 
 - Standard Mode remains independently buildable and behaviorally unchanged.
-- `v1.18.0 implementation stop reached. Run pentest for this exact commit.`
+- `v1.117.0 implementation stop reached. Run pentest for this exact commit.`
 
-### v1.19.0 — AI Derivation
+### v1.118.0 — AI Derivation
 
 Status: blocked by post-1.0 entry conditions.
 
@@ -7134,9 +7508,9 @@ Verification:
 Exit criteria:
 
 - Standard Mode remains independently buildable and behaviorally unchanged.
-- `v1.19.0 implementation stop reached. Run pentest for this exact commit.`
+- `v1.118.0 implementation stop reached. Run pentest for this exact commit.`
 
-### v1.20.0 — Commerce Authority
+### v1.119.0 — Commerce Authority
 
 Status: blocked by post-1.0 entry conditions.
 
@@ -7154,9 +7528,9 @@ Verification:
 Exit criteria:
 
 - Standard Mode remains independently buildable and behaviorally unchanged.
-- `v1.20.0 implementation stop reached. Run pentest for this exact commit.`
+- `v1.119.0 implementation stop reached. Run pentest for this exact commit.`
 
-### v1.21.0 — Data Passports
+### v1.120.0 — Data Passports
 
 Status: blocked by post-1.0 entry conditions.
 
@@ -7174,9 +7548,9 @@ Verification:
 Exit criteria:
 
 - Standard Mode remains independently buildable and behaviorally unchanged.
-- `v1.21.0 implementation stop reached. Run pentest for this exact commit.`
+- `v1.120.0 implementation stop reached. Run pentest for this exact commit.`
 
-### v1.22.0 — Operation Passports
+### v1.121.0 — Operation Passports
 
 Status: blocked by post-1.0 entry conditions.
 
@@ -7194,9 +7568,9 @@ Verification:
 Exit criteria:
 
 - Standard Mode remains independently buildable and behaviorally unchanged.
-- `v1.22.0 implementation stop reached. Run pentest for this exact commit.`
+- `v1.121.0 implementation stop reached. Run pentest for this exact commit.`
 
-### v1.23.0 — Retention and Erasure
+### v1.122.0 — Retention and Erasure
 
 Status: blocked by post-1.0 entry conditions.
 
@@ -7214,9 +7588,9 @@ Verification:
 Exit criteria:
 
 - Standard Mode remains independently buildable and behaviorally unchanged.
-- `v1.23.0 implementation stop reached. Run pentest for this exact commit.`
+- `v1.122.0 implementation stop reached. Run pentest for this exact commit.`
 
-### v1.24.0 — Protected Read Permits
+### v1.123.0 — Protected Read Permits
 
 Status: blocked by post-1.0 entry conditions.
 
@@ -7234,9 +7608,9 @@ Verification:
 Exit criteria:
 
 - Standard Mode remains independently buildable and behaviorally unchanged.
-- `v1.24.0 implementation stop reached. Run pentest for this exact commit.`
+- `v1.123.0 implementation stop reached. Run pentest for this exact commit.`
 
-### v1.25.0 — Authority Backup and Restore
+### v1.124.0 — Authority Backup and Restore
 
 Status: blocked by post-1.0 entry conditions.
 
@@ -7254,9 +7628,9 @@ Verification:
 Exit criteria:
 
 - Standard Mode remains independently buildable and behaviorally unchanged.
-- `v1.25.0 implementation stop reached. Run pentest for this exact commit.`
+- `v1.124.0 implementation stop reached. Run pentest for this exact commit.`
 
-### v1.26.0 — Compliance Evidence Bundles
+### v1.125.0 — Compliance Evidence Bundles
 
 Status: blocked by post-1.0 entry conditions.
 
@@ -7274,9 +7648,9 @@ Verification:
 Exit criteria:
 
 - Standard Mode remains independently buildable and behaviorally unchanged.
-- `v1.26.0 implementation stop reached. Run pentest for this exact commit.`
+- `v1.125.0 implementation stop reached. Run pentest for this exact commit.`
 
-### v1.27.0 — High-Assurance Deployment
+### v1.126.0 — High-Assurance Deployment
 
 Status: blocked by post-1.0 entry conditions.
 
@@ -7294,9 +7668,9 @@ Verification:
 Exit criteria:
 
 - Standard Mode remains independently buildable and behaviorally unchanged.
-- `v1.27.0 implementation stop reached. Run pentest for this exact commit.`
+- `v1.126.0 implementation stop reached. Run pentest for this exact commit.`
 
-### v1.28.0 — Conventional-to-Witness Migration
+### v1.127.0 — Conventional-to-Witness Migration
 
 Status: blocked by post-1.0 entry conditions.
 
@@ -7314,9 +7688,9 @@ Verification:
 Exit criteria:
 
 - Standard Mode remains independently buildable and behaviorally unchanged.
-- `v1.28.0 implementation stop reached. Run pentest for this exact commit.`
+- `v1.127.0 implementation stop reached. Run pentest for this exact commit.`
 
-### v1.29.0 — Witness-to-Authoritative Migration
+### v1.128.0 — Witness-to-Authoritative Migration
 
 Status: blocked by post-1.0 entry conditions.
 
@@ -7334,9 +7708,9 @@ Verification:
 Exit criteria:
 
 - Standard Mode remains independently buildable and behaviorally unchanged.
-- `v1.29.0 implementation stop reached. Run pentest for this exact commit.`
+- `v1.128.0 implementation stop reached. Run pentest for this exact commit.`
 
-### v1.30.0 — Endurance and Failure Campaign
+### v1.129.0 — Endurance and Failure Campaign
 
 Status: blocked by post-1.0 entry conditions.
 
@@ -7354,9 +7728,9 @@ Verification:
 Exit criteria:
 
 - Standard Mode remains independently buildable and behaviorally unchanged.
-- `v1.30.0 implementation stop reached. Run pentest for this exact commit.`
+- `v1.129.0 implementation stop reached. Run pentest for this exact commit.`
 
-### v1.31.0 — Independent Review
+### v1.130.0 — Independent Review
 
 Status: blocked by post-1.0 entry conditions.
 
@@ -7374,9 +7748,9 @@ Verification:
 Exit criteria:
 
 - Standard Mode remains independently buildable and behaviorally unchanged.
-- `v1.31.0 implementation stop reached. Run pentest for this exact commit.`
+- `v1.130.0 implementation stop reached. Run pentest for this exact commit.`
 
-### v1.32.0 — Verified Profile GA
+### v1.131.0 — Verified Profile GA
 
 Status: blocked by post-1.0 entry conditions.
 
@@ -7394,7 +7768,7 @@ Verification:
 Exit criteria:
 
 - Standard Mode remains independently buildable and behaviorally unchanged.
-- `v1.32.0 implementation stop reached. Run pentest for this exact commit.`
+- `v1.131.0 implementation stop reached. Run pentest for this exact commit.`
 
 ## Roadmap maintenance rule
 

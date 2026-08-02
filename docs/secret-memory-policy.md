@@ -93,7 +93,8 @@ start Aetherheim.
   exports, and operation receipts;
 - lifecycle probes check owned buffers after success, error, cancellation, and
   panic-abort boundaries where observation is meaningful;
-- target tests record reduced guarantees on WASM/mobile platforms;
+- target tests record reduced guarantees on WASM and, after 1.0, each native
+  Kotlin/Swift secret container records its platform-specific guarantees;
 - allocation, resident-memory, latency, and throughput benchmarks justify each
   hardening profile; and
 - the integration receives focused secrets coverage in the applicable

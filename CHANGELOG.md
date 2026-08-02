@@ -4,6 +4,10 @@ All notable changes to Aetherheim are documented here.
 
 ## Unreleased
 
+- Clarified that Android and iOS are not server or embedding targets, removed
+  their misleading pre-1.0 build claims, and added a granular post-1.0 roadmap
+  for secure, fully native applications that connect to supported Aetherheim
+  servers.
 - Audited every documented requirement against the roadmap, introduced
   foundation-time traceability and an early SQLite CMS preview, added missing
   HTTP/TLS, analytics, AI, media, packaging, and provider qualification stops,

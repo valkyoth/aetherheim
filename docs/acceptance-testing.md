@@ -41,7 +41,7 @@ and report success.
 6. Multi-process tests exercise real Aetherheim nodes, workers, Fluxheim, shared
    providers, failover, partitions, draining, and rolling upgrades.
 7. Packaged-artifact tests install and launch the same signed archive, image,
-   service, mobile library, or bundle offered to users.
+   service, native application, or bundle offered to users.
 8. Destructive/failure tests inject process death, I/O loss, corrupt state,
    latency, exhaustion, partial migration, and recovery at documented points.
 
@@ -106,6 +106,17 @@ profile must already launch a real loopback process and browser to create,
 revise, publish, read, restart, export, and restore canonical content. Its
 acceptance suite also proves the development-only listener and one-time
 capability are absent from production artifacts and cannot bind remotely.
+
+After 1.0, native-client acceptance launches the signed Android and iOS
+applications—not a browser wrapper—against supported packaged Aetherheim
+servers. Emulator/simulator and representative real-device suites cover server
+onboarding and identity, multiple isolated server accounts, authentication and
+credential revocation, read and editorial journeys, media capture/upload,
+opaque push notifications, offline outbox and conflict handling, network and
+process loss, encrypted local-data removal, accessibility, app/server upgrade
+windows, and unsupported-version refusal. Server database and topology details
+remain behind the public client contract, while reference database and cluster
+profiles prove that the same client journeys retain identical semantics.
 
 This is a minimum, not a closed list. Every new command, endpoint, workflow,
 provider capability, security control, and documented recovery action adds its

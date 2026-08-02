@@ -24,7 +24,7 @@ The implementation begins as one modular monolith with separable `serve`,
 `worker`, `scheduler`, and later `realtime` roles. Small sites can run one
 binary. Larger installations can split roles without rewriting domain logic.
 
-The browser UI, CLI, integrations, plugins, and future mobile clients use the
+The browser UI, CLI, integrations, plugins, and post-1.0 native clients use the
 same typed application commands and queries. Storage and HTTP are adapters;
 they do not define the domain.
 
@@ -85,8 +85,9 @@ they do not define the domain.
   non-authoritative. Optional AI providers receive only named classified
   operations; their outputs remain reviewable proposals.
 - Skrifheim is not integrated before Aetherheim 1.0. Proof-ready contracts are
-  useful independently. Optional Witness Mode is the first post-1.0 step only
-  after both projects and their relevant contracts are stable.
+  useful independently. Optional Witness Mode begins only in its later
+  post-1.0 version band after both projects and their relevant contracts are
+  stable.
 
 ## Non-Negotiable Engineering Rules
 
@@ -98,6 +99,10 @@ they do not define the domain.
   addition first; pin its exact current crates.io version; record purpose,
   scope, licence, and review date; audit features, maintenance, unsafe/native
   code, and transitives; and test it behind an explicit boundary.
+- The same minimal, prior-discussion, admission, exact-lock, freshness,
+  provenance, licence, transitive-review, and boundary-test rules apply to
+  post-1.0 Kotlin/Android and Swift/Apple dependencies and build tools; native
+  ecosystem convenience does not create a dependency-policy exception.
 - A general transitive exception is allowed only when the user approves a
   written, time-bounded security ADR showing that it is safer than custom
   implementation and defining removal/review dates. This never creates an
@@ -464,20 +469,27 @@ From the first release, pure crates are checked across representative targets:
 - Windows GNU and MSVC;
 - FreeBSD and NetBSD;
 - macOS x86-64 and Apple Silicon;
-- Android x86-64 and AArch64;
-- iOS AArch64;
 - a freestanding target for `no_std` portability evidence.
 
 Host features may have platform-specific adapter crates, but public semantics
 must remain consistent. Missing platform functionality fails explicitly. No
 conditional compilation may silently weaken security.
 
-Compile support, native server operation, and mobile embedding are different
-claims. Linux, Windows, macOS, FreeBSD, and NetBSD production operation require
-native packaged install/serve/upgrade/restore/uninstall matrices. Android and
-iOS require separately qualified library/host APIs, Kotlin/Swift schema
-compatibility, lifecycle/resource tests, and explicit missing-feature reports;
-they do not imply that clustered server roles run on mobile devices.
+Compile support and native server operation are different claims. Linux,
+Windows, macOS, FreeBSD, and NetBSD production operation require native
+packaged install/serve/upgrade/restore/uninstall matrices. Android and iOS are
+neither server targets nor Rust-library embedding targets. Before 1.0,
+generated Kotlin and Swift schemas and the versioned public API prove only that
+future clients can be implemented without changing domain semantics; they do
+not establish a mobile-product support claim.
+
+After 1.0, dedicated native Android and iOS applications connect over the same
+public, versioned client profile used by other remote clients. Their native UI,
+platform lifecycle, secure credential storage, encrypted offline state, sync,
+push, media, accessibility, package signing, store distribution, and device
+matrices are implemented and qualified independently from the server. A mobile
+application never hosts an Aetherheim server role and is not a WebView/PWA
+wrapper.
 
 Aesynx does not yet exist as a usable operating system or Rust compilation
 target. Current work maintains freestanding `no_std` contracts and explicit
@@ -649,11 +661,13 @@ terms:
    bookings, privacy-preserving analytics, and optional proposal-only AI;
 8. first-party commerce in small invariant-driven passes;
 9. compliance controls, source-specific migration tooling, backup creation,
-   isolated restore/promotion, native/mobile/container/air-gap packaging,
+   isolated restore/promotion, native server/container/air-gap packaging,
    clustered deployment, Fluxheim compatibility, endurance, and full-system
    hardening;
 10. contract freezes, independent reviews, release candidates, and 1.0;
-11. optional post-1.0 Skrifheim Witness and later Authoritative modes after
+11. post-1.0 native Android and iOS clients in independently releasable,
+   security-qualified passes; and
+12. optional later post-1.0 Skrifheim Witness and Authoritative modes after
    external entry conditions are met.
 
 ## Definition Of 1.0

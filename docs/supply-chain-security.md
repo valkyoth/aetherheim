@@ -47,8 +47,11 @@ The roadmap requires checksums, signatures through an explicit provider,
 component/platform SBOMs, provenance, clean builders, and offline verification.
 No release package is uploaded to crates.io.
 
-Each Linux, Windows, macOS, BSD, Android, iOS, OCI, and air-gapped support claim
-has a separate packaged-artifact matrix. Compile-only evidence is insufficient
-for runtime or mobile-host support. Signed registry/update metadata, freeze and
-rollback protection, trust-root rotation, and revocation are tested both online
-and in an actually disconnected environment.
+Each Linux, Windows, macOS, BSD, OCI, and air-gapped server support claim has a
+separate packaged-artifact matrix. Compile-only evidence is insufficient for
+runtime support. Post-1.0 Android and iOS applications have independent source,
+dependency, code-signing, store/package, update, rollback, revocation, and
+device provenance matrices; they are client products, not server artifacts or
+embedded Rust hosts. Signed registry/update metadata, freeze and rollback
+protection, trust-root rotation, and revocation are tested both online and in
+an actually disconnected environment where the artifact profile permits it.

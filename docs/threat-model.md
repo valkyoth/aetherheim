@@ -23,6 +23,8 @@ Status: foundation baseline; update for every release.
 - upload quarantine to isolated media processor;
 - host to plugin/component runtime and isolated extension UI;
 - client/proxy to admitted HTTP runtime and TLS/certificate provider;
+- post-1.0 native client to a selected Aetherheim server, platform credential
+  store, encrypted local state, operating-system services, and push provider;
 - Aetherheim to database, blob, mail, payment, search, key, and identity
   providers;
 - Aetherheim nodes to optional cache, OpenBao, cluster peers, and trusted edge
@@ -42,7 +44,10 @@ Status: foundation baseline; update for every release.
   exhaustion, process crash, and corrupt projection;
 - compromised or stale cluster node, split network, poisoned remote cache,
   forged forwarding metadata, failed load balancer, and leaked startup
-  environment.
+  environment;
+- malicious or impersonated server, stolen mobile device, hostile deep link,
+  compromised push channel, rooted/jailbroken environment, and substituted or
+  stale native application.
 
 ## Required Abuse Cases
 
@@ -81,6 +86,10 @@ Status: foundation baseline; update for every release.
   publication;
 - analytics fingerprinting, consent bypass, event spoof/replay, cardinality
   exhaustion, raw-event over-retention, and cross-tenant identity linkage.
+- native-client server-identity confusion, token/deep-link interception,
+  cross-server account or cache crossover, offline-command replay, stale
+  conflict overwrite, credential leakage, sensitive push payload, local-data
+  remanence, hostile file handoff, and app-signing/update substitution.
 
 ## Foundation Security Claims
 

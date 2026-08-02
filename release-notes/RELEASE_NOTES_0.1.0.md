@@ -14,9 +14,10 @@ foundation for Aetherheim. It is not a usable CMS release.
   the initial graph happens to contain no external crates.
 - `no_std` core, bounds, identifier, and proof-readiness contracts.
 - EUPL-1.2 project licensing and independent theme/plugin licensing guidance.
-- Linux, Windows, BSD, macOS, Android, and iOS target policy plus freestanding
-  `no_std` checks to avoid OS lock-in; Aesynx is not an existing target or
-  support claim.
+- Linux, Windows, BSD, and macOS server target policy plus freestanding
+  `no_std` checks to avoid OS lock-in; Android and iOS are explicitly deferred
+  to post-1.0 native client applications rather than server/embedding targets,
+  and Aesynx is not an existing target or support claim.
 - CI, security policy, dependency denial, release gates, and CodeQL-default
   setup guidance.
 - Detailed implementation and version plans with human-controlled pentest

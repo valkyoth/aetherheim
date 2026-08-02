@@ -21,6 +21,11 @@ grep -F -q 'panic = "abort"' Cargo.toml
 grep -F -q 'CodeQL default setup' SECURITY.md
 grep -F -q 'CodeQL analysis default setup' docs/github-security-settings.md
 grep -F -q 'cargo install --locked cargo-sbom --version 0.10.0' .github/workflows/ci.yml
+if grep -E -q '(apple-ios|linux-android)' scripts/check_platforms.sh .github/workflows/ci.yml; then
+    echo 'Android/iOS are post-1.0 native clients, not Rust server target checks' >&2
+    exit 1
+fi
+grep -F -q 'Android and iOS are not Aetherheim server or Rust-library embedding targets.' README.md
 for script in scripts/*.sh; do
     if grep -E -q '(^|[|;&][[:space:]]*)rg[[:space:]]' "$script"; then
         echo "$script: shell gates must use portable standard tools, not rg" >&2
