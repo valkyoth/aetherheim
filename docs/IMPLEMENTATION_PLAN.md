@@ -36,9 +36,22 @@ they do not define the domain.
   by default.
 - Plugins use versioned capability contracts and cannot receive raw database,
   filesystem, environment, socket, secret, or host-memory access.
+- Executable plugins use an admitted, exact-pinned, mature WebAssembly
+  Component Model runtime behind an Aetherheim adapter. Aetherheim owns WIT,
+  package validation, capability brokering, quotas, and conformance; it does
+  not build a WebAssembly parser, compiler, or execution engine.
 - SQLite is the simple local default. PostgreSQL is the production reference.
   MariaDB, MongoDB, and SurrealDB become supported only through visible
   capability and conformance matrices.
+- The Aetherheim Portable Storage Profile (APSP) defines the semantics every
+  provider must implement. Provider-native features may accelerate those
+  semantics but may not quietly redefine them.
+- Verified ingress constructs a tenant/site/environment context that is
+  required to construct repositories, units of work, policy, cache, search,
+  blob, plugin, and audit capabilities. Tenant scope is not an optional filter.
+- One versioned `ContentView` projection feeds headless delivery, server
+  rendering, native clients, search, and extension proposals from the same
+  canonical document and publication root.
 - Remote cache offload is optional and non-authoritative. Valkey is the first
   named adapter and must remain safely bypassable when its cache class permits.
 - Multi-node mode is optional, active-active at the application layer, and
@@ -74,6 +87,10 @@ they do not define the domain.
   addition first; pin its exact current crates.io version; record purpose,
   scope, licence, and review date; audit features, maintenance, unsafe/native
   code, and transitives; and test it behind an explicit boundary.
+- A general transitive exception is allowed only when the user approves a
+  written, time-bounded security ADR showing that it is safer than custom
+  implementation and defining removal/review dates. This never creates an
+  exception to the direct or transitive `zeroize` prohibition.
 - Every package has `publish = false`; crates.io publication is prohibited.
 - Do not copy third-party source into the repository to evade dependency
   review.
@@ -125,7 +142,9 @@ boundaries include:
 - `aetherheim-value`
 - `aetherheim-schema`
 - `aetherheim-document`
+- `aetherheim-content-view`
 - `aetherheim-query`
+- `aetherheim-storage-profile`
 - `aetherheim-policy`
 - `aetherheim-events`
 - `aetherheim-api-types`
@@ -158,6 +177,7 @@ boundaries include:
 - `aetherheim-analytics`
 - `aetherheim-commerce`
 - `aetherheim-compliance`
+- `aetherheim-control-catalog`
 
 ### Adapters and delivery
 
@@ -169,6 +189,7 @@ boundaries include:
 - `aetherheim-storage-surrealdb`
 - `aetherheim-blob`
 - `aetherheim-blob-local`
+- `aetherheim-blob-s3`
 - `aetherheim-cache`
 - `aetherheim-cache-valkey`
 - `aetherheim-secrets`
@@ -180,8 +201,10 @@ boundaries include:
 - `aetherheim-render`
 - `aetherheim-theme`
 - `aetherheim-plugin-host`
+- `aetherheim-plugin-runtime`
 - `aetherheim-package`
 - `aetherheim-api`
+- `aetherheim-graphql`
 - `aetherheim-web`
 - `aetherheim-admin`
 - `aetherheim-server`
@@ -206,6 +229,56 @@ Dependencies point inward. Portable crates do not import HTTP, storage,
 process, platform, renderer, theme, plugin-host, or database adapters. Plugins
 propose typed commands through host contracts; they never bypass application
 services.
+
+Cargo metadata, rather than directory names alone, is the source for automated
+dependency-layer, facade-purity, feature, duplicate-version, and package-
+purpose checks. A new crate cannot enter the workspace until those checks can
+classify it.
+
+## Portable Semantic Contracts
+
+Portable contracts must be complete enough that adapters cannot fill gaps with
+provider or platform behavior.
+
+- Bounded text and collections account for encoded size, element count,
+  nesting, traversal, expansion, allocations, cumulative work, and output.
+  Parsing is streaming or preflighted where practical; untrusted lengths never
+  cause unchecked preallocation.
+- Identifier domains cover every security-relevant aggregate, event, job,
+  lease, session, package, payment, inventory, audit, and correlation record.
+  External encodings are canonical; generation receives reviewed entropy and
+  time providers; persistence enforces uniqueness. Identifiers never carry
+  authority and are never used as secrets.
+- Time, randomness, Unicode/locale data, money rules, and canonical
+  serialization are injected or versioned inputs. Pure core behavior cannot
+  consult an ambient clock, random source, locale, or host serializer.
+- Policy evaluation returns typed outcomes and obligations. Callers must
+  consume redaction, step-up, approval, purpose, evidence, rate, and audit
+  obligations before receiving a usable capability; there is no convenient
+  boolean `may_proceed` escape hatch.
+- Security profiles are generated, diffable policy bundles with conformance
+  scenarios. Personal and Standard remain approachable defaults; Hardened,
+  Regulated, Clustered, and Air-gapped behavior is opt-in and explicit.
+
+Canonical content uses a versioned document envelope containing document,
+revision, schema, locale/direction, provenance, namespaced block kinds, stable
+node IDs, typed properties, references, and bounded inert unknown payloads.
+Validation enforces unique IDs, acyclic structure, deterministic ordering,
+known schema compatibility, reference integrity, and all resource budgets.
+Block kinds describe meaning rather than CSS classes, UI components, or
+database keys. Legacy HTML/SVG is quarantined data until a versioned sanitizer
+and sink-specific renderer admit it.
+
+Pure document transformations are separate from editor collaboration. If a
+CRDT or operational-transform foundation is later admitted, it produces normal
+validated transformations and never becomes the canonical storage model.
+
+`ContentView` is the stable projection from canonical document plus release,
+locale, policy, and viewer context. The same projection has generated schemas
+and compatibility fixtures for REST, GraphQL, TypeScript, Kotlin, Swift,
+server rendering, native applications, search, and extension host calls.
+Rendering compiles it to a sink-neutral Render IR; only final sinks perform
+context-specific escaping.
 
 ## Authority And Proof Boundary
 
@@ -248,6 +321,23 @@ The domain emits a typed, bounded query AST. Adapters translate it. Raw SQL,
 Mongo expressions, or provider query strings never enter normal client or
 plugin APIs.
 
+The versioned Aetherheim Portable Storage Profile specifies canonical value
+mapping, text comparison and ordering, timestamps, predicate truth tables,
+stable cursors, relationship traversal, aggregation, transaction/isolation
+requirements, commit ambiguity, and normalized errors. A first-party reference
+interpreter acts as the semantic oracle. Every adapter runs differential,
+property, adversarial-history, and crash tests against it. Support evidence pins
+provider version, deployment topology, durability/isolation settings,
+collation, timezone, and required extensions. Provider-specific capabilities
+are separately qualified and never presented as portable semantics; SurrealDB
+remains experimental until it passes the complete portable and live matrices.
+
+`UnitOfWork::commit` has three externally meaningful outcomes: committed, not
+committed, or ambiguous. An ambiguous result is resolved through the bound
+idempotency record; blindly retrying a write is never the resolution strategy.
+External effects use a transactional outbox and reconciliation instead of
+holding a database transaction open across a provider call.
+
 Support is layered:
 
 1. deterministic in-memory/reference models;
@@ -258,6 +348,19 @@ Support is layered:
 6. SurrealDB parity;
 7. provider capability and performance evidence;
 8. cross-provider archive migration.
+
+AHAF is a canonical streaming archive, not merely a data dump. It carries
+schema and package versions, canonical values, references, immutable blobs,
+provenance, classifications, checksums, feature bits, and explicit omissions.
+Live provider migration uses a fence-and-cutover protocol: capture a source
+root, bulk copy, replay bounded deltas, quiesce writers, verify roots, switch,
+rebuild derived state, and retain a tested rollback path.
+
+Local blob storage is the simple single-node default. Cluster claims require a
+qualified shared S3-compatible object-store adapter with immutable keys,
+conditional writes, multipart cleanup, integrity checks, lifecycle rules, and
+failure recovery. Shared filesystem/NFS deployment, if ever claimed, is a
+separate topology with its own semantics and tests.
 
 Database work uses the smallest reviewed client/protocol foundation that meets
 the security and portability requirements. Adapter work is still split into
@@ -270,6 +373,11 @@ connection succeeds.
 - In-process caching is bounded and remains the simple default. Valkey provides
   optional shared cache offload behind the same conformance contract; cached
   values are reconstructible and never become authoritative state.
+- Database session records are authoritative. Valkey may cache only bounded,
+  hashed session material with tenant, session, security epoch, expiry, and
+  credential/recovery epoch dimensions. Malformed or stale entries are
+  discarded, critical actions recheck authoritative state, and database loss
+  denies authenticated administration rather than trusting cache state.
 - OpenBao integration uses an admitted exact release of the `openbao` crate and
   only the required features. Environment import is an explicit allowlist in a
   short-lived bootstrap process that starts Aetherheim with a clean environment.
@@ -279,6 +387,22 @@ connection succeeds.
 - Proxy metadata is trusted only from configured peers. Fluxheim receives a
   tested profile for health, readiness, drain, retry, forwarding, TLS/mTLS,
   request bounds, and observability; it remains optional and out of process.
+
+Secret providers expose typed references and short-lived operation/lease
+handles rather than general secret strings. Rotation generations invalidate
+dependent pools and caches. Bootstrap, renewal, revocation, outage, and clock-
+skew behavior are explicit. If the `openbao` dependency graph conflicts with
+the absolute `zeroize` ban, support remains blocked until a zeroize-free crate
+graph or a reviewed zeroize-free sidecar design is approved; Aetherheim will
+not build a custom TLS or OpenBao client to bypass the conflict.
+
+PostgreSQL is the first clustered reference topology. Each other database must
+separately earn clustered support under a declared version/topology profile.
+Durable jobs use database time, monotonic fencing tokens, idempotent effects,
+and transactional completion/outbox updates; schedules use deterministic slot
+identities. Loss of coordination makes mutation and privileged administration
+unready. Only explicitly public immutable content may use a documented stale
+read path.
 
 Detailed invariants and failure tests are in
 [operations-topology.md](operations-topology.md). Secret classification,
@@ -336,6 +460,54 @@ bounded `sanitization` owners. Other sensitive buffers are assessed at their
 ownership boundary and benchmarked; public content and bulk non-secret data are
 not copied into sanitizing containers without a credible threat benefit.
 
+A versioned requirement/control/scenario registry connects each architecture
+rule and support claim to exactly one owning release, implementation, automated
+or manual evidence, threat, operator control, exception, and current result.
+The baseline versions verified from official sources on 2026-08-02 are
+[OWASP ASVS 5.0.0](https://owasp.org/www-project-application-security-verification-standard/),
+[NIST SP 800-63-4](https://pages.nist.gov/800-63-4/),
+[PCI DSS 4.0.1](https://www.pcisecuritystandards.org/document_library/?class=pcidss&doc=pci_dss),
+and [WCAG 2.2](https://www.w3.org/TR/WCAG22/), plus applicable privacy
+profiles. Their owning milestone must recheck and pin the current official
+revisions before implementation. Mappings retain truthful applicability and
+non-certification statements. The registry also owns data-classification
+propagation, processor/region/retention/DSAR behavior, cryptographic key
+lifecycle, payment-page inventory, accessibility manual evidence, security
+event taxonomy, vulnerability response, API/ABI inventory, abuse limits,
+capacity/SLO evidence, and disaster-recovery promotion.
+
+## Extension And Commerce Boundaries
+
+Executable extension admission is a security pipeline: verify the signed
+package and compatibility, validate its component with admitted standards
+tooling, approve parameterized capabilities, instantiate without ambient WASI,
+enforce per-invocation budgets, validate proposed outputs, and then pass those
+proposals through normal application authorization and commit handling.
+Unguessable typed handles carry invocation, tenant, actor, grant epoch, and
+expiry context. Guest memory is copied under strict bounds; host code retains
+no guest pointers and does not permit reentrant calls or outbound network waits
+inside an open authoritative transaction.
+
+Fuel/deadline epochs, memory/table/stack, host-call, copy/output, storage, HTTP,
+concurrency, log, and job budgets are separately measurable. Outbound HTTP is
+brokered with named operations, destination allowlists, DNS/rebinding/private-
+address defenses, redirect policy, bounded bodies, and data-classification
+checks. Hardened profiles may add an out-of-process plugin host but must preserve
+the same WIT and capability semantics. Typed event subscriptions and
+interceptors are ordered, bounded, non-reentrant, and cannot make a committed
+operation uncommitted; package updates display authority differences and keep
+state export/retain/purge explicit.
+
+Commerce authority is append-oriented and provider-independent. Exact money,
+quantity, rate, tax, price, cart, quote, inventory, order, payment, refund,
+shipping, subscription, and entitlement models are separate small releases.
+An accepted checkout snapshot is immutable; inventory reservations are atomic;
+monetary journals balance by currency; provider callbacks are untrusted,
+signature-checked, idempotent inputs; timeout ambiguity resolves by lookup and
+reconciliation. Card data never enters Aetherheim: payment integrations are
+hosted or tokenized and the operator-facing evidence states PCI scope as a
+non-claim.
+
 ## Test Strategy
 
 - Unit tests live beside every pure rule.
@@ -353,6 +525,12 @@ not copied into sanitizing containers without a credible threat benefit.
 - Cross-platform checks compile the portable core for every supported target;
   native runners execute platform-specific suites where available.
 - Browser/UI testing includes keyboard-only and accessibility manual scripts.
+- REST, GraphQL, events, webhooks, archives, themes, generated client schemas,
+  WIT, and plugin packages share an API/ABI inventory and semantic
+  compatibility fixtures.
+- Database adapters run differential scenarios against the APSP reference
+  interpreter, including adversarial concurrent histories and ambiguous
+  commits; a successful CRUD smoke test is never provider qualification.
 - Backup verification is incomplete without isolated restore rehearsal.
 - Performance evidence uses representative tenants, content, media, routes,
   policies, and concurrent writers, never only empty installations.
@@ -396,13 +574,13 @@ terms:
 
 1. repository discipline and portable foundations;
 2. canonical values, schemas, documents, queries, policy, events, and proof
-   records;
+   records, including aggregate budgets, typed obligations, and `ContentView`;
 3. conventional storage protocols, conformance, migrations, archives, jobs,
-   and blobs;
+   local/shared blobs, and the APSP reference semantics;
 4. content commands, revisions, workflows, routing, APIs, audit, and identity;
 5. safe rendering, admin shell, editor, themes, media, and search;
-6. capability contracts, first-party component runtime, isolated extension UI,
-   packages, and lifecycle;
+6. capability contracts, admitted mature Component Model runtime integration,
+   isolated extension UI, packages, and lifecycle;
 7. multilingual, multisite, forms, mail, memberships, comments, automation,
    analytics, and bookings;
 8. first-party commerce in small invariant-driven passes;

@@ -32,6 +32,8 @@ Every version below additionally requires:
   checks, line-limit checks, dependency/no-publish policy, and docs validation;
 - live `scripts/check_latest_tools.sh` confirmation that Rust stable, external
   Cargo security tools, and GitHub Action pins are current;
+- current-official-source review for any standard/control baseline touched by
+  the release, with version changes recorded rather than silently reinterpreted;
 - `cargo deny check` and `cargo audit` across the complete admitted dependency
   graph;
 - manifest and lockfile proof that direct and transitive `zeroize` are absent;
@@ -144,6 +146,27 @@ Exit criteria:
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.4.0 implementation stop reached. Run pentest for this exact commit.`
 
+### v0.4.1 — Dependency Usability And Exception Review
+
+Status: planned.
+
+Goal: Prevent a minimal-crate rule from forcing unsafe custom implementations or unusable builds.
+
+Deliverables:
+
+- Measured build/runtime cost review; duplicate-version and feature-unification policy; user-approved, time-bounded transitive-exception ADR schema; owner, expiry, replacement plan, and recurring review. The direct and transitive `zeroize` ban remains non-exemptible.
+
+Verification:
+
+- Fixtures reject silent, expired, unowned, unmeasured, or authority-broadening exceptions and prove an approved exception is visible in metadata, SBOM, documentation, and release evidence.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- No exception can be created implicitly by Cargo resolution or used to avoid the required dependency discussion.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.4.1 implementation stop reached. Run pentest for this exact commit.`
+
 ### v0.5.0 — No-Publish Gate
 
 Status: planned.
@@ -183,6 +206,27 @@ Exit criteria:
 
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.6.0 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.6.1 — Cargo Metadata Architecture Gate
+
+Status: planned.
+
+Goal: Enforce crate boundaries from the resolved workspace graph before the workspace grows.
+
+Deliverables:
+
+- Package-purpose registry; allowed dependency layers; facade-purity and feature checks; workspace inheritance checks; duplicate-package report; no_std/std boundary classification; machine-readable exceptions.
+
+Verification:
+
+- Deliberately violate every dependency direction, facade, feature, inheritance, purpose, and portability rule and prove the metadata gate rejects it with an actionable diagnostic.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Every workspace member is classified and no new crate can enter without a declared layer and purpose.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.6.1 implementation stop reached. Run pentest for this exact commit.`
 
 ### v0.7.0 — Platform Compile Matrix
 
@@ -346,6 +390,27 @@ Exit criteria:
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.12.0 implementation stop reached. Run pentest for this exact commit.`
 
+### v0.12.1 — Aggregate Budgets And Streaming Admission
+
+Status: planned.
+
+Goal: Make nested and multi-stage untrusted input obey one cumulative resource envelope.
+
+Deliverables:
+
+- Encoded-size, element, nesting, traversal, expansion, allocation, work, output, and deadline accounting; budget subdivision; streaming/preflight interfaces; bounded partial-read policy.
+
+Verification:
+
+- Deep/wide/compressed-shaped inputs, deceptive length prefixes, repeated small allocations, cumulative host calls, cancellation, and one-over-limit sweeps fail before uncontrolled allocation or partial authority change.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Every later parser and boundary can consume the same checked aggregate budget without inventing private limit semantics.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.12.1 implementation stop reached. Run pentest for this exact commit.`
+
 ### v0.13.0 — Opaque Identifier Domains
 
 Status: planned.
@@ -365,6 +430,27 @@ Exit criteria:
 
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.13.0 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.13.1 — Identifier Generation And Domain Completion
+
+Status: planned.
+
+Goal: Complete identity domains and make generation safe, injectable, and operationally diagnosable.
+
+Deliverables:
+
+- IDs for events, jobs, leases, sessions, packages, payments, inventory, audit, idempotency, and correlation; canonical external encoding; entropy/clock provider contracts; collision response; database uniqueness rules; log-safe correlation form.
+
+Verification:
+
+- Known/unknown domain, ambiguous encoding, weak/repeated entropy, clock reversal, concurrent collision, persistence conflict, and cross-domain compile/parse fixtures pass; no identifier is accepted as authorization or a secret.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Every currently planned authority-bearing aggregate has a separate ID type and deterministic test provider before application state is introduced.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.13.1 implementation stop reached. Run pentest for this exact commit.`
 
 ### v0.14.0 — Time and Duration Contracts
 
@@ -506,6 +592,27 @@ Exit criteria:
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.20.0 implementation stop reached. Run pentest for this exact commit.`
 
+### v0.20.1 — Injected Portable Environment Contract
+
+Status: planned.
+
+Goal: Remove ambient platform semantics from portable domain behavior.
+
+Deliverables:
+
+- Explicit providers and version metadata for time, randomness, Unicode/locale data, money rules, canonical serialization, allocation policy, and deterministic test fixtures.
+
+Verification:
+
+- Cross-target golden runs with varied clocks, entropy streams, locale tables, rounding rules, serializer versions, and allocation failures produce declared identical results or explicit compatibility failures.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- No portable crate consults an ambient clock, random source, locale, floating-point money path, or host serializer.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.20.1 implementation stop reached. Run pentest for this exact commit.`
+
 ## Phase 2 — Schema, document, query, policy, and proof readiness
 
 ### v0.21.0 — Content Schema IR
@@ -556,7 +663,7 @@ Goal: Establish structured content as the canonical source.
 
 Deliverables:
 
-- Versioned document, block, inline span, property, slot, reference, direction, locale, and provenance nodes.
+- Versioned semantic block and inline tree; stable node IDs; namespaced/versioned block kinds; typed properties, slots, references, direction, locale, provenance, and bounded inert unknown payloads. Block kinds cannot encode CSS classes, UI components, or database keys.
 
 Verification:
 
@@ -567,6 +674,27 @@ Exit criteria:
 
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.23.0 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.23.1 — Document Envelope And Reference Integrity
+
+Status: planned.
+
+Goal: Give every canonical document complete identity, schema, locale, provenance, and integrity context.
+
+Deliverables:
+
+- Document/revision/schema identity and version envelope; root node and digest; resource and relationship references; unique-node, acyclic, deterministic-order, reference-integrity, unknown-feature, and aggregate-budget rules.
+
+Verification:
+
+- Duplicate IDs, cycles, dangling/cross-tenant references, invalid schemas, reordering ambiguity, inert unknown blocks, depth/count/encoded-size exhaustion, and lossless old/new-reader fixtures pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- A document cannot enter application or storage layers without one validated canonical envelope.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.23.1 implementation stop reached. Run pentest for this exact commit.`
 
 ### v0.24.0 — Document Transformations
 
@@ -587,6 +715,27 @@ Exit criteria:
 
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.24.0 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.24.1 — ContentView Projection Contract
+
+Status: planned.
+
+Goal: Give headless, rendered, native, search, and extension consumers one policy-filtered content projection.
+
+Deliverables:
+
+- Versioned `ContentView`; release/revision root; tenant/site/environment, locale, viewer/policy, reference, media, provenance, and unknown-block semantics; generated schema inputs for REST, GraphQL, TypeScript, Kotlin, and Swift.
+
+Verification:
+
+- Golden and compatibility fixtures prove every consumer sees equivalent allowed semantics, forbidden fields never enter the projection, release roots are immutable, and generated schemas reproduce byte-for-byte.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Delivery adapters consume `ContentView` rather than independently reinterpreting stored document state.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.24.1 implementation stop reached. Run pentest for this exact commit.`
 
 ### v0.25.0 — Safe Embedded Content Boundary
 
@@ -656,7 +805,7 @@ Goal: Define explainable RBAC/ABAC/ReBAC decisions.
 
 Deliverables:
 
-- Principals, resources, actions, attributes, relationships, explicit deny, constrained allow, redaction, approval, and more-evidence outcomes.
+- Principals, resources, actions, attributes, relationships, explicit deny, constrained allow, redaction, approval, and more-evidence outcomes; no public boolean shortcut that can discard obligations.
 
 Verification:
 
@@ -667,6 +816,27 @@ Exit criteria:
 
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.28.0 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.28.1 — Typed Policy Obligations
+
+Status: planned.
+
+Goal: Make redaction, step-up, approval, purpose, evidence, rate, and audit requirements impossible for callers to ignore accidentally.
+
+Deliverables:
+
+- Typed decision continuations and obligation-consumption receipts; capability construction only after complete obligation handling; deny-safe unknown obligation behavior; policy epoch and explanation linkage.
+
+Verification:
+
+- Compile-fail fixtures and application tests prove no usable repository/query/render/plugin capability can be obtained from allow-like outcomes before every required obligation is consumed and recorded.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Application code cannot reduce the policy model to a boolean authorization check.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.28.1 implementation stop reached. Run pentest for this exact commit.`
 
 ### v0.29.0 — Actor-Bound Command Intent
 
@@ -729,6 +899,27 @@ Exit criteria:
 
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.31.0 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.31.1 — Non-Omittable Tenant Context
+
+Status: planned.
+
+Goal: Make tenant/site/environment scope a construction-time invariant rather than a caller-supplied query filter.
+
+Deliverables:
+
+- Verified host/domain-to-context resolution; scoped constructors for repositories, units of work, policy, plugin, blob, search, cache, log, and audit capabilities; explicit separate cross-tenant administration service; context propagation schema.
+
+Verification:
+
+- Compile-fail and adversarial tests cover missing/substituted tenant, untrusted Host/forwarding data, cache/search/blob/log omission, background jobs, events, imports, and cross-tenant administrative operations.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Normal application code cannot construct storage or authority capabilities without a verified tenant context.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.31.1 implementation stop reached. Run pentest for this exact commit.`
 
 ### v0.32.0 — Domain Event Envelopes
 
@@ -830,6 +1021,27 @@ Exit criteria:
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.36.0 implementation stop reached. Run pentest for this exact commit.`
 
+### v0.36.1 — Aetherheim Portable Storage Profile
+
+Status: planned.
+
+Goal: Freeze provider-independent storage semantics before adapter implementation.
+
+Deliverables:
+
+- Versioned APSP for canonical values, text equality/order, timestamps, predicate truth tables, stable cursors, relationships, aggregates, consistency/isolation, transaction visibility, normalized errors, and qualified provider-native extensions.
+
+Verification:
+
+- Executable truth-table and history fixtures cover null/missing values, Unicode/collation, timezones, pagination under mutation, traversal, aggregate overflow, conflicts, and unsupported semantics.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- No adapter milestone may define portable behavior that APSP leaves unspecified; unresolved semantics block adapter work.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.36.1 implementation stop reached. Run pentest for this exact commit.`
+
 ### v0.37.0 — Focused Store Traits
 
 Status: planned.
@@ -858,7 +1070,7 @@ Goal: Define atomic application boundaries.
 
 Deliverables:
 
-- Snapshot/read context, staged writes, expected revisions, outbox coupling, commit status, and rollback semantics.
+- Snapshot/read context, staged writes, expected revisions, outbox coupling, committed/not-committed/ambiguous outcomes, idempotency-bound resolution, and rollback semantics.
 
 Verification:
 
@@ -869,6 +1081,27 @@ Exit criteria:
 
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.38.0 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.38.1 — Ambiguous Commit Resolution
+
+Status: planned.
+
+Goal: Resolve uncertain commits without blindly repeating authoritative writes.
+
+Deliverables:
+
+- Idempotency outcome lookup; bounded reconciliation; caller retry guidance; receipt correlation; external-effect prohibition inside open units of work; compensation classification.
+
+Verification:
+
+- Disconnect/crash at every commit boundary proves lookup converges to one logical result, repeated resolution is safe, and no network/provider effect is issued while an authoritative transaction is open.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Every adapter can distinguish and reconcile committed, not committed, and ambiguous outcomes under its documented topology.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.38.1 implementation stop reached. Run pentest for this exact commit.`
 
 ### v0.39.0 — Migration Operation IR
 
@@ -909,6 +1142,48 @@ Exit criteria:
 
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.40.0 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.40.1 — APSP Reference Interpreter And Differential Oracle
+
+Status: planned.
+
+Goal: Turn the portable profile into an executable semantic oracle.
+
+Deliverables:
+
+- Deterministic in-memory interpreter; property/history generator; result and error normalizer; provider trace comparison; deliberately broken adapter corpus; replayable failure artifacts.
+
+Verification:
+
+- Differential suites catch comparison, cursor, relationship, transaction, isolation, aggregation, error, and ambiguity deviations that CRUD-only tests would miss.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- A provider cannot be called portable unless all required operations match the reference interpreter under generated and adversarial histories.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.40.1 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.40.2 — Provider Qualification Manifest
+
+Status: planned.
+
+Goal: Bind every database support claim to an exact reproducible operating envelope.
+
+Deliverables:
+
+- Provider/version/topology, durability/isolation, collation, timezone, extension, backup, failover, limitation, performance, and APSP-result manifest with experimental/qualified status.
+
+Verification:
+
+- Matrix tooling rejects missing settings, stale versions, undeclared topology changes, unsupported capability claims, and a SurrealDB stable claim before full conformance and live evidence pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- “Supports database X” always resolves to a versioned qualification manifest and executable evidence.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.40.2 implementation stop reached. Run pentest for this exact commit.`
 
 ## Phase 4 — SQLite and local operation
 
@@ -1111,6 +1386,27 @@ Exit criteria:
 
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.50.0 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.50.1 — Local Immutable Blob Store
+
+Status: planned.
+
+Goal: Complete the simple single-node profile with integrity-checked local blobs.
+
+Deliverables:
+
+- Digest-addressed immutable objects; atomic write/publish; tenant context; bounded streaming; metadata/classification; reference tracking; quarantine integration; garbage-collection and crash-recovery rules.
+
+Verification:
+
+- Partial write, substitution, path escape, cross-tenant lookup, concurrent put, duplicate digest, reference race, disk-full, restart, backup, restore, and garbage-collection tests pass on supported local platforms.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- The local profile can round-trip complete content and media without relying on a shared or remote object service.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.50.1 implementation stop reached. Run pentest for this exact commit.`
 
 ## Phase 5 — Production storage, archives, jobs, blobs, and cache
 
@@ -1394,7 +1690,28 @@ Exit criteria:
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.60.2 implementation stop reached. Run pentest for this exact commit.`
 
-### v0.60.3 — OpenBao Client Admission
+### v0.60.3 — OpenBao Dependency Conflict Decision
+
+Status: planned.
+
+Goal: Resolve the OpenBao/secret-memory dependency boundary without weakening the absolute zeroize ban or inventing security infrastructure.
+
+Deliverables:
+
+- Current `openbao` dependency/feature audit; in-process zeroize-free admission criteria; reviewed zeroize-free sidecar alternative with authenticated bounded protocol; threat/cost/operability comparison; explicit user decision ADR; re-evaluation trigger.
+
+Verification:
+
+- Lockfile/feature fixtures prove an in-process path cannot hide `zeroize`; sidecar fixtures cover identity, protocol confusion, secret/log leakage, crash, outage, cancellation, rotation, and clean process boundaries.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- If neither a zeroize-free `openbao` graph nor an approved zeroize-free sidecar is safe and practical, OpenBao remains unsupported; no custom TLS or OpenBao protocol stack is substituted.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.60.3 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.60.4 — OpenBao Client Admission
 
 Status: planned.
 
@@ -1413,9 +1730,9 @@ Exit criteria:
 
 - The selected `openbao` release and feature graph contain no `zeroize`; otherwise this milestone remains blocked and no OpenBao support is claimed.
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
-- `v0.60.3 implementation stop reached. Run pentest for this exact commit.`
+- `v0.60.4 implementation stop reached. Run pentest for this exact commit.`
 
-### v0.60.4 — OpenBao Startup Secret Bootstrap
+### v0.60.5 — OpenBao Startup Secret Bootstrap
 
 Status: planned.
 
@@ -1433,9 +1750,9 @@ Verification:
 Exit criteria:
 
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
-- `v0.60.4 implementation stop reached. Run pentest for this exact commit.`
+- `v0.60.5 implementation stop reached. Run pentest for this exact commit.`
 
-### v0.60.5 — Live Storage Provider Matrix
+### v0.60.6 — Live Storage Provider Matrix
 
 Status: planned.
 
@@ -1455,7 +1772,49 @@ Exit criteria:
 
 - No database, topology, or Valkey version appears in the supported matrix without current live acceptance evidence.
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
-- `v0.60.5 implementation stop reached. Run pentest for this exact commit.`
+- `v0.60.6 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.60.7 — Shared S3-Compatible Blob Adapter
+
+Status: planned.
+
+Goal: Provide the shared immutable blob authority required before clustered operation can be claimed.
+
+Deliverables:
+
+- Reviewed exact client/transport boundary; endpoint/TLS identity; immutable tenant-scoped keys; conditional writes; multipart upload and abort cleanup; digest verification; quotas; lifecycle/retention; health and observability; explicit S3-compatible subset.
+
+Verification:
+
+- Live supported-service matrix covers substitution, wrong endpoint, cross-tenant key, concurrent create, partial/multipart failure, stale listing, read-after-write assumptions, corruption, deletion/hold, throttling, outage, restart, backup, and restore.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Clustered profiles use a qualified shared object store; shared filesystem/NFS receives no implied support claim.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.60.7 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.60.8 — Fenced Live Provider Migration
+
+Status: planned.
+
+Goal: Move a live installation without an unbounded dual-write window or silent divergence.
+
+Deliverables:
+
+- Source-root capture; bulk copy; bounded delta log/replay; write quiescence fence; destination root verification; cutover; derived cache/search rebuild; rollback horizon; operator receipt.
+
+Verification:
+
+- Inject crash, retry, concurrent writes, stale workers, source/destination loss, corrupt deltas, root mismatch, and rollback at every phase across each qualified source/destination pair.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Migration either preserves the declared canonical root and cuts over once, or remains/returns to the source with a complete discrepancy report.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.60.8 implementation stop reached. Run pentest for this exact commit.`
 
 ## Phase 6 — Content application, routing, APIs, and audit
 
@@ -1619,6 +1978,69 @@ Exit criteria:
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.68.0 implementation stop reached. Run pentest for this exact commit.`
 
+### v0.68.1 — GraphQL Read Boundary
+
+Status: planned.
+
+Goal: Expose the policy-filtered `ContentView` through a bounded versioned GraphQL schema.
+
+Deliverables:
+
+- Schema generation; node and cursor model; field/locale/viewer context; query depth, complexity, aliases, fragments, batching, introspection, persisted-operation, error-redaction, and cache rules.
+
+Verification:
+
+- Draft/private/field/tenant leakage, alias/fragment amplification, cyclic fragments, batching abuse, introspection policy, stale cursor, cache mixing, malformed request, and REST/GraphQL projection-equivalence tests pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- GraphQL reads use the same application queries and `ContentView` policy semantics as REST; resolvers cannot query providers directly.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.68.1 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.68.2 — GraphQL Management Operations
+
+Status: planned.
+
+Goal: Add mutations without creating a second command or authorization model.
+
+Deliverables:
+
+- Typed mutation inputs/results; idempotency, expected revision, tenant context, policy obligations, upload references, operation receipts, subscription scope, and compatibility rules.
+
+Verification:
+
+- Mutation replay, scope substitution, partial-field errors, alias duplication, stale revision, subscription revocation, operation ambiguity, and REST/GraphQL command-equivalence suites pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Every GraphQL mutation is a thin adapter to an existing typed application command with identical authority and audit behavior.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.68.2 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.68.3 — Generated Client Schema And Compatibility
+
+Status: planned.
+
+Goal: Keep browser, server, and future native clients aligned with one source of API truth.
+
+Deliverables:
+
+- Reproducible REST/OpenAPI, GraphQL, TypeScript, Kotlin, and Swift schema/code generation inputs; semantic diff; fixtures; version/deprecation policy; artifact digests.
+
+Verification:
+
+- Two clean generations match byte-for-byte; stale/manual client types, breaking field changes, optionality drift, unsafe unknown handling, and `ContentView` divergence fail CI.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Generated artifacts remain repository/release assets and do not imply crates.io or external package-registry publication.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.68.3 implementation stop reached. Run pentest for this exact commit.`
+
 ### v0.69.0 — Integration Events and Webhooks
 
 Status: planned.
@@ -1720,6 +2142,27 @@ Exit criteria:
 
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.73.0 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.73.1 — Authoritative Session Cache Integration
+
+Status: planned.
+
+Goal: Permit Valkey session acceleration without allowing cache state to become authentication authority.
+
+Deliverables:
+
+- Database-authoritative session record; hashed cache material; tenant/session/security/credential/recovery epochs; bounded TTL; rotation/invalidation; critical-action recheck; cache outage and database outage policy.
+
+Verification:
+
+- Poisoned/malformed/stale entries, epoch omission, fixation, revocation races, Valkey loss, database loss, node failover, eviction, replay, and cross-tenant cache-key tests prove administration fails closed when authority is unavailable.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Deleting all Valkey state affects performance only; it cannot create, extend, revive, or authorize a session.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.73.1 implementation stop reached. Run pentest for this exact commit.`
 
 ### v0.74.0 — WebAuthn Data and Ceremony
 
@@ -1883,6 +2326,27 @@ Exit criteria:
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.80.1 implementation stop reached. Run pentest for this exact commit.`
 
+### v0.80.2 — Generated Security Profile Bundles
+
+Status: planned.
+
+Goal: Make profile names executable, diffable policy rather than scattered configuration folklore.
+
+Deliverables:
+
+- Generated Personal, Standard, Hardened, Regulated, Clustered, and Air-gapped bundles; safe defaults; override authority/risk diff; conformance scenario mapping; upgrade compatibility; recovery path.
+
+Verification:
+
+- Golden bundle generation, profile-to-profile authority diffs, missing control, unsafe override, upgrade drift, default-install usability, and recovery scenarios pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Personal and Standard remain one-command approachable while advanced services and hardening are explicit opt-ins with visible consequences.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.80.2 implementation stop reached. Run pentest for this exact commit.`
+
 ## Phase 8 — Rendering, administration, editor, themes, and search
 
 ### v0.81.0 — Render Intermediate Representation
@@ -1893,7 +2357,7 @@ Goal: Compile content and templates to a safe typed render plan.
 
 Deliverables:
 
-- Typed nodes, props, slots, escaping context, dependency records, bounded loops/queries, error boundaries, and work budgets.
+- Sink-neutral typed nodes, props, slots, escaping context, dependency records, bounded loops/queries, error boundaries, work budgets, and immutable render artifact manifest rooted in `ContentView` and release identity.
 
 Verification:
 
@@ -2025,6 +2489,27 @@ Exit criteria:
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.87.0 implementation stop reached. Run pentest for this exact commit.`
 
+### v0.87.1 — Editor Collaboration Operation Layer
+
+Status: planned.
+
+Goal: Add realtime collaboration without making a CRDT or editor log the canonical content model.
+
+Deliverables:
+
+- Versioned collaboration-operation boundary; admitted algorithm/runtime decision; presence separation; bounded operation log; actor/tenant context; checkpoint-to-pure-document-transformation; disconnect/rebase/recovery semantics.
+
+Verification:
+
+- Concurrent edits, reordered/duplicated/lost operations, malicious operation payloads, stale permissions, tenant substitution, disconnect, compact/checkpoint, and final canonical document validation tests pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Collaboration state can be discarded or rebuilt without changing canonical revision semantics, and no home-grown CRDT is admitted without its own dependency/design review.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.87.1 implementation stop reached. Run pentest for this exact commit.`
+
 ### v0.88.0 — Design Tokens and Theme Contracts
 
 Status: planned.
@@ -2065,6 +2550,27 @@ Exit criteria:
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.89.0 implementation stop reached. Run pentest for this exact commit.`
 
+### v0.89.1 — Theme Authoring Toolchain
+
+Status: planned.
+
+Goal: Make safe themes pleasant to build without exposing escape hatches.
+
+Deliverables:
+
+- `aetherheim theme dev`; typed template/schema bindings; lint and diagnostics; fixture content; component gallery; accessibility checks; deterministic preview/screenshot contracts; package/migration/static-tier tooling; author-selected licence metadata.
+
+Verification:
+
+- Independent sample themes cover edit/preview/package/install/update/rollback, missing/unknown data, unsafe output attempts, keyboard/contrast checks, deterministic builds, and offline use.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- A theme author can complete the documented loop without arbitrary host code or a “mark safe” API, and third-party theme licensing remains independent of EUPL-1.2.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.89.1 implementation stop reached. Run pentest for this exact commit.`
+
 ### v0.90.0 — Lexical Search and Discovery
 
 Status: planned.
@@ -2084,6 +2590,27 @@ Exit criteria:
 
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.90.0 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.90.1 — Search Rebuild And Freshness Recovery
+
+Status: planned.
+
+Goal: Prove search remains a derived projection through deletion, lag, corruption, and rebuild.
+
+Deliverables:
+
+- Freshness watermark; generation-rooted index; build/verify/swap; delete propagation; corrupt-projection quarantine; bounded lag policy; authoritative fallback/non-claim; operator receipts.
+
+Verification:
+
+- Delete-and-rebuild equivalence, stale draft/private data, permission/locale changes, failed swap, corrupt index, replay, node restart, amplification, and provider-loss scenarios pass without old-content leakage.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Search loss or corruption can reduce discovery availability but cannot restore deleted/forbidden content or become authoritative state.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.90.1 implementation stop reached. Run pentest for this exact commit.`
 
 ## Phase 9 — Media, extensions, packages, and component isolation
 
@@ -2207,6 +2734,27 @@ Exit criteria:
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.96.0 implementation stop reached. Run pentest for this exact commit.`
 
+### v0.96.1 — Versioned WIT Worlds And Plugin ABI
+
+Status: planned.
+
+Goal: Freeze extension types and imports before choosing or instantiating a runtime.
+
+Deliverables:
+
+- Versioned Component Model WIT worlds; canonical scalar/error/resource/event/proposal types; generated bindings; compatibility and feature negotiation; no imports by default; explicit prohibition of ambient WASI filesystem, environment, socket, clock, and randomness.
+
+Verification:
+
+- Reproducible binding generation, old/new host and guest fixtures, unknown-required feature failures, type confusion, malformed strings/lists/resources, and import inventory tests pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Host/runtime/SDK implementations consume the same reviewed WIT artifacts and cannot add ambient imports privately.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.96.1 implementation stop reached. Run pentest for this exact commit.`
+
 ### v0.97.0 — Capability Broker
 
 Status: planned.
@@ -2227,39 +2775,61 @@ Exit criteria:
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.97.0 implementation stop reached. Run pentest for this exact commit.`
 
-### v0.98.0 — Component Binary Validator
+### v0.97.1 — Typed Extension Events And Interceptors
 
 Status: planned.
 
-Goal: Reject malformed or unsupported component binaries before execution.
+Goal: Replace ambient global hooks with ordered typed and bounded extension points.
 
 Deliverables:
 
-- First-party bounded WebAssembly/component framing parser, section limits, canonical validation, import/export allowlists, and compatibility report.
+- Typed event subscriptions; pure pre-commit proposal/validation interceptors; post-commit notification rules; deterministic ordering; per-handler budgets; reentrancy ban; failure/timeout policy; extension contribution manifest.
 
 Verification:
 
-- Official-format fixtures, mutations, deep sections, integer overflow, duplicate sections, and unknown-required feature tests pass.
+- Ordering, timeout, trap, replay, stale grants, recursive invocation, conflicting proposals, committed-event failure, tenant context, and uninstall/update scenarios pass.
 - Run the inherited repository, security, documentation, platform, and release-evidence gates.
 
 Exit criteria:
 
+- A post-commit extension failure cannot make a committed operation uncommitted, and no hook bypasses normal policy or validation.
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
-- `v0.98.0 implementation stop reached. Run pentest for this exact commit.`
+- `v0.97.1 implementation stop reached. Run pentest for this exact commit.`
 
-### v0.99.0 — First-Party Component Runtime Core
+### v0.98.0 — Runtime Admission And Component Validation
 
 Status: planned.
 
-Goal: Execute a deliberately small admitted component subset safely.
+Goal: Admit mature standards tooling and reject malformed or unsupported components before execution.
 
 Deliverables:
 
-- Validated instruction subset, typed values, memory/table bounds, fuel, call depth, traps, deterministic mode, and no host imports by default.
+- Exact-pinned mature Component Model runtime/tooling review; minimal feature graph; platform/unsafe/CVE/maintenance response; Aetherheim package and manifest limits; standards validator invocation; import/export/feature/resource allowlists; compatibility report. Aetherheim does not implement a WebAssembly parser.
 
 Verification:
 
-- Conformance vectors, differential reference tooling outside Cargo, fuzzing, timeout, memory escape, and trap isolation pass.
+- Official/mutated components, parser differential fixtures, deep/large sections, unsupported proposals, unknown-required features, forbidden imports, platform matrix, and known-vulnerability response rehearsal pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- The chosen runtime/tooling is user-approved through the dependency gate; if no maintained secure candidate meets the contract, executable plugins remain unsupported.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.98.0 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.99.0 — Admitted Component Runtime Integration
+
+Status: planned.
+
+Goal: Instantiate the empty WIT world through the admitted mature runtime behind an Aetherheim-owned adapter.
+
+Deliverables:
+
+- Runtime engine/store/instance adapter; empty-world linking; no ambient WASI; typed value/resource crossing; trap isolation; cancellation; per-invocation identity; clean teardown; optional hardened out-of-process host design. No custom interpreter, compiler, JIT, or execution engine.
+
+Verification:
+
+- Runtime conformance vectors, empty-world import proof, memory/table isolation, trap/cancel/host survival, teardown/leak, repeated-instantiation, version/platform, and optional process-boundary tests pass.
 - Run the inherited repository, security, documentation, platform, and release-evidence gates.
 
 Exit criteria:
@@ -2275,7 +2845,7 @@ Goal: Expose only typed capability-checked operations.
 
 Deliverables:
 
-- Invocation identity, handle table, host-call budget, deadline, async/job proposal, namespaced state, secret operations, and output validation.
+- Unguessable invocation-scoped typed handle table carrying tenant, actor, grant epoch, and expiry; content/media/render/job proposals; bounded guest-memory copies; output validation; namespaced state proposals; no retained guest pointers, reentrant calls, or host network waits inside authoritative transactions.
 
 Verification:
 
@@ -2286,6 +2856,48 @@ Exit criteria:
 
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.100.0 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.100.1 — Brokered External Operations
+
+Status: planned.
+
+Goal: Expose network, mail, and secret use as named least-authority operations rather than raw sockets or values.
+
+Deliverables:
+
+- Named outbound HTTP/mail/secret operations; destination/method/header/body/response policy; DNS and redirect handling; private/metadata address denial; data-classification egress checks; secret operation handles; audit and cancellation.
+
+Verification:
+
+- SSRF, DNS rebinding, redirect-to-private, proxy confusion, header smuggling, body amplification, secret disclosure, stale grants, cancellation, quota, and cross-tenant operation tests pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Plugins receive neither raw sockets nor general secret plaintext, and all external effects remain idempotent/reconcilable application operations.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.100.1 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.100.2 — Component Resource Governance
+
+Status: planned.
+
+Goal: Bound every guest and host resource independently and recover cleanly after exhaustion.
+
+Deliverables:
+
+- Fuel and deadline epochs; memory/table/stack/call-depth; host-call, copy/output, storage, HTTP, concurrency, log, and job budgets; fair scheduling; cancellation and instance quarantine policy; metrics without guest-secret leakage.
+
+Verification:
+
+- Infinite loops, memory/table growth, recursion, host-call storms, oversized copies/results, concurrent starvation, cancellation races, trap storms, leaked handles, noisy logs, and restart/recovery tests pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Every executable extension resource has a measured limit, denial behavior, operator signal, and recovery scenario.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.100.2 implementation stop reached. Run pentest for this exact commit.`
 
 ## Phase 10 — Extension lifecycle, multilingual, multisite, and publishing modules
 
@@ -2389,6 +3001,27 @@ Exit criteria:
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.105.0 implementation stop reached. Run pentest for this exact commit.`
 
+### v0.105.1 — One-Command Extension Development Loop
+
+Status: planned.
+
+Goal: Make secure extension development approachable without requiring a production database, cache, cluster, or secret service.
+
+Deliverables:
+
+- `aetherheim dev`; ephemeral local site; deterministic clock/random/network fixtures; capability simulator; event trace; package inspect/diff/sign flow; sample and malicious extensions for every supported guest language; offline documentation.
+
+Verification:
+
+- A clean machine can build, run, inspect, test, package, upgrade, roll back, and remove each sample; denied capability, trap, quota, state migration, permission increase, and offline scenarios fail predictably.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- The default author loop needs only the documented local toolchain, while optional advanced services remain explicit profile additions.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.105.1 implementation stop reached. Run pentest for this exact commit.`
+
 ### v0.106.0 — Locale and Fallback Core
 
 Status: planned.
@@ -2408,6 +3041,27 @@ Exit criteria:
 
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.106.0 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.106.1 — Unified Locale Context
+
+Status: planned.
+
+Goal: Carry one validated locale/fallback context through content, routing, rendering, search, API, cache, and extensions.
+
+Deliverables:
+
+- Source/requested/effective BCP-47 tag; script/direction; formatting provider version; bounded acyclic fallback graph; required-translation and visibility constraints; context propagation and cache-key form.
+
+Verification:
+
+- Malformed tags, fallback loops, script/direction mismatch, missing formatting data, stale translation, visibility/required-translation bypass, search/render/API disagreement, and cache omission tests pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- No adapter independently invents locale fallback, formatting, direction, or cache dimensions.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.106.1 implementation stop reached. Run pentest for this exact commit.`
 
 ### v0.107.0 — Translated Revisions and Provenance
 
@@ -2611,19 +3265,82 @@ Exit criteria:
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.116.0 implementation stop reached. Run pentest for this exact commit.`
 
-### v0.117.0 — Cart and Checkout
+### v0.116.1 — Promotions And Coupons
 
 Status: planned.
 
-Goal: Build an idempotent accessible checkout state machine.
+Goal: Add bounded promotion logic without making prices mutable or inexplicable.
 
 Deliverables:
 
-- Guest/member carts, line calculation, address/contact, shipping/tax quote contracts, expiry, reservation intent, and duplicate-submit protection.
+- Eligibility, audience/channel, schedule, usage budget, stacking/exclusion, line/order allocation, coupon secrecy/lookup policy, immutable explanation components, and revocation.
 
 Verification:
 
-- Replay/concurrency, stale price, quote failure, accessibility, privacy, and inconsistent-total tests pass.
+- Stacking cycles, concurrent use limits, timezone edges, replay, stale eligibility, coupon guessing, allocation rounding, refund allocation, and deterministic explanation tests pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Every discount in an accepted quote is reproducible from immutable versioned inputs and checked arithmetic.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.116.1 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.116.2 — Tax Rules And Quote Boundary
+
+Status: planned.
+
+Goal: Model tax deterministically while treating external tax advice as untrusted input.
+
+Deliverables:
+
+- Jurisdiction and category references; inclusive/exclusive policy; line/order rounding; exemption/reverse-charge evidence; versioned tax-rule and external quote contracts; staleness and provenance.
+
+Verification:
+
+- Jurisdiction/category changes, inclusive/exclusive totals, line-versus-order rounding, exempt/reverse-charge, stale/malformed/failed provider quote, retry, and replay fixtures pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Accepted tax amounts are immutable calculation components and no connector can directly mutate an order or journal.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.116.2 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.116.3 — Currency And Exchange-Rate Policy
+
+Status: planned.
+
+Goal: Make multi-currency conversion explicit, versioned, and exact.
+
+Deliverables:
+
+- Currency metadata/scale; rate numerator/denominator and source snapshot; stale/triangulation policy; rounding and residual allocation; display versus settlement currency; provenance.
+
+Verification:
+
+- Unsupported/changed scales, stale rates, inverse/triangulated conversions, overflow, repeated conversion, residual allocation, and cross-currency replay tests prove no floating-point path exists.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Every converted amount identifies the exact rate, source, time, policy, and rounding decision used.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.116.3 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.117.0 — Cart Lifecycle And Security
+
+Status: planned.
+
+Goal: Build secure guest/member carts independently of checkout providers.
+
+Deliverables:
+
+- Guest/member carts; unguessable hashed guest token; ownership transfer and merge; line intents; price/promotion explanation; optimistic revision; expiry; privacy/classification; bounded size; reservation proposal.
+
+Verification:
+
+- Token theft/fixation/guessing, cross-tenant access, merge amplification, concurrent changes, stale price, expiry, quota, privacy, and reservation-proposal tests pass.
 - Run the inherited repository, security, documentation, platform, and release-evidence gates.
 
 Exit criteria:
@@ -2631,25 +3348,67 @@ Exit criteria:
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.117.0 implementation stop reached. Run pentest for this exact commit.`
 
-### v0.118.0 — Orders and Monetary Journal
+### v0.117.1 — Checkout Quote State Machine
 
 Status: planned.
 
-Goal: Make accepted orders and monetary changes append-oriented.
+Goal: Turn a cart into one immutable accepted quote through an idempotent accessible flow.
 
 Deliverables:
 
-- Order state machine, calculation snapshot, payment intent, balanced journal model, adjustments, compensating entries, reason, approval, and audit.
+- Checkout state machine; bounded address/contact; shipping/tax composition; authoritative server total; quote/revision/expiry root; reservation link; duplicate-submit protection; explicit consent and accessibility behavior.
 
 Verification:
 
-- Model checking covers retry, partial failure, illegal transition, imbalance, repricing, and concurrent commands.
+- Client-total tampering, stale cart/price/tax/shipping, duplicate and concurrent submit, partial provider failure, timeout ambiguity, address privacy, keyboard, screen-reader, and resume tests pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- An order can be created only from the exact still-valid accepted quote root, never client-calculated totals.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.117.1 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.118.0 — Order State Machine
+
+Status: planned.
+
+Goal: Make accepted orders immutable at creation and explicit in every later transition.
+
+Deliverables:
+
+- Order identity and state machine; accepted quote/calculation snapshot; customer/address/shipping/tax references; line and entitlement intents; expected revision; reason/approval; transition event and audit contract.
+
+Verification:
+
+- Model checking covers retry, duplicate creation, partial failure, illegal transition, attempted repricing, stale revision, concurrent commands, cancellation, and immutable snapshot behavior.
 - Run the inherited repository, security, documentation, platform, and release-evidence gates.
 
 Exit criteria:
 
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.118.0 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.118.1 — Balanced Monetary Journal
+
+Status: planned.
+
+Goal: Represent every financial change as append-only balanced entries by currency.
+
+Deliverables:
+
+- Accounts and entry groups; debit/credit direction; currency balance; payment/refund/tax/shipping/discount/store-credit components; adjustments as compensating entries; reason/approval; immutable source linkage.
+
+Verification:
+
+- Property and model tests reject imbalance, mixed-currency groups, overflow, duplicate source, mutation/deletion, partial append, replay, and compensation that does not restore the declared position.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- No commerce command overwrites a posted monetary fact; corrections are explicit balanced entries.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.118.1 implementation stop reached. Run pentest for this exact commit.`
 
 ### v0.119.0 — Inventory and Reservations
 
@@ -2671,25 +3430,172 @@ Exit criteria:
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.119.0 implementation stop reached. Run pentest for this exact commit.`
 
-### v0.120.0 — Payments, Refunds, Fulfilment, and Subscriptions
+### v0.120.0 — Payment Intents And Capture
 
 Status: planned.
 
-Goal: Integrate providers without surrendering commerce authority.
+Goal: Initiate and capture hosted or tokenized payments without processing card data.
 
 Deliverables:
 
-- Tokenised/hosted payments, signature-provider webhook checks, capture/refund/dispute, shipping/tax/fulfilment, returns, invoices, recurring entitlements, and digital grants.
+- Provider-agnostic payment intent and attempt state machines; hosted/tokenized connector contract; amount/currency/order binding; authorization/capture/void; idempotency; outbox dispatch; ambiguous-result lookup; card-data discovery and explicit PCI scope non-claim.
 
 Verification:
 
-- No raw card data; replay/out-of-order webhooks, duplicate refund, provider outage, entitlement, and revoked-download tests pass.
+- No PAN/CVV entry/storage/log path; token/order/amount substitution, duplicate attempt/capture, timeout ambiguity, provider outage, stale credentials, cancellation, reconciliation lookup, and balanced journal tests pass.
 - Run the inherited repository, security, documentation, platform, and release-evidence gates.
 
 Exit criteria:
 
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.120.0 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.120.1 — Payment Webhooks And Reconciliation
+
+Status: planned.
+
+Goal: Treat provider callbacks and polling results as untrusted replayable evidence.
+
+Deliverables:
+
+- Raw-body signature-provider boundary; key rotation; timestamp/replay window; durable receipt before processing; event normalization; out-of-order handling; provider lookup; discrepancy queue; settlement reconciliation.
+
+Verification:
+
+- Invalid/rotated signatures, body substitution, replay, duplicate/out-of-order events, delayed delivery, unknown payment, provider mismatch, timeout, poison event, crash/restart, and settlement discrepancy tests pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Duplicate or missing provider events converge through idempotent lookup/reconciliation and cannot directly rewrite order or journal state.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.120.1 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.120.2 — Refunds, Disputes, And Store Credit
+
+Status: planned.
+
+Goal: Model reversals as bounded compensating workflows.
+
+Deliverables:
+
+- Partial/full refund intents; allocation to lines/tax/shipping; approval; provider attempt; dispute/chargeback lifecycle; evidence; store-credit ledger; idempotency and journal compensation.
+
+Verification:
+
+- Duplicate/over/partial refund, concurrent refund/capture, out-of-order dispute, failed provider, reopened dispute, store-credit replay/expiry, allocation rounding, and journal balance tests pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Refund and dispute outcomes never delete original financial facts and cannot exceed the declared refundable position.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.120.2 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.120.3 — Shipping And Fulfilment
+
+Status: planned.
+
+Goal: Track physical fulfilment and external carrier effects independently from payment state.
+
+Deliverables:
+
+- Shipping quote snapshot; fulfilment state; split shipments; item allocation; carrier/label operation handles; tracking events; cancellation; lost/damaged states; idempotent outbox/reconciliation.
+
+Verification:
+
+- Partial/split fulfilment, duplicate/lost/out-of-order carrier events, label timeout/cancel, provider outage, stock allocation conflict, address redaction, retry, and journal interaction tests pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Carrier availability or callbacks cannot silently change order, inventory, refund, or journal authority.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.120.3 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.120.4 — Returns And Inventory Compensation
+
+Status: planned.
+
+Goal: Process returns without racing refunds, fulfilment, or stock disposition.
+
+Deliverables:
+
+- Return authorization; received/inspected disposition; restock/damaged/lost transitions; refund/store-credit proposal; shipping linkage; reason/evidence; retention and personal-data controls.
+
+Verification:
+
+- Duplicate/partial returns, wrong item, return/refund and return/fulfilment races, damaged restock denial, warehouse retry, cancellation, privacy expiry, and inventory/journal compensation tests pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Returned stock and money move only through explicit linked state-machine and journal operations.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.120.4 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.120.5 — Subscriptions And Dunning
+
+Status: planned.
+
+Goal: Create recurring invoice/payment intents without granting a provider subscription authority.
+
+Deliverables:
+
+- Plan/version, billing anchor/timezone, recurring invoice intent, proration policy, renewal idempotency slot, dunning/retry, pause/cancel, entitlement grace/revocation, provider reconciliation.
+
+Verification:
+
+- Duplicate renewal, DST/month-end, plan change, proration rounding, failed/late payment, retry exhaustion, cancel/renew race, webhook loss, entitlement grace/revoke, and journal tests pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- A provider cannot create an unrecorded renewal or preserve entitlement after the authoritative lifecycle revokes it.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.120.5 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.120.6 — Digital Entitlements And Fiscal Documents
+
+Status: planned.
+
+Goal: Issue bounded digital access and immutable invoice/credit-note evidence.
+
+Deliverables:
+
+- Product/version-bound grants; audience/device/download limits; expiry/revocation; secure delivery token; invoice/credit-note numbering; tax evidence; classification, retention, and authorized export.
+
+Verification:
+
+- Token sharing/replay, cross-tenant access, expiry/revocation, product replacement, duplicate numbering, credit-note linkage, deletion/retention conflict, and archive/restore tests pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Digital access is reconstructible from authoritative order/payment/refund state and fiscal records remain append-only for required retention.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.120.6 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.120.7 — Commerce Live Failure Matrix
+
+Status: planned.
+
+Goal: Prove complete commerce journeys against real providers and every qualified database under concurrency and failure.
+
+Deliverables:
+
+- Payment/tax/shipping sandbox profiles; database/topology matrix; deterministic seed corpus; crash/partition/replay controller; reconciliation and accessibility evidence; PCI non-claim review; one acceptance command.
+
+Verification:
+
+- Browse-to-order, guest/member checkout, oversell race, capture, webhook loss/reorder, partial refund, dispute, fulfilment, return, subscription renewal/cancel, digital grant/revoke, backup/restore, and provider/database outage journeys pass live.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- No commerce connector, database, or topology appears in a support profile without current end-to-end failure/recovery evidence.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.120.7 implementation stop reached. Run pentest for this exact commit.`
 
 ## Phase 12 — Compliance, migration, operations, hardening, and 1.0
 
@@ -2713,25 +3619,109 @@ Exit criteria:
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.121.0 implementation stop reached. Run pentest for this exact commit.`
 
-### v0.122.0 — Privacy and Accessibility Packs
+### v0.121.1 — Requirement, Control, And Scenario Registry
 
 Status: planned.
 
-Goal: Provide GDPR/ePrivacy, regional privacy, WCAG 2.2, and EAA-oriented technical controls.
+Goal: Give every architecture rule and support claim one visible owner and evidence path.
 
 Deliverables:
 
-- Consent center, script gating, DSAR, retention/erasure, opt-out, accessibility authoring checks, manual review, exceptions, and evidence export.
+- Versioned machine-readable requirement/control/scenario registry; owning milestone; implementation reference; automated/manual evidence; threat and operator control; applicability, exception, owner, review date, result, and non-claim fields; generated coverage and orphan reports.
 
 Verification:
 
-- End-to-end consent, withdrawal, DSAR, erasure, script blocking, keyboard, screen-reader script, and non-claim tests pass.
+- Fixtures reject unowned, multiply owned, untested, stale, waived-without-expiry, unsupported-claim, and evidence-without-artifact entries; generated documentation is reproducible.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Every 1.0 requirement maps to exactly one owning pre-1.0 milestone and at least one launchable or explicitly manual evidence item.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.121.1 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.121.2 — Data Classification Propagation
+
+Status: planned.
+
+Goal: Preserve classification, purpose, region, retention, and deletion constraints through every derived system.
+
+Deliverables:
+
+- Propagation rules for search, cache, analytics, AI, exports, archives, backups, logs, events, webhooks, plugins, and commerce; conflict/restrictive merge; expiry/delete tombstones; provenance and exception handling.
+
+Verification:
+
+- End-to-end fixtures mutate and delete classified source data and prove every derivative is restricted, expired, rebuilt, redacted, held, or reported according to policy across provider failures and restore.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- An unlabeled or propagation-ambiguous derivative receives the most restrictive applicable handling and cannot be published or exported silently.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.121.2 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.122.0 — Privacy Operations Pack
+
+Status: planned.
+
+Goal: Provide implementable privacy lifecycle controls without claiming legal certification.
+
+Deliverables:
+
+- Controller/processor/subprocessor and region inventory; purpose/legal-basis references; consent and script gating; DSAR/export/correction; retention/erasure/hold; opt-out; backup/restore deletion behavior; incident and evidence export.
+
+Verification:
+
+- End-to-end consent, withdrawal, processor/region constraint, DSAR/export/correction, erasure/hold conflict, script blocking, backup restore then re-delete, incident, and non-claim tests pass.
 - Run the inherited repository, security, documentation, platform, and release-evidence gates.
 
 Exit criteria:
 
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.122.0 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.122.1 — Accessibility Qualification Pack
+
+Status: planned.
+
+Goal: Qualify authoring and public/admin experiences against declared WCAG 2.2 and EAA-oriented scope.
+
+Deliverables:
+
+- Automated checks; keyboard and screen-reader scripts; focus/error/status behavior; zoom/reflow/motion/contrast rules; media alternative workflow; theme/plugin contribution checks; manual reviewer, exception, and retest evidence.
+
+Verification:
+
+- Real browser runs cover setup, authentication, authoring, publishing, forms, checkout, recovery, theme/plugin UI, mobile viewport, keyboard-only, and supported screen-reader scripts; automated tools are not accepted as complete evidence.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Every claimed UI journey has current automated plus required manual evidence and publishes known limitations without certification language.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.122.1 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.122.2 — Cryptographic Key Lifecycle And Erasure
+
+Status: planned.
+
+Goal: Make encryption, signing, rotation, revocation, backup, and crypto-erasure operationally complete.
+
+Deliverables:
+
+- Key-purpose/algorithm/provider inventory; generation/import/reference policy; envelope hierarchy; tenant separation; rotation generations; revocation/compromise; archive/backup/restore behavior; crypto-erasure and retention conflict; evidence without key disclosure.
+
+Verification:
+
+- Wrong/old/revoked key, partial rotation, provider outage, rollback, restored stale ciphertext, tenant substitution, lost-key recovery/non-recovery, crypto-erasure, and signature verification fixtures pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- No control claims encryption, signing, or erasure without a named provider boundary, key lifecycle, recovery consequence, and executable evidence.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.122.2 implementation stop reached. Run pentest for this exact commit.`
 
 ### v0.123.0 — Regulated and Commerce Packs
 
@@ -2752,6 +3742,90 @@ Exit criteria:
 
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.123.0 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.123.1 — Payment Page Integrity And Card-Data Discovery
+
+Status: planned.
+
+Goal: Keep hosted/tokenized checkout boundaries observable and prevent accidental card-data scope expansion.
+
+Deliverables:
+
+- Payment-page script/resource inventory; authorization and integrity metadata; change detection; browser egress policy; CSP/reporting; card-data pattern discovery for logs, traces, storage, support exports, backups, and crash artifacts; incident runbook.
+
+Verification:
+
+- Unauthorized/changed scripts, compromised resource metadata, form/DOM exfiltration, CSP bypass, synthetic PAN/CVV in every diagnostic/storage path, third-party outage, and rollback tests pass without retaining discovered samples.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Aetherheim can demonstrate its declared card-data boundary and clearly states that technical controls do not certify PCI compliance.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.123.1 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.123.2 — Security Events, Observability, Capacity, And SLOs
+
+Status: planned.
+
+Goal: Detect abuse and failure without leaking sensitive data or inventing unmeasured availability claims.
+
+Deliverables:
+
+- Versioned security-event taxonomy; structured redaction; metrics/traces/log correlation; audit linkage; cardinality and retention budgets; alert/runbook mapping; capacity model; availability/latency/freshness SLOs and error budgets by profile.
+
+Verification:
+
+- Authentication, authorization, tenant, cache, plugin, commerce, migration, secret, proxy, and cluster incidents emit bounded useful signals; injection/cardinality/secret leakage, alert loss, overload, and SLO calculation tests pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Every production profile has tested operator signals, capacity assumptions, and truthful SLO/non-claim documentation.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.123.2 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.123.3 — Vulnerability, Update, And Revocation Lifecycle
+
+Status: planned.
+
+Goal: Make component compromise and security updates operational from discovery through fleet evidence.
+
+Deliverables:
+
+- Intake/severity/SLA policy; affected-version and SBOM lookup; maintainer/contact ownership; coordinated disclosure; signed advisory/update metadata; rollback/freeze/revocation; plugin/theme/provider compromise; operator notification and completion evidence.
+
+Verification:
+
+- Simulated vulnerable crate, runtime, image, plugin, theme, key, provider, and offline installation exercises detection, blocking, update, rollback, revocation, mirror compromise, stale metadata, and fleet accounting.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Every shipped artifact and ecosystem package can be identified, blocked or revoked, updated, rolled back, and audited under its supported profile.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.123.3 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.123.4 — Abuse Controls And Resource Fairness
+
+Status: planned.
+
+Goal: Apply consistent bounded abuse controls across public, administrative, API, webhook, plugin, search, and commerce surfaces.
+
+Deliverables:
+
+- Tenant/actor/IP/credential/operation budget dimensions; endpoint and workflow rate/concurrency limits; queue/backpressure; fairness; trusted-proxy input; privacy-preserving identifiers; retry guidance; administrative recovery and observability.
+
+Verification:
+
+- Distributed and cross-endpoint amplification, tenant starvation, login/reset/registration abuse, GraphQL/query cost, upload, search, webhook, checkout, plugin host-call, proxy spoof, clock, cache loss, and recovery tests pass.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- No externally reachable operation lacks an owning resource budget and tested overload behavior.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.123.4 implementation stop reached. Run pentest for this exact commit.`
 
 ### v0.124.0 — WordPress and WooCommerce Import
 
@@ -2812,6 +3886,27 @@ Exit criteria:
 
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.126.0 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.126.1 — Isolated Restore Promotion And Regional Recovery
+
+Status: planned.
+
+Goal: Prove a verified restore can be promoted safely without reviving stale authority or violating region constraints.
+
+Deliverables:
+
+- Clean-room restore network; dependency/key/package verification; deletion and revocation replay; regional placement policy; DNS/proxy cutover; session/token invalidation; job/outbox reconciliation; failback; authorized promotion receipt and runbook.
+
+Verification:
+
+- Restore then promote under region loss, stale backup, revoked key/package/session, pending jobs/effects, cache/search absence, database/blob mismatch, partial cutover, rollback, and operator-error scenarios meets declared RPO/RTO or fails closed.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Backup success is never equated with recoverability; every production profile has a rehearsed isolated restore and authorized promotion path.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.126.1 implementation stop reached. Run pentest for this exact commit.`
 
 ### v0.127.0 — Production Packaging and Platform Qualification
 
@@ -2874,6 +3969,27 @@ Exit criteria:
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.127.2 implementation stop reached. Run pentest for this exact commit.`
 
+### v0.127.3 — Hermetic Reproducible Build And Signing Pipeline
+
+Status: planned.
+
+Goal: Make release artifacts reproducible, provenance-bound, verifiable offline, and revocable.
+
+Deliverables:
+
+- Pinned clean builders; dependency/source/action/tool manifests; network policy; deterministic timestamps/paths; two-builder comparison; isolated signing identity; signed release/update metadata; SBOM/provenance linkage; offline verification and revocation bundle.
+
+Verification:
+
+- Two independent builders reproduce declared artifacts; source/tool/action/dependency substitution, dirty tree, timestamp/path drift, wrong signer, stale/revoked metadata, mirror compromise, and offline rollback/freeze tests fail safely.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Every production artifact can be traced to exact source and inputs, verified without network access, and revoked without crates.io.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.127.3 implementation stop reached. Run pentest for this exact commit.`
+
 ### v0.128.0 — Upgrade, Rollback, and Long-Run Qualification
 
 Status: planned.
@@ -2922,7 +4038,7 @@ Goal: Share durable jobs, singleton duties, sessions, and invalidations safely a
 
 Deliverables:
 
-- Shared authoritative state, lease epochs and fencing tokens, transactional claim, idempotency keys, reclaim policy, outbox consumption, session/revocation consistency, cache invalidation, migration ownership, and split-network fail-closed rules.
+- Shared authoritative state, database-time leases, monotonic fencing tokens, deterministic schedule slots, transactional claim/completion/outbox, idempotency keys, reclaim policy, session/revocation consistency, cache invalidation, migration ownership, and split-network fail-closed rules.
 
 Verification:
 
@@ -2943,7 +4059,7 @@ Goal: Prove a supported multi-node deployment shares load and continues within d
 
 Deliverables:
 
-- Reference two/three-node topologies, load-balancer discovery guidance, shared-provider requirements, capacity and quorum model, rolling upgrade/drain, cache/OpenBao degradation policy, disaster boundaries, metrics, alerts, and operator exercises.
+- Reference two/three-node topologies, load-balancer discovery guidance, shared database and S3-compatible blob requirements, capacity and coordination model, rolling upgrade/drain, cache/OpenBao degradation policy, disaster boundaries, metrics, alerts, and operator exercises.
 
 Verification:
 
@@ -2952,9 +4068,51 @@ Verification:
 
 Exit criteria:
 
-- Single-node operation remains supported and every multi-node availability claim names the required database, cache, secret-provider, and load-balancer assumptions.
+- Single-node operation remains supported and every multi-node availability claim names the required database, shared blob, cache, secret-provider, and load-balancer assumptions.
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.128.3 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.128.4 — PostgreSQL Cluster Reference Qualification
+
+Status: planned.
+
+Goal: Establish the first complete supported active-active application topology on the production-reference database.
+
+Deliverables:
+
+- Exact PostgreSQL version/topology/isolation/durability profile; shared S3-compatible blob profile; two/three Aetherheim nodes; generic or Fluxheim load balancer; optional Valkey/OpenBao matrix; backup/PITR, rolling upgrade, capacity, SLO, and operator runbooks.
+
+Verification:
+
+- Live balanced load, node kill/pause, database failover/partition, stale lease, blob outage/corruption, proxy stale membership, cache/secret loss, rolling version change, backup/restore, and 24/72-hour soak meet the declared profile.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- “Clustered” initially means the exact qualified PostgreSQL/shared-blob topology; no broader database claim is inferred.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.128.4 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.128.5 — Additional Database Cluster Qualifications
+
+Status: planned.
+
+Goal: Require MariaDB, MongoDB, and SurrealDB to earn clustered support independently.
+
+Deliverables:
+
+- Per-provider exact topology and settings; coordination/fencing mapping; transaction/outbox/session/job semantics; shared-blob profile; failover and backup behavior; limitations; capacity/SLO evidence; experimental-to-qualified transition record.
+
+Verification:
+
+- Run the complete PostgreSQL reference failure/history/soak matrix separately against each provider; deliberately unsupported semantics or topology combinations remain rejected and documented rather than emulated unsafely.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Each provider/profile is independently qualified or explicitly absent; SurrealDB remains experimental until this stop and every prerequisite matrix pass.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.128.5 implementation stop reached. Run pentest for this exact commit.`
 
 ### v0.129.0 — Contract Freeze and Full Security Campaign
 
@@ -2964,7 +4122,7 @@ Goal: Freeze 1.0 candidates only after ecosystem and migration evidence.
 
 Deliverables:
 
-- REST/event/theme/package/AHAF/proof contracts; semantic compatibility checker; complete threat refresh; broad fuzzing; tenant/cache isolation; commerce audit; external review.
+- Complete REST, GraphQL, event, webhook, generated-client, archive/AHAF, theme, package, WIT/plugin ABI, and proof inventory; semantic compatibility checker; complete threat refresh; broad fuzzing; tenant/cache/session isolation; commerce audit; external review.
 
 Verification:
 
@@ -2975,6 +4133,27 @@ Exit criteria:
 
 - The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
 - `v0.129.0 implementation stop reached. Run pentest for this exact commit.`
+
+### v0.129.1 — Non-Skippable Release Qualification Matrix
+
+Status: planned.
+
+Goal: Turn all 1.0 support claims into required release-CI and clean-environment evidence.
+
+Deliverables:
+
+- Scheduled and release-triggered database/provider/topology/platform/browser matrices; fuzz, Miri and sanitizers where applicable; real artifact install/upgrade/restore tests; hermetic builder comparison; signing/revocation rehearsal; explicit required-tool/service inventory; retained evidence digests.
+
+Verification:
+
+- Remove each target, browser, service, credential, tool, artifact, and evidence object in turn and prove release qualification fails rather than skips, substitutes a mock, or marks the claim experimental after the fact.
+- Run the inherited repository, security, documentation, platform, and release-evidence gates.
+
+Exit criteria:
+
+- Every enabled 1.0 profile and support-matrix cell has fresh required evidence for the exact candidate commit; optional absent profiles are clearly not claimed.
+- The stated behavior is implemented only for its documented scope, with migration and rollback evidence where state changes.
+- `v0.129.1 implementation stop reached. Run pentest for this exact commit.`
 
 ### v0.130.0 — Feature-Complete 1.0 Baseline
 
